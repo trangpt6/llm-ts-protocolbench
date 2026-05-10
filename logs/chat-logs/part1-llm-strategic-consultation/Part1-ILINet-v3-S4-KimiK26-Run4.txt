@@ -1,0 +1,74 @@
+From: https://www.perplexity.ai/search/b008a4e0-dfb9-468e-9240-8069a198cf5a
+
+
+
+you asked
+
+A time series dataset has been attached as a CSV file together with this prompt. The dataset may contain one or multiple variables (univariate or multivariate).
+
+You must first conduct a thorough initial analysis on the attached dataset to:
+
+Identify exactly ONE primary time series target column that should be forecasted (even if the dataset is multivariate, select only the single most important target column)
+Analyze its key characteristics, including trend, seasonality, and noise components
+Other columns (if any) can be considered as exogenous variables if you recommend a multivariate model
+
+Based solely on this analysis, you must select the SINGLE most appropriate forecasting model and a set of well-justified hyperparameters.
+
+The forecasting setup is strictly defined as follows:
+
+Forecasting type: Multi-step ahead prediction
+Forecasting strategy: Block-wise rolling update
+Training scheme: The model is trained on each block and retrained after each block
+Block size: B (>0) (forecast multiple steps ahead within each block)
+Forecast horizon: B (forecast multiple steps ahead in each block)
+Use of ground truth during inference: Enabled (update the model with the true values after each block)
+Model retraining: Performed during the forecasting process (retrain after each block)
+
+Use the following as reference examples only. You are free to recommend any appropriate time series forecasting model (univariate or multivariate) that best matches the data characteristics you identified, and define its minimal standard hyperparameters accordingly.
+
+Reference examples (with commonly used minimal parameters):
+
+ExponentialSmoothing: trend, seasonal, seasonal_periods, damped_trend
+SARIMA / ARIMA: order, seasonal_order, trend
+Prophet: seasonality_mode, changepoint_prior_scale, yearly_seasonality, weekly_seasonality, daily_seasonality
+LSTM: units, num_layers, learning_rate, dropout
+VAR / VARMA (for multivariate cases): order, trend
+
+When specifying hyperparameters, you must use only a minimal and standard set of parameters commonly accepted in the literature for that model. Do not include obvious default values or rarely used parameters unless they are critical for addressing the identified trend, seasonality, or noise. Keep the total number of hyperparameters reasonable and minimal (typically 3 to 7 depending on model complexity).
+
+You must reply using the following structure only. Do not add any extra sections, code, explanations, or comments outside this format:
+
+Data Characteristics Summary:
+
+Primary target column: [exactly one column name]
+Trend: [short description]
+Seasonality: [short description]
+Noise: [short description]
+
+Recommended Model: [Exact model name, e.g., SARIMA, ExponentialSmoothing, LSTM, Prophet, VAR, etc.]
+
+Hyperparameters: {'key1': value1, 'key2': value2, ...}   # Clean Python dictionary only
+
+Justification:
+[Clear and concise reasoning in maximum 4 sentences: why this model and these exact hyperparameters are the most suitable based on the data characteristics above. Focus on how they address trend, seasonality, noise, and the choice of the primary target column.]
+
+
+perplexity response
+
+Data Characteristics Summary:
+
+Primary target column: % WEIGHTED ILI
+Trend: No strong long-run monotonic trend; the series is dominated by recurring epidemic waves with changing peak magnitudes over time, plus a structural reporting artifact of extended off-season zeros in earlier years.
+Seasonality: Strong annual seasonality at weekly frequency, with winter peaks and summer troughs; the lag-52 autocorrelation is high at about 0.52, which is consistent with yearly repetition in weekly data.
+Noise: Moderate short-term noise with strong persistence between adjacent weeks, occasional sharp outbreak spikes, and some nonstationary variance across seasons.
+
+Recommended Model: SARIMA
+
+Hyperparameters: {'order': (1, 0, 1), 'seasonal_order': (1, 1, 1, 52), 'trend': 'n'}
+
+Justification:
+% WEIGHTED ILI is the best single forecasting target because it is complete, standardized, and more appropriate for surveillance forecasting than raw count columns that are heavily affected by changing provider participation and patient volume.
+A seasonal ARIMA is the best fit because the series is weekly, strongly annual, highly autocorrelated, and benefits from explicit seasonal differencing to handle recurring winter influenza cycles.
+The ((1,0,1)) nonseasonal part captures short-run persistence and shock correction, while ((1,1,1,52)) captures the annual seasonal structure without overcomplicating the model for block-wise retraining.
+No deterministic trend term is needed because the series does not show a stable linear trend, and its main predictable structure is seasonal rather than steadily drifting.
+

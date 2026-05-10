@@ -1,0 +1,81 @@
+﻿dataset,scenario,total_runs,category,category_total_runs,category_pct,model,hyperparameters,combo_count,combo_pct,status
+AirPassengers,S1,30,Statistical,30,100.0,ExponentialSmoothing,"{""damped_trend"": false, ""seasonal"": ""mul"", ""seasonal_periods"": 12, ""trend"": ""add""}",10,33.33,OK
+AirPassengers,S1,30,Multivariate Statistical,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+AirPassengers,S1,30,Machine Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+AirPassengers,S1,30,Deep Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+AirPassengers,S2,30,Statistical,30,100.0,ExponentialSmoothing,"{""damped_trend"": false, ""seasonal"": ""mul"", ""seasonal_periods"": 12, ""trend"": ""add""}",16,53.33,OK
+AirPassengers,S2,30,Multivariate Statistical,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+AirPassengers,S2,30,Machine Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+AirPassengers,S2,30,Deep Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+AirPassengers,S3,30,Statistical,30,100.0,SARIMA,"{""order"": [1, 1, 1], ""seasonal_order"": [1, 1, 1, 12], ""trend"": ""n""}",4,13.33,OK
+AirPassengers,S3,30,Multivariate Statistical,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+AirPassengers,S3,30,Machine Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+AirPassengers,S3,30,Deep Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+AirPassengers,S4,30,Statistical,30,100.0,ExponentialSmoothing,"{""damped_trend"": false, ""seasonal"": ""mul"", ""seasonal_periods"": 12, ""trend"": ""add""}",12,40.0,OK
+AirPassengers,S4,30,Multivariate Statistical,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+AirPassengers,S4,30,Machine Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+AirPassengers,S4,30,Deep Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+ETTh1,S1,30,Statistical,29,96.67,SARIMA,"{""order"": [2, 1, 2], ""seasonal_order"": [1, 1, 1, 24], ""trend"": ""c""}",4,13.33,OK
+ETTh1,S1,30,Multivariate Statistical,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+ETTh1,S1,30,Machine Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+ETTh1,S1,30,Deep Learning,1,3.33,LSTM,"{""dropout"": 0.1, ""learning_rate"": 0.001, ""num_layers"": 2, ""units"": 64}",1,3.33,OK
+ETTh1,S2,30,Statistical,29,96.67,SARIMA,"{""order"": [1, 1, 1], ""seasonal_order"": [1, 1, 1, 24], ""trend"": ""c""}",6,20.0,OK
+ETTh1,S2,30,Multivariate Statistical,1,3.33,SARIMAX,"{""exog"": [""HUFL"", ""HULL"", ""MUFL"", ""MULL"", ""LUFL"", ""LULL""], ""order"": [1, 1, 1], ""seasonal_order"": [1, 1, 1, 24]}",1,3.33,OK
+ETTh1,S2,30,Machine Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+ETTh1,S2,30,Deep Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+ETTh1,S3,30,Statistical,27,90.0,SARIMA,"{""order"": [1, 1, 1], ""seasonal_order"": [1, 1, 1, 24], ""trend"": ""c""}",10,33.33,OK
+ETTh1,S3,30,Multivariate Statistical,1,3.33,SARIMAX,"{""order"": [1, 1, 1], ""seasonal_order"": [1, 1, 1, 24], ""trend"": ""c""}",1,3.33,OK
+ETTh1,S3,30,Machine Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+ETTh1,S3,30,Deep Learning,2,6.67,LSTM,"{""dropout"": 0.2, ""learning_rate"": 0.001, ""num_layers"": 2, ""units"": 64}",2,6.67,OK
+ETTh1,S4,30,Statistical,25,83.33,SARIMA,"{""order"": [2, 1, 2], ""seasonal_order"": [1, 1, 1, 24], ""trend"": ""n""}",5,16.67,OK
+ETTh1,S4,30,Multivariate Statistical,2,6.67,SARIMAX,"{""order"": [1, 1, 1], ""seasonal_order"": [1, 0, 1, 24], ""trend"": ""c""}",1,3.33,OK
+ETTh1,S4,30,Machine Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+ETTh1,S4,30,Deep Learning,3,10.0,LSTM,"{""dropout"": 0.2, ""learning_rate"": 0.001, ""num_layers"": 2, ""units"": 64}",3,10.0,OK
+ILINet,S1,30,Statistical,30,100.0,SARIMA,"{""order"": [1, 1, 1], ""seasonal_order"": [1, 1, 1, 52], ""trend"": ""c""}",7,23.33,OK
+ILINet,S1,30,Multivariate Statistical,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+ILINet,S1,30,Machine Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+ILINet,S1,30,Deep Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+ILINet,S2,30,Statistical,30,100.0,SARIMA,"{""order"": [2, 0, 2], ""seasonal_order"": [1, 1, 1, 52], ""trend"": ""n""}",5,16.67,OK
+ILINet,S2,30,Multivariate Statistical,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+ILINet,S2,30,Machine Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+ILINet,S2,30,Deep Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+ILINet,S3,30,Statistical,30,100.0,SARIMA,"{""order"": [1, 1, 1], ""seasonal_order"": [1, 1, 1, 52], ""trend"": ""c""}",8,26.67,OK
+ILINet,S3,30,Multivariate Statistical,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+ILINet,S3,30,Machine Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+ILINet,S3,30,Deep Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+ILINet,S4,30,Statistical,30,100.0,SARIMA,"{""order"": [2, 0, 2], ""seasonal_order"": [1, 1, 1, 52], ""trend"": ""n""}",5,16.67,OK
+ILINet,S4,30,Multivariate Statistical,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+ILINet,S4,30,Machine Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+ILINet,S4,30,Deep Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+IceCreamHeater,S1,30,Statistical,29,96.67,SARIMA,"{""order"": [1, 1, 1], ""seasonal_order"": [1, 1, 1, 12], ""trend"": ""c""}",13,43.33,OK
+IceCreamHeater,S1,30,Multivariate Statistical,1,3.33,SARIMAX,"{""order"": [1, 1, 1], ""seasonal_order"": [1, 1, 1, 12], ""trend"": ""c""}",1,3.33,OK
+IceCreamHeater,S1,30,Machine Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+IceCreamHeater,S1,30,Deep Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+IceCreamHeater,S2,30,Statistical,29,96.67,SARIMA,"{""order"": [1, 1, 1], ""seasonal_order"": [1, 1, 1, 12], ""trend"": ""c""}",10,33.33,OK
+IceCreamHeater,S2,30,Multivariate Statistical,1,3.33,SARIMAX,"{""order"": [1, 1, 1], ""seasonal_order"": [1, 1, 1, 12], ""trend"": ""n""}",1,3.33,OK
+IceCreamHeater,S2,30,Machine Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+IceCreamHeater,S2,30,Deep Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+IceCreamHeater,S3,30,Statistical,29,96.67,SARIMA,"{""order"": [1, 1, 1], ""seasonal_order"": [1, 1, 1, 12], ""trend"": ""c""}",12,40.0,OK
+IceCreamHeater,S3,30,Multivariate Statistical,1,3.33,SARIMAX,"{""order"": [1, 1, 1], ""seasonal_order"": [1, 1, 1, 12], ""trend"": ""c""}",1,3.33,OK
+IceCreamHeater,S3,30,Machine Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+IceCreamHeater,S3,30,Deep Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+IceCreamHeater,S4,30,Statistical,30,100.0,SARIMA,"{""order"": [1, 1, 1], ""seasonal_order"": [1, 1, 1, 12], ""trend"": ""c""}",13,43.33,OK
+IceCreamHeater,S4,30,Multivariate Statistical,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+IceCreamHeater,S4,30,Machine Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+IceCreamHeater,S4,30,Deep Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+Temperature,S1,30,Statistical,30,100.0,SARIMA,"{""order"": [1, 0, 1], ""seasonal_order"": [1, 1, 1, 365], ""trend"": ""n""}",6,20.0,OK
+Temperature,S1,30,Multivariate Statistical,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+Temperature,S1,30,Machine Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+Temperature,S1,30,Deep Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+Temperature,S2,30,Statistical,30,100.0,SARIMA,"{""order"": [1, 0, 1], ""seasonal_order"": [1, 1, 1, 365], ""trend"": ""n""}",8,26.67,OK
+Temperature,S2,30,Multivariate Statistical,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+Temperature,S2,30,Machine Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+Temperature,S2,30,Deep Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+Temperature,S3,30,Statistical,30,100.0,SARIMA,"{""order"": [2, 0, 2], ""seasonal_order"": [1, 1, 1, 365], ""trend"": ""n""}",5,16.67,OK
+Temperature,S3,30,Multivariate Statistical,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+Temperature,S3,30,Machine Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+Temperature,S3,30,Deep Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+Temperature,S4,30,Statistical,30,100.0,SARIMA,"{""order"": [2, 0, 2], ""seasonal_order"": [1, 1, 1, 365], ""trend"": ""n""}",5,16.67,OK
+Temperature,S4,30,Multivariate Statistical,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+Temperature,S4,30,Machine Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run
+Temperature,S4,30,Deep Learning,0,0.0,N/A,N/A,0,0.0,Not recommended in any run

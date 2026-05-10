@@ -1,0 +1,70 @@
+From: https://www.perplexity.ai/search/ee436ca7-3bb5-4b15-a143-6ee18d069c28
+
+
+
+you asked
+
+A time series dataset has been attached as a CSV file together with this prompt. The dataset may contain one or multiple variables (univariate or multivariate).
+
+You must first conduct a thorough initial analysis on the attached dataset to:
+
+Identify exactly ONE primary time series target column that should be forecasted (even if the dataset is multivariate, select only the single most important target column)
+Analyze its key characteristics, including trend, seasonality, and noise components
+Other columns (if any) can be considered as exogenous variables if you recommend a multivariate model
+
+Based solely on this analysis, you must select the SINGLE most appropriate forecasting model and a set of well-justified hyperparameters.
+
+The forecasting setup is strictly defined as follows:
+
+Forecasting type: Multi-step ahead prediction
+Forecasting strategy: Block-wise rolling update
+Training scheme: The model is trained on each block and retrained after each block
+Block size: B (>0) (forecast multiple steps ahead within each block)
+Forecast horizon: B (forecast multiple steps ahead in each block)
+Use of ground truth during inference: Enabled (update the model with the true values after each block)
+Model retraining: Performed during the forecasting process (retrain after each block)
+
+Use the following as reference examples only. You are free to recommend any appropriate time series forecasting model (univariate or multivariate) that best matches the data characteristics you identified, and define its minimal standard hyperparameters accordingly.
+
+Reference examples (with commonly used minimal parameters):
+
+ExponentialSmoothing: trend, seasonal, seasonal_periods, damped_trend
+SARIMA / ARIMA: order, seasonal_order, trend
+Prophet: seasonality_mode, changepoint_prior_scale, yearly_seasonality, weekly_seasonality, daily_seasonality
+LSTM: units, num_layers, learning_rate, dropout
+VAR / VARMA (for multivariate cases): order, trend
+
+When specifying hyperparameters, you must use only a minimal and standard set of parameters commonly accepted in the literature for that model. Do not include obvious default values or rarely used parameters unless they are critical for addressing the identified trend, seasonality, or noise. Keep the total number of hyperparameters reasonable and minimal (typically 3 to 7 depending on model complexity).
+
+You must reply using the following structure only. Do not add any extra sections, code, explanations, or comments outside this format:
+
+Data Characteristics Summary:
+
+Primary target column: [exactly one column name]
+Trend: [short description]
+Seasonality: [short description]
+Noise: [short description]
+
+Recommended Model: [Exact model name, e.g., SARIMA, ExponentialSmoothing, LSTM, Prophet, VAR, etc.]
+
+Hyperparameters: {'key1': value1, 'key2': value2, ...}   # Clean Python dictionary only
+
+Justification:
+[Clear and concise reasoning in maximum 4 sentences: why this model and these exact hyperparameters are the most suitable based on the data characteristics above. Focus on how they address trend, seasonality, noise, and the choice of the primary target column.]
+
+
+perplexity response
+
+Data Characteristics Summary:
+
+Primary target column: Daily minimum temperatures
+Trend: No meaningful long-term trend; the series is broadly level over 1981–1990 with only a near-zero linear slope.
+Seasonality: Strong recurring annual seasonality, with clear month-of-year variation and notable persistence at seasonal lags; a shorter weekly-like autocorrelation is present but secondary to the yearly cycle.
+Noise: Moderate short-term irregular fluctuations around the seasonal pattern, with noticeable day-to-day variability but no dominant structural breaks.
+
+Recommended Model: ExponentialSmoothing
+
+Hyperparameters: {'trend': None, 'seasonal': 'add', 'seasonal_periods': 365, 'damped_trend': False}
+
+Justification:
+The dataset is effectively univariate, so the only meaningful forecasting target is the temperature column, and there are no additional exogenous variables to support a multivariate model.  The series shows stable level behavior with strong repeating annual seasonality and roughly constant seasonal amplitude, which fits an additive seasonal ExponentialSmoothing specification well.  Omitting a trend is appropriate because the estimated long-run slope is essentially zero, and damping is unnecessary without a trend component.  This model is well suited to multi-step block forecasting with periodic retraining because it is parsimonious, robust to moderate noise, and directly models the dominant seasonal structure.

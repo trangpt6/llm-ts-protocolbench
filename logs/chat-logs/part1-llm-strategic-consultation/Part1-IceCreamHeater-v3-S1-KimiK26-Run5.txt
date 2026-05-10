@@ -1,0 +1,70 @@
+From: https://www.perplexity.ai/search/af051a3c-fb50-44a7-89d7-78040851f4ec
+
+
+
+you asked
+
+A time series dataset has been attached as a CSV file together with this prompt. The dataset may contain one or multiple variables (univariate or multivariate).
+
+You must first conduct a thorough initial analysis on the attached dataset to:
+
+Identify exactly ONE primary time series target column that should be forecasted (even if the dataset is multivariate, select only the single most important target column)
+Analyze its key characteristics, including trend, seasonality, and noise components
+Other columns (if any) can be considered as exogenous variables if you recommend a multivariate model
+
+Based solely on this analysis, you must select the SINGLE most appropriate forecasting model and a set of well-justified hyperparameters.
+
+The forecasting setup is strictly defined as follows:
+
+Forecasting type: One-step ahead prediction
+Forecasting strategy: Static setup
+Training scheme: The model is trained once on the training dataset and subsequently applied recursively over the entire test set
+Forecast horizon: 1 (one-step ahead forecasting)
+Use of ground truth during inference: Disabled (no updates using true values after each prediction)
+Model retraining: Not performed during the forecasting process
+
+Use the following as reference examples only. You are free to recommend any appropriate time series forecasting model (univariate or multivariate) that best matches the data characteristics you identified, and define its minimal standard hyperparameters accordingly.
+
+Reference examples (with commonly used minimal parameters):
+
+ExponentialSmoothing: trend, seasonal, seasonal_periods, damped_trend
+SARIMA / ARIMA: order, seasonal_order, trend
+Prophet: seasonality_mode, changepoint_prior_scale, yearly_seasonality, weekly_seasonality, daily_seasonality
+LSTM: units, num_layers, learning_rate, dropout
+VAR / VARMA (for multivariate cases): order, trend
+
+When specifying hyperparameters, you must use only a minimal and standard set of parameters commonly accepted in the literature for that model. Do not include obvious default values or rarely used parameters unless they are critical for addressing the identified trend, seasonality, or noise. Keep the total number of hyperparameters reasonable and minimal (typically 3 to 7 depending on model complexity).
+
+You must reply using the following structure only. Do not add any extra sections, code, explanations, or comments outside this format:
+
+Data Characteristics Summary:
+
+Primary target column: [exactly one column name]
+Trend: [short description]
+Seasonality: [short description]
+Noise: [short description]
+
+Recommended Model: [Exact model name, e.g., SARIMA, ExponentialSmoothing, LSTM, Prophet, VAR, etc.]
+
+Hyperparameters: {'key1': value1, 'key2': value2, ...}   # Clean Python dictionary only
+
+Justification:
+[Clear and concise reasoning in maximum 4 sentences: why this model and these exact hyperparameters are the most suitable based on the data characteristics above. Focus on how they address trend, seasonality, noise, and the choice of the primary target column.]
+
+
+perplexity response
+
+Data Characteristics Summary:
+
+Primary target column: Ice cream
+Trend: Strong upward trend over time, with level increasing substantially from early years to the end of the sample
+Seasonality: Clear annual seasonality with a 12-month cycle, peaking in summer and dipping in colder months
+Noise: Moderate noise with some larger late-sample fluctuations, but the series remains dominated by trend and seasonality rather than irregular variation
+
+Recommended Model: ExponentialSmoothing
+
+Hyperparameters: {'trend': 'add', 'seasonal': 'mul', 'seasonal_periods': 12, 'damped_trend': True}
+
+Justification:
+Ice cream is the most appropriate target because it shows the strongest sustained growth and pronounced seasonal structure, making it the clearest primary forecasting objective in the dataset. Its monthly pattern is highly regular with a yearly cycle, while the seasonal amplitude grows as the level rises, which supports a multiplicative seasonal component. The long-run increase is smooth rather than abruptly regime-switching, so an additive damped trend is a good parsimonious choice for one-step-ahead static forecasting. ExponentialSmoothing fits these characteristics directly with minimal standard hyperparameters and is well suited to recursive forecasting without retraining when trend and seasonality are both strong and stable
+

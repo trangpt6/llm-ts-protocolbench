@@ -1,0 +1,70 @@
+From: https://www.perplexity.ai/search/5527feb8-757b-438b-83c3-c15517b9d178
+
+
+
+you asked
+
+A time series dataset has been attached as a CSV file together with this prompt. The dataset may contain one or multiple variables (univariate or multivariate).
+
+You must first conduct a thorough initial analysis on the attached dataset to:
+
+Identify exactly ONE primary time series target column that should be forecasted (even if the dataset is multivariate, select only the single most important target column)
+Analyze its key characteristics, including trend, seasonality, and noise components
+Other columns (if any) can be considered as exogenous variables if you recommend a multivariate model
+
+Based solely on this analysis, you must select the SINGLE most appropriate forecasting model and a set of well-justified hyperparameters.
+
+The forecasting setup is strictly defined as follows:
+
+Forecasting type: One-step ahead prediction
+Forecasting strategy: Rolling update
+Training scheme: The model is retrained at every time step
+Forecast horizon: 1 (one-step ahead forecasting)
+Use of ground truth during inference: Enabled (update the model with the true value after each prediction)
+Model retraining: Performed during the forecasting process (retrain after each prediction step)
+
+Use the following as reference examples only. You are free to recommend any appropriate time series forecasting model (univariate or multivariate) that best matches the data characteristics you identified, and define its minimal standard hyperparameters accordingly.
+
+Reference examples (with commonly used minimal parameters):
+
+ExponentialSmoothing: trend, seasonal, seasonal_periods, damped_trend
+SARIMA / ARIMA: order, seasonal_order, trend
+Prophet: seasonality_mode, changepoint_prior_scale, yearly_seasonality, weekly_seasonality, daily_seasonality
+LSTM: units, num_layers, learning_rate, dropout
+VAR / VARMA (for multivariate cases): order, trend
+
+When specifying hyperparameters, you must use only a minimal and standard set of parameters commonly accepted in the literature for that model. Do not include obvious default values or rarely used parameters unless they are critical for addressing the identified trend, seasonality, or noise. Keep the total number of hyperparameters reasonable and minimal (typically 3 to 7 depending on model complexity).
+
+You must reply using the following structure only. Do not add any extra sections, code, explanations, or comments outside this format:
+
+Data Characteristics Summary:
+
+Primary target column: [exactly one column name]
+Trend: [short description]
+Seasonality: [short description]
+Noise: [short description]
+
+Recommended Model: [Exact model name, e.g., SARIMA, ExponentialSmoothing, LSTM, Prophet, VAR, etc.]
+
+Hyperparameters: {'key1': value1, 'key2': value2, ...}   # Clean Python dictionary only
+
+Justification:
+[Clear and concise reasoning in maximum 4 sentences: why this model and these exact hyperparameters are the most suitable based on the data characteristics above. Focus on how they address trend, seasonality, noise, and the choice of the primary target column.]
+
+
+perplexity response
+
+Data Characteristics Summary:
+
+Primary target column: Passengers
+Trend: Clear upward long-term trend, with passenger counts rising substantially from 1949 to 1960
+Seasonality: Strong annual seasonality with a 12-month cycle, including recurring mid-year peaks and lower late-year values, and the seasonal amplitude increases over time
+Noise: Moderate irregular variation around the trend-seasonal pattern, but the series remains highly structured and the variance appears to grow with the level, indicating multiplicative-type noise/seasonality
+
+Recommended Model: ExponentialSmoothing
+
+Hyperparameters: {'trend': 'add', 'seasonal': 'mul', 'seasonal_periods': 12, 'damped_trend': False}
+
+Justification:
+The dataset is univariate, so Passengers is the only valid primary forecasting target column. The series shows a persistent upward trend and very strong 12-month seasonality, while the seasonal swings become larger as the level rises, which is a classic sign that multiplicative seasonality is more appropriate than additive seasonality. Holt-Winters ExponentialSmoothing with additive trend and multiplicative seasonality directly matches these characteristics without introducing unnecessary complexity for a short monthly series of 144 observations. A damped trend is not needed because the trend does not show clear saturation, and the rolling one-step-ahead retraining setup is well suited to this model’s adaptive structure
+

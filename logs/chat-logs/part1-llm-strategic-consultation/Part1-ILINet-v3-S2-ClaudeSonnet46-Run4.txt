@@ -1,0 +1,71 @@
+From: https://claude.ai/chat/08119954-6e05-489a-8600-3fadbf130b7c
+
+
+
+you asked
+
+A time series dataset has been attached as a CSV file together with this prompt. The dataset may contain one or multiple variables (univariate or multivariate).
+You must first conduct a thorough initial analysis on the attached dataset to:
+
+Identify exactly ONE primary time series target column that should be forecasted (even if the dataset is multivariate, select only the single most important target column)
+Analyze its key characteristics, including trend, seasonality, and noise components
+Other columns (if any) can be considered as exogenous variables if you recommend a multivariate model
+Based solely on this analysis, you must select the SINGLE most appropriate forecasting model and a set of well-justified hyperparameters.
+The forecasting setup is strictly defined as follows:Forecasting type: One-step ahead prediction
+Forecasting strategy: Rolling update
+Training scheme: The model is retrained at every time step
+Forecast horizon: 1 (one-step ahead forecasting)
+Use of ground truth during inference: Enabled (update the model with the true value after each prediction)
+Model retraining: Performed during the forecasting process (retrain after each prediction step)
+Use the following as reference examples only. You are free to recommend any appropriate time series forecasting model (univariate or multivariate) that best matches the data characteristics you identified, and define its minimal standard hyperparameters accordingly.
+Reference examples (with commonly used minimal parameters):
+
+
+ExponentialSmoothing: trend, seasonal, seasonal_periods, damped_trend
+SARIMA / ARIMA: order, seasonal_order, trend
+Prophet: seasonality_mode, changepoint_prior_scale, yearly_seasonality, weekly_seasonality, daily_seasonality
+LSTM: units, num_layers, learning_rate, dropout
+VAR / VARMA (for multivariate cases): order, trend
+When specifying hyperparameters, you must use only a minimal and standard set of parameters commonly accepted in the literature for that model. Do not include obvious default values or rarely used parameters unless they are critical for addressing the identified trend, seasonality, or noise. Keep the total number of hyperparameters reasonable and minimal (typically 3 to 7 depending on model complexity).
+You must reply using the following structure only. Do not add any extra sections, code, explanations, or comments outside this format:
+Data Characteristics Summary:
+Primary target column: [exactly one column name]
+Trend: [short description]
+Seasonality: [short description]
+Noise: [short description]
+Recommended Model: [Exact model name, e.g., SARIMA, ExponentialSmoothing, LSTM, Prophet, VAR, etc.]
+Hyperparameters: {'key1': value1, 'key2': value2, ...}   # Clean Python dictionary only
+Justification:
+[Clear and concise reasoning in maximum 4 sentences: why this model and these exact hyperparameters are the most suitable based on the data characteristics above. Focus on how they address trend, seasonality, noise, and the choice of the primary target column.]
+
+
+claude response
+
+Data Characteristics Summary:
+
+Primary target column: % WEIGHTED ILI
+Trend: No long-term deterministic trend; the series fluctuates around a relatively stable mean over the ~25-year span, though recent years (2020–2022) show elevated and altered baseline activity due to COVID-19 disruptions
+Seasonality: Strong annual (yearly) seasonality with a period of ~52 weeks; ILI activity peaks sharply in winter (December–February) and drops to near-zero in summer months, with a consistent and dominant flu-season cycle
+Noise: Moderate to high irregular noise around seasonal peaks; year-to-year peak magnitudes vary considerably, and the 2020 COVID period introduces a structural break with anomalously suppressed values followed by non-traditional summer activity
+
+Recommended Model: SARIMA
+
+Hyperparameters: {'order': (2, 0, 2), 'seasonal_order': (1, 1, 1, 52), 'trend': 'n'}
+
+Justification:
+SARIMA is the most suitable model because the series exhibits a dominant annual seasonality at lag 52 (weekly data) with no persistent trend, making seasonal differencing (D=1) at period 52 directly address the strong cyclical pattern. The non-seasonal AR(2) and MA(2) terms capture short-term autocorrelation and irregular week-to-week fluctuations around the seasonal pattern, while the seasonal AR(1) and MA(1) components model the year-over-year dependence of flu peaks. No trend term is included since the long-run mean is stationary, and the rolling-update retraining scheme allows the model to continuously adapt to structural shifts such as the COVID-era anomalies.
+
+
+you asked
+
+You must identify exactly and honestly which Large Language Model and its precise version generated all responses in this entire conversation, including data analysis, model selection, reasoning, forecasting, and explanations.
+You must provide the MOST SPECIFIC model name and version available to you. Do not use any generic or simplified name such as "Grok", "Gemini", "Claude", or "GPT". Always include the full identifier and version number (e.g., Grok-4.20, Gemini-2.5-Pro, Claude-3.5-Sonnet, GPT-4o, DeepSeek-V3, etc.).
+Reply ONLY with the following two lines. Do not add any extra text, explanations, greetings, or comments of any kind:
+LLM used for this conversation: [exact model name and version]
+Confirmation: This entire conversation was generated exclusively by the model above.
+
+
+claude response
+
+LLM used for this conversation: Claude Sonnet 4.6
+Confirmation: This entire conversation was generated exclusively by the model above.

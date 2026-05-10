@@ -1,0 +1,25 @@
+TURN 1: PREPROCESSING DECISION
+
+[Previous Decisions Summary: ...]
+The dataset is raw and may contain values that require preprocessing.
+Primary target: <PRIMARY_TARGET_COLUMN_NAME>
+
+Your tasks:
+1. Decide whether preprocessing is necessary before model training.
+2. Check specifically for: missing values, duplicated timestamps, irregular time index, suspicious zero values in the target, impossible negative values (if clearly inappropriate).
+3. If preprocessing is needed, define ONLY the minimal necessary preprocessing steps (each step ≤1 sentence).
+4. For zero values: assess whether they are likely valid or problematic; do not automatically treat as errors.
+
+Important rules:
+- Do not remove, replace, or impute target values unless clearly justified by the detected issue.
+- Use minimal preprocessing only. Do not over-clean.
+- Justification ≤3 sentences.
+- Do not change forecasting scenario, model, or split.
+
+Output format:
+Preprocessing Decision
+- Needed:
+- Issues Detected:
+- Preprocessing Steps:
+- Treatment of Zero Values:
+- Justification:

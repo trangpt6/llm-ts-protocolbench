@@ -1,0 +1,11 @@
+A univariate time series dataset has been provided in CSV format. Prior to making any modeling recommendations, an initial analysis should be conducted to identify key characteristics of the dataset, including trend, seasonality, and noise components.
+Based on this analysis, the most appropriate forecasting model should be selected, along with a set of well-justified hyperparameters. The forecasting setup is defined as follows:
+  - Forecasting type: Multi-step ahead prediction 
+  - Forecasting strategy: Block-wise rolling update 
+  - Training scheme: The model is trained on each block and retrained after each block 
+  - Block size: B (>0) (forecast multiple steps ahead within each block) 
+  - Forecast horizon: B (forecast multiple steps ahead in each block) 
+  - Use of ground truth during inference: Enabled (update the model with the true values after each block) 
+  - Model retraining: Performed during the forecasting process (retrain after each block) 
+
+The response should include both the recommended forecasting model and its corresponding hyperparameter configuration, accompanied by clear and well-reasoned explanations.

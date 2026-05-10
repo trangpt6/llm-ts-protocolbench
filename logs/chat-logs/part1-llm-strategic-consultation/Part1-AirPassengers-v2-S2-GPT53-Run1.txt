@@ -1,0 +1,82 @@
+From: https://chatgpt.com/c/69ce78a9-2478-8321-9b36-e2567a6f9c1f
+
+
+
+you asked
+
+A univariate time series dataset has been attached as a CSV file together with this prompt.
+
+You must first conduct a thorough initial analysis on the attached dataset to identify its key characteristics, including trend, seasonality, and noise components.
+
+Based solely on this analysis, you must select the SINGLE most appropriate forecasting model and a set of well-justified hyperparameters.
+
+The forecasting setup is strictly defined as follows:
+
+Forecasting type: One-step ahead prediction
+Forecasting strategy: Rolling update
+Training scheme: The model is retrained at every time step
+Forecast horizon: 1 (one-step ahead forecasting)
+Use of ground truth during inference: Enabled (update the model with the true value after each prediction)
+Model retraining: Performed during the forecasting process (retrain after each prediction step)
+
+When specifying hyperparameters, you must use only a minimal and standard set of parameters commonly accepted in the literature for that model. Do not include obvious default values or rarely used parameters unless critical. 
+
+Use the following as reference examples only. You are free to recommend any appropriate univariate time series forecasting model (including but not limited to the examples) and define its minimal standard hyperparameters accordingly:
+
+ExponentialSmoothing: trend, seasonal, seasonal_periods, damped_trend
+SARIMA / ARIMA: order, seasonal_order, trend
+Prophet: seasonality_mode, changepoint_prior_scale, yearly_seasonality, weekly_seasonality, daily_seasonality
+LSTM: units, num_layers, learning_rate, dropout (max 5-6 parameters)
+
+Always output hyperparameters as a clean Python dictionary with exact standard key names. Keep the total number reasonable and minimal (typically 3 to 7 depending on model complexity). Do not add extra tuning parameters.
+
+You must reply using the following structure only. Do not add any extra sections, code, explanations, or comments outside this format:
+
+Data Characteristics Summary:
+
+Trend: [short description]
+Seasonality: [short description]
+Noise: [short description]
+
+Recommended Model: [Exact model name, e.g., SARIMA, ExponentialSmoothing, LSTM, Prophet, etc.]
+
+Hyperparameters: {'key1': value1, 'key2': value2, ...}   # Clean Python dictionary using only minimal standard parameters. Do not add unnecessary keys.
+
+Justification:
+[Clear and concise reasoning in maximum 4 sentences: why this model and these exact hyperparameters are the most suitable based on the data characteristics above. Focus on how they address trend, seasonality, and noise.]
+
+
+chatgpt response
+
+Data Characteristics Summary:
+
+Trend: Strong upward (non-stationary) trend over time  
+Seasonality: Clear yearly seasonality with increasing amplitude (multiplicative pattern, period = 12)  
+Noise: Moderate noise with variance increasing over time (heteroscedastic)
+
+Recommended Model: SARIMA  
+
+Hyperparameters: {'order': (1, 1, 1), 'seasonal_order': (1, 1, 1, 12), 'trend': 'n'}  
+
+Justification:
+The series exhibits both trend and strong seasonal behavior, making SARIMA appropriate due to its ability to model both non-seasonal and seasonal differencing. First-order differencing (d=1) and seasonal differencing (D=1) address non-stationarity in mean and seasonality. The (1,1,1) components capture short-term autocorrelation without overfitting. The absence of a trend term avoids redundancy since differencing already removes the deterministic trend.
+
+
+you asked
+
+You must identify exactly and honestly which Large Language Model and its precise version generated all responses in this entire conversation, including data analysis, model selection, reasoning, forecasting, and explanations.
+
+You must provide the MOST SPECIFIC model name and version available to you. Do not use any generic or simplified name such as "Grok", "Gemini", "Claude", or "GPT". Always include the full identifier and version number (e.g., Grok-4.20, Gemini-2.5-Pro, Claude-3.5-Sonnet, GPT-4o, DeepSeek-V3, etc.).
+
+Reply ONLY with the following two lines. Do not add any extra text, explanations, greetings, or comments of any kind:
+
+LLM used for this conversation: [exact model name and version]
+
+Confirmation: This entire conversation was generated exclusively by the model above.
+
+
+chatgpt response
+
+LLM used for this conversation: GPT-5.3
+
+Confirmation: This entire conversation was generated exclusively by the model above.

@@ -1,0 +1,22 @@
+You are an expert time series pattern analyzer. Your task is to perform END-TO-END direct forecasting based purely on your native pattern recognition capabilities.
+
+### Dataset Context
+Dataset name: [DATASET_NAME]
+Target variable: [TARGET_COL]
+Frequency: [FREQUENCY]
+
+### Historical Data (Training Set)
+Below is the historical sequence of the target variable in chronological order. This represents the training data.
+[PASTE_ENTIRE_TRAIN_LIST_HERE]  # Example: [12.5, 13.1, 12.8, ..., 15.2]
+
+### Task Instruction
+Based ONLY on the patterns (trend, seasonality, and noise) inherent in the numerical sequence above, forecast the next [HORIZON_H] steps (which represents the test set). 
+Do NOT write code. Do NOT simulate traditional models like ARIMA or LSTM. Use your own native transformer-based reasoning to extrapolate the sequence.
+
+### Output Format (STRICTLY JSON ONLY)
+Output a valid JSON object with absolutely no markdown formatting, no code blocks, and no conversational text.
+
+{
+  "data_analysis": "Brief 1-sentence summary of the pattern you detected in the sequence.",
+  "forecasts": [pred1, pred2, ..., predH] // Must contain EXACTLY [HORIZON_H] floating-point numbers
+}

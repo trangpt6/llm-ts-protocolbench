@@ -1,0 +1,70 @@
+From: https://www.perplexity.ai/search/5bf18c18-8180-4de1-9b11-da547a1b82ac
+
+
+
+you asked
+
+A time series dataset has been attached as a CSV file together with this prompt. The dataset may contain one or multiple variables (univariate or multivariate).
+
+You must first conduct a thorough initial analysis on the attached dataset to:
+
+Identify exactly ONE primary time series target column that should be forecasted (even if the dataset is multivariate, select only the single most important target column)
+Analyze its key characteristics, including trend, seasonality, and noise components
+Other columns (if any) can be considered as exogenous variables if you recommend a multivariate model
+
+Based solely on this analysis, you must select the SINGLE most appropriate forecasting model and a set of well-justified hyperparameters.
+
+The forecasting setup is strictly defined as follows:
+
+Forecasting type: One-step ahead prediction
+Forecasting strategy: Static setup
+Training scheme: The model is trained once on the training dataset and subsequently applied recursively over the entire test set
+Forecast horizon: 1 (one-step ahead forecasting)
+Use of ground truth during inference: Disabled (no updates using true values after each prediction)
+Model retraining: Not performed during the forecasting process
+
+Use the following as reference examples only. You are free to recommend any appropriate time series forecasting model (univariate or multivariate) that best matches the data characteristics you identified, and define its minimal standard hyperparameters accordingly.
+
+Reference examples (with commonly used minimal parameters):
+
+ExponentialSmoothing: trend, seasonal, seasonal_periods, damped_trend
+SARIMA / ARIMA: order, seasonal_order, trend
+Prophet: seasonality_mode, changepoint_prior_scale, yearly_seasonality, weekly_seasonality, daily_seasonality
+LSTM: units, num_layers, learning_rate, dropout
+VAR / VARMA (for multivariate cases): order, trend
+
+When specifying hyperparameters, you must use only a minimal and standard set of parameters commonly accepted in the literature for that model. Do not include obvious default values or rarely used parameters unless they are critical for addressing the identified trend, seasonality, or noise. Keep the total number of hyperparameters reasonable and minimal (typically 3 to 7 depending on model complexity).
+
+You must reply using the following structure only. Do not add any extra sections, code, explanations, or comments outside this format:
+
+Data Characteristics Summary:
+
+Primary target column: [exactly one column name]
+Trend: [short description]
+Seasonality: [short description]
+Noise: [short description]
+
+Recommended Model: [Exact model name, e.g., SARIMA, ExponentialSmoothing, LSTM, Prophet, VAR, etc.]
+
+Hyperparameters: {'key1': value1, 'key2': value2, ...}   # Clean Python dictionary only
+
+Justification:
+[Clear and concise reasoning in maximum 4 sentences: why this model and these exact hyperparameters are the most suitable based on the data characteristics above. Focus on how they address trend, seasonality, noise, and the choice of the primary target column.]
+
+
+perplexity response
+
+Data Characteristics Summary:
+
+Primary target column: % WEIGHTED ILI
+Trend: No persistent long-term monotonic trend; the series is dominated by recurring epidemic waves with changing peak magnitudes over time, including some structural irregularity around pandemic periods.
+Seasonality: Strong annual seasonality at weekly frequency, with pronounced winter peaks and summer troughs, making a seasonal period of 52 the natural choice.
+Noise: Moderate noise with occasional sharp outbreak spikes and level shifts, but the main seasonal-autoregressive structure remains clear.
+
+Recommended Model: SARIMA
+
+Hyperparameters: {'order': (2, 0, 1), 'seasonal_order': (1, 1, 1, 52), 'trend': 'c'}
+
+Justification:
+% WEIGHTED ILI is the most appropriate single target because it is the headline influenza surveillance rate and directly reflects overall ILI intensity, while the age-specific columns are better treated as auxiliary context rather than the main forecast variable.  The series shows strong yearly weekly seasonality and recurring persistence, so a SARIMA model is better suited than nonseasonal models or purely trend-based smoothers.  The seasonal differencing term (D=1) handles the repeating annual cycle, while the nonseasonal ARMA terms ((2,0,1)) capture short-run dependence needed for one-step-ahead static recursive forecasting.  A constant term is appropriate because the series fluctuates around a nonzero baseline outside epidemic peaks, while the chosen specification stays minimal and standard.
+

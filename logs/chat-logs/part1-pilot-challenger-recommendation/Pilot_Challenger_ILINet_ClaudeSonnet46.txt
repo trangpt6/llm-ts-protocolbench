@@ -1,0 +1,72 @@
+From: https://claude.ai/chat/da659121-3c9a-45c8-873b-d1bb5cb89358
+
+
+
+you asked
+
+Act as an expert Time Series Data Scientist. I am designing a "Challenger Framework" for a forecasting experiment and need EXACTLY 8 Advanced Model configurations. For each of the 4 scenarios provided, you MUST provide one Machine Learning (ML) model and one Deep Learning (DL) model.
+[INPUT DATA & SETUP]
+
+Attached File: Raw dataset CSV.
+Dataset Name: ILINet
+Primary Target Variable: % WEIGHTED ILI
+Dataset characteristics: Univariate, weekly frequency
+Horizon & Block Sizes for this dataset: H = 4, B = 52.
+[FORECASTING SCENARIOS]
+Scenario 1:
+The forecasting setup is strictly defined as follows:Forecasting type: One-step ahead prediction
+Forecasting strategy: Static setup
+Training scheme: The model is trained once on the training dataset and subsequently applied recursively over the entire test set
+Forecast horizon: 1 (one-step ahead forecasting)
+Use of ground truth during inference: Disabled
+Model retraining: Not performed during the forecasting process
+Scenario 2:
+The forecasting setup is strictly defined as follows:
+Forecasting type: One-step ahead prediction
+Forecasting strategy: Rolling update
+Training scheme: The model is retrained at every time step
+Forecast horizon: 1 (one-step ahead forecasting)
+Use of ground truth during inference: Enabled
+Model retraining: Performed during the forecasting process (retrain after each prediction step)
+Scenario 3:
+The forecasting setup is strictly defined as follows:
+Forecasting type: Multi-step ahead prediction
+Forecasting strategy: Rolling update
+Training scheme: The model is retrained at every time step
+Forecast horizon: H=4
+Window advancement: 1 time step per iteration
+Use of ground truth during inference: Enabled
+Model retraining: Performed during the forecasting process (retrain after each prediction step)
+Scenario 4:
+The forecasting setup is strictly defined as follows:
+Forecasting type: Multi-step ahead prediction
+Forecasting strategy: Block-wise rolling update
+Training scheme: The model is trained on each block and retrained after each block
+Block size & Forecast horizon: B=52
+Use of ground truth during inference: Enabled
+Model retraining: Performed during the forecasting process (retrain after each block)
+[CRITICAL CONSTRAINTS]
+
+ALGORITHM FAMILY: For each scenario (S1, S2, S3, S4), recommend exactly 1 ML and 1 DL model (Total 8 models). STRICTLY NO Statistical models (No ARIMA, Prophet).
+SCENARIO ADAPTATION (COMPUTATIONAL LIMITS): S2 & S3 require continuous retraining at every step. Hyperparameters MUST be extremely lightweight to prevent computation timeouts.
+
+
+STRICT NAMING & FRAMEWORK: Use base names only (e.g., "LightGBM", "GRU", "RandomForest", "TCN", "LSTM", "XGBoost", ...).
+Assume all DL models will be implemented in PyTorch.
+
+
+EXACT HYPERPARAMETERS REQUIRED:For ML: You MUST include lags (Choose a lag window that optimally captures the dataset's dominant seasonality without causing out-of-memory errors for continuous retraining), n_estimators, max_depth, learning_rate. For S3/S4, explicitly state the multi_step_strategy.
+For DL: You MUST include structural parameters to prevent shape errors: input_size (MUST exactly match the number of input features based on the dataset characteristics provided), seq_len (lookback window length), pred_len, hidden_size, num_layers, epochs, batch_size, lr. 
+If TCN is recommended: You MUST explicitly provide kernel_size and a valid list of dilations properly scaled for the chosen seq_len.
+[OUTPUT FORMAT] 
+You must output NOTHING ELSE except a strictly valid JSON array containing exactly 8 objects. Do not use markdown code blocks (no ```json). Output raw JSON only. Follow this schema:
+[
+{"scenario": "S1", "model_name": "...", "category": "Machine Learning", "hyperparameters": {...}},
+{"scenario": "S1", "model_name": "...", "category": "Deep Learning", "hyperparameters": {...}},
+// Repeat for S2, S3, S4
+]
+
+
+claude response
+
+[{"scenario":"S1","model_name":"XGBoost","category":"Machine Learning","hyperparameters":{"lags":52,"n_estimators":500,"max_depth":6,"learning_rate":0.05,"multi_step_strategy":"N/A"}},{"scenario":"S1","model_name":"TCN","category":"Deep Learning","hyperparameters":{"input_size":1,"seq_len":52,"pred_len":1,"hidden_size":64,"num_layers":3,"kernel_size":3,"dilations":[1,2,4,8,16,32],"epochs":50,"batch_size":32,"lr":0.001}},{"scenario":"S2","model_name":"LightGBM","category":"Machine Learning","hyperparameters":{"lags":13,"n_estimators":50,"max_depth":4,"learning_rate":0.1,"multi_step_strategy":"N/A"}},{"scenario":"S2","model_name":"GRU","category":"Deep Learning","hyperparameters":{"input_size":1,"seq_len":13,"pred_len":1,"hidden_size":32,"num_layers":1,"epochs":5,"batch_size":16,"lr":0.01}},{"scenario":"S3","model_name":"LightGBM","category":"Machine Learning","hyperparameters":{"lags":13,"n_estimators":50,"max_depth":4,"learning_rate":0.1,"multi_step_strategy":"recursive"}},{"scenario":"S3","model_name":"GRU","category":"Deep Learning","hyperparameters":{"input_size":1,"seq_len":13,"pred_len":4,"hidden_size":32,"num_layers":1,"epochs":5,"batch_size":16,"lr":0.01}},{"scenario":"S4","model_name":"XGBoost","category":"Machine Learning","hyperparameters":{"lags":52,"n_estimators":300,"max_depth":5,"learning_rate":0.05,"multi_step_strategy":"direct"}},{"scenario":"S4","model_name":"LSTM","category":"Deep Learning","hyperparameters":{"input_size":1,"seq_len":52,"pred_len":52,"hidden_size":64,"num_layers":2,"epochs":30,"batch_size":32,"lr":0.001}}]

@@ -1,0 +1,69 @@
+From: https://www.perplexity.ai/search/ddd2c72b-33a4-4c76-aeaf-6baddd5c1543
+
+
+
+you asked
+
+A time series dataset has been attached as a CSV file together with this prompt. The dataset may contain one or multiple variables (univariate or multivariate).
+
+You must first conduct a thorough initial analysis on the attached dataset to:
+
+Identify exactly ONE primary time series target column that should be forecasted (even if the dataset is multivariate, select only the single most important target column)
+Analyze its key characteristics, including trend, seasonality, and noise components
+Other columns (if any) can be considered as exogenous variables if you recommend a multivariate model
+
+Based solely on this analysis, you must select the SINGLE most appropriate forecasting model and a set of well-justified hyperparameters.
+
+The forecasting setup is strictly defined as follows:
+
+Forecasting type: One-step ahead prediction
+Forecasting strategy: Static setup
+Training scheme: The model is trained once on the training dataset and subsequently applied recursively over the entire test set
+Forecast horizon: 1 (one-step ahead forecasting)
+Use of ground truth during inference: Disabled (no updates using true values after each prediction)
+Model retraining: Not performed during the forecasting process
+
+Use the following as reference examples only. You are free to recommend any appropriate time series forecasting model (univariate or multivariate) that best matches the data characteristics you identified, and define its minimal standard hyperparameters accordingly.
+
+Reference examples (with commonly used minimal parameters):
+
+ExponentialSmoothing: trend, seasonal, seasonal_periods, damped_trend
+SARIMA / ARIMA: order, seasonal_order, trend
+Prophet: seasonality_mode, changepoint_prior_scale, yearly_seasonality, weekly_seasonality, daily_seasonality
+LSTM: units, num_layers, learning_rate, dropout
+VAR / VARMA (for multivariate cases): order, trend
+
+When specifying hyperparameters, you must use only a minimal and standard set of parameters commonly accepted in the literature for that model. Do not include obvious default values or rarely used parameters unless they are critical for addressing the identified trend, seasonality, or noise. Keep the total number of hyperparameters reasonable and minimal (typically 3 to 7 depending on model complexity).
+
+You must reply using the following structure only. Do not add any extra sections, code, explanations, or comments outside this format:
+
+Data Characteristics Summary:
+
+Primary target column: [exactly one column name]
+Trend: [short description]
+Seasonality: [short description]
+Noise: [short description]
+
+Recommended Model: [Exact model name, e.g., SARIMA, ExponentialSmoothing, LSTM, Prophet, VAR, etc.]
+
+Hyperparameters: {'key1': value1, 'key2': value2, ...}   # Clean Python dictionary only
+
+Justification:
+[Clear and concise reasoning in maximum 4 sentences: why this model and these exact hyperparameters are the most suitable based on the data characteristics above. Focus on how they address trend, seasonality, noise, and the choice of the primary target column.]
+
+
+perplexity response
+
+Data Characteristics Summary:
+
+Primary target column: OT
+Trend: Strong smooth long-term trend with no meaningful linear drift, but clear low-frequency level changes dominate variance 
+Seasonality: Strong hourly seasonality with a clear 24-step daily cycle and additional weekly persistence at 168 steps 
+Noise: Moderate noise with some irregular spikes, but the residual component is much smaller than the trend-cycle and autocorrelated seasonal structure
+
+Recommended Model: SARIMA 
+
+Hyperparameters: {'order': (2, 0, 1), 'seasonal_order': (1, 1, 1, 24), 'trend': 'c'} 
+
+Justification:
+OT is the most appropriate forecast target because it is the main output-style variable in the dataset and has the largest variability among the numeric columns, making it the most consequential series to forecast. Its very high autocorrelation at lag 24 indicates strong daily seasonality, so a seasonal period of 24 is essential, while seasonal differencing handles recurring daily level shifts efficiently . A compact nonseasonal ARMA structure such as (2,0,1) is suitable for one-step-ahead static forecasting because it captures short-run dependence without overfitting a long recursively used test horizon . SARIMA is therefore a better match than heavier nonlinear models here because the series shows strong linear autocorrelation structure, clear seasonality, and only moderate residual noise .

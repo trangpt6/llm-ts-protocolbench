@@ -1,0 +1,124 @@
+From: https://chatgpt.com/c/69d4d109-cda0-8320-9afa-4f07ea9d0f9c
+
+
+
+you asked
+
+A univariate time series dataset has been attached as a CSV file together with this prompt.
+
+You must first conduct a thorough initial analysis on the attached dataset to identify its key characteristics, including trend, seasonality, and noise components.
+
+Based solely on this analysis, you must select the SINGLE most appropriate forecasting model and a set of well-justified hyperparameters.
+
+The forecasting setup is strictly defined as follows:
+
+Forecasting type: Multi-step ahead prediction
+Forecasting strategy: Block-wise rolling update
+Training scheme: The model is trained on each block and retrained after each block
+Block size: B (>0) (forecast multiple steps ahead within each block)
+Forecast horizon: B (forecast multiple steps ahead in each block)
+Use of ground truth during inference: Enabled (update the model with the true values after each block)
+Model retraining: Performed during the forecasting process (retrain after each block)
+
+When specifying hyperparameters, you must use only a minimal and standard set of parameters commonly accepted in the literature for that model. Do not include obvious default values or rarely used parameters unless critical. 
+
+Use the following as reference examples only. You are free to recommend any appropriate univariate time series forecasting model (including but not limited to the examples) and define its minimal standard hyperparameters accordingly:
+
+ExponentialSmoothing: trend, seasonal, seasonal_periods, damped_trend
+SARIMA / ARIMA: order, seasonal_order, trend
+Prophet: seasonality_mode, changepoint_prior_scale, yearly_seasonality, weekly_seasonality, daily_seasonality
+LSTM: units, num_layers, learning_rate, dropout (max 5-6 parameters)
+
+Always output hyperparameters as a clean Python dictionary with exact standard key names. Keep the total number reasonable and minimal (typically 3 to 7 depending on model complexity). Do not add extra tuning parameters.
+
+You must reply using the following structure only. Do not add any extra sections, code, explanations, or comments outside this format:
+
+Data Characteristics Summary:
+
+Trend: [short description]
+Seasonality: [short description]
+Noise: [short description]
+
+Recommended Model: [Exact model name, e.g., SARIMA, ExponentialSmoothing, LSTM, Prophet, etc.]
+
+Hyperparameters: {'key1': value1, 'key2': value2, ...}   # Clean Python dictionary using only minimal standard parameters. Do not add unnecessary keys.
+
+Justification:
+[Clear and concise reasoning in maximum 4 sentences: why this model and these exact hyperparameters are the most suitable based on the data characteristics above. Focus on how they address trend, seasonality, and noise.]
+
+
+chatgpt response
+
+Data Characteristics Summary:
+
+Trend: Strong upward (non-stationary) trend over time
+Seasonality: Clear and strong yearly seasonality (period = 12) with increasing amplitude (multiplicative)
+Noise: Moderate noise with variance increasing over time (heteroscedastic)
+
+Recommended Model: SARIMA
+
+Hyperparameters: {'order': (1, 1, 1), 'seasonal_order': (1, 1, 1, 12), 'trend': 'n'}
+
+Justification:
+The data exhibits both non-stationary trend and strong seasonal patterns, which SARIMA explicitly models through differencing and seasonal components. The (1,1,1) structure captures short-term dependencies after removing trend, while (1,1,1,12) models yearly seasonality effectively. The absence of a deterministic trend term is appropriate since differencing handles the trend. This configuration is a well-established minimal and robust choice for this type of multiplicative seasonal time series.
+
+
+you asked
+
+A univariate time series dataset has been attached as a CSV file together with this prompt.
+
+You must first conduct a thorough initial analysis on the attached dataset to identify its key characteristics, including trend, seasonality, and noise components.
+
+Based solely on this analysis, you must select the SINGLE most appropriate forecasting model and a set of well-justified hyperparameters.
+
+The forecasting setup is strictly defined as follows:
+
+Forecasting type: Multi-step ahead prediction
+Forecasting strategy: Block-wise rolling update
+Training scheme: The model is trained on each block and retrained after each block
+Block size: B (>0) (forecast multiple steps ahead within each block)
+Forecast horizon: B (forecast multiple steps ahead in each block)
+Use of ground truth during inference: Enabled (update the model with the true values after each block)
+Model retraining: Performed during the forecasting process (retrain after each block)
+
+When specifying hyperparameters, you must use only a minimal and standard set of parameters commonly accepted in the literature for that model. Do not include obvious default values or rarely used parameters unless critical. 
+
+Use the following as reference examples only. You are free to recommend any appropriate univariate time series forecasting model (including but not limited to the examples) and define its minimal standard hyperparameters accordingly:
+
+ExponentialSmoothing: trend, seasonal, seasonal_periods, damped_trend
+SARIMA / ARIMA: order, seasonal_order, trend
+Prophet: seasonality_mode, changepoint_prior_scale, yearly_seasonality, weekly_seasonality, daily_seasonality
+LSTM: units, num_layers, learning_rate, dropout (max 5-6 parameters)
+
+Always output hyperparameters as a clean Python dictionary with exact standard key names. Keep the total number reasonable and minimal (typically 3 to 7 depending on model complexity). Do not add extra tuning parameters.
+
+You must reply using the following structure only. Do not add any extra sections, code, explanations, or comments outside this format:
+
+Data Characteristics Summary:
+
+Trend: [short description]
+Seasonality: [short description]
+Noise: [short description]
+
+Recommended Model: [Exact model name, e.g., SARIMA, ExponentialSmoothing, LSTM, Prophet, etc.]
+
+Hyperparameters: {'key1': value1, 'key2': value2, ...}   # Clean Python dictionary using only minimal standard parameters. Do not add unnecessary keys.
+
+Justification:
+[Clear and concise reasoning in maximum 4 sentences: why this model and these exact hyperparameters are the most suitable based on the data characteristics above. Focus on how they address trend, seasonality, and noise.]
+
+
+chatgpt response
+
+Data Characteristics Summary:
+
+Trend: Strong upward, non-linear increasing trend
+Seasonality: Pronounced yearly seasonality (period = 12) with multiplicative pattern (increasing amplitude over time)
+Noise: Moderate noise with variance increasing alongside the level of the series
+
+Recommended Model: ExponentialSmoothing
+
+Hyperparameters: {'trend': 'add', 'seasonal': 'mul', 'seasonal_periods': 12, 'damped_trend': True}
+
+Justification:
+The data shows a clear trend and multiplicative seasonality, which Holt-Winters Exponential Smoothing models directly and effectively. The multiplicative seasonal component captures increasing seasonal amplitude, while the additive damped trend prevents over-extrapolation. This model is well-suited for block-wise retraining due to its efficiency and stability. It provides a robust balance between capturing structure and handling noise without overfitting.

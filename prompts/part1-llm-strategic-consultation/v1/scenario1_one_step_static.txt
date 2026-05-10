@@ -1,0 +1,10 @@
+A univariate time series dataset has been provided in CSV format. Prior to making any modeling recommendations, an initial analysis should be conducted to identify key characteristics of the dataset, including trend, seasonality, and noise components.
+Based on this analysis, the most appropriate forecasting model should be selected, along with a set of well-justified hyperparameters. The forecasting setup is defined as follows:
+  - Forecasting type: One-step ahead prediction 
+  - Forecasting strategy: Static setup 
+  - Training scheme: The model is trained once on the training dataset and subsequently applied recursively over the entire test set 
+  - Forecast horizon: 0 (i.e., one-step forecasting) 
+  - Use of ground truth during inference: Disabled (no updates using true values after each prediction) 
+  - Model retraining: Not performed during the forecasting process 
+
+The response should include both the recommended forecasting model and its corresponding hyperparameter configuration, accompanied by clear and well-reasoned explanations.

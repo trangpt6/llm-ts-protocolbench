@@ -1,0 +1,48 @@
+TURN 3: TRAIN AND FORECAST
+
+Use the preprocessing decision from Turn 1 and the fixed setup from Turn 2.
+
+Your tasks:
+1. Apply the agreed preprocessing steps from Turn 1 (if any).
+2. Perform training and forecasting strictly according to the fixed setup in Turn 2 (including forecasting type, strategy, training scheme, use of ground truth, retraining rule, horizon, and block size if applicable).
+3. Generate forecasts that cover the entire test set.
+4. Do not use any future true values beyond what the fixed setup explicitly allows.
+5. The total number of predictions must exactly match the length required by the scenario to cover the full test set.
+
+CRITICAL PRIORITY INSTRUCTION:
+You MUST return the forecast using OPTION 1 (flat Python list) unless it is technically impossible for the chosen model.
+Returning a clean list [y1, y2, ..., yH] is the expected and preferred output for this benchmark.
+Only return the full Python script (OPTION 2) if you genuinely cannot compute the forecasts correctly.
+Prioritize OPTION 1 to enable fast and automatic metric calculation.
+
+Output decision: Choose exactly ONE of the following two options.
+
+OPTION 1 — Return the final forecast values directly (as a Python flat list)
+[y_1, y_2, ..., y_H]
+
+OPTION 2 — Return ONLY a complete, self-contained Python 3 script that:
+- reads the attached CSV file.
+- applies the exact preprocessing steps from Turn 1.
+- uses the exact fixed model and hyperparameters from Turn 2. If any hyperparameter value is "N/A", completely ignore/omit that parameter during model initialization.
+- uses the chronological 80/20 train/test split.
+- implements training, retraining (if required), rolling/block-wise logic, multi-step horizon, and use of ground truth exactly as defined in the fixed setup in Turn 2.
+- for ML/DL models: Correctly implement feature engineering (e.g., lag features for ML, sliding windows/sequences for DL) ensuring matrix shapes strictly match the required input_size, seq_len, and pred_len.
+- for Deep Learning (PyTorch): Ensure the model runs safely on standard environments (fallback to device='cpu' if CUDA is unavailable).
+- enforce reproducibility: Explicitly set random seeds (e.g., random, numpy.random, torch.manual_seed) at the very beginning of the script.
+- never uses future information or true values beyond what the setup permits.
+- produces a single flat list of forecasts covering the entire test set.
+- the entire script must be plain text Python code ONLY. NO markdown formatting is allowed.
+- all comments MUST start exactly with `# ` (hash symbol followed by one space).
+- do NOT use **bold**, *italic*, ###, ##, ```, ```python, or ANY markdown syntax anywhere in the output.
+- keep comments minimal and only for reproducibility-critical parts (e.g. random seed setting, device fallback).
+- prints ONLY the final forecast list on the very last line in the format: print(forecasts)
+- uses only commonly available Python libraries required by the fixed model, limited to:
+  pandas, numpy, statsmodels, pmdarima, prophet, scikit-learn, xgboost, lightgbm, torch, matplotlib.
+- do not use any external APIs, web requests, paid services, or unlisted packages.
+- import only the libraries actually needed by the chosen fixed model.
+- the script must be directly copy-pasteable into a .py file and run without any syntax error.
+
+Important rules:
+- Strictly follow the forecasting setup from Turn 2. Do not deviate from static/rolling/block-wise, retraining frequency, or use of y_true.
+- Do not add any explanations, conversational filler (e.g., "Here is the code"), headings, comments, markdown code fences (no ```python), or extra text. Output ONLY the list (Option 1) or ONLY the raw script (Option 2).
+- If you cannot implement the exact required behavior, return only: ERROR

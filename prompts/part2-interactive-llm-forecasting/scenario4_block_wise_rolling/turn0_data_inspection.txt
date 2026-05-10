@@ -1,0 +1,49 @@
+TURN 0: DATA INSPECTION
+
+You are given a raw time series dataset as a CSV file attached to this conversation.
+The dataset may be univariate or multivariate.
+Primary target column for forecasting: <PRIMARY_TARGET_COLUMN_NAME>
+
+Your tasks:
+1. Inspect the dataset and report:
+   - total number of rows (total number of data timesteps, exclude header row) and columns
+   - the time index column
+   - confirm the primary target column (must match the provided one)
+   - inferred data frequency, if detectable
+   - missing values per column, if any
+   - whether duplicated timestamps exist
+   - whether any obvious irregularities appear in the raw data
+
+2. Provide a short EDA summary of the selected primary target:
+   - trend (≤1 sentence)
+   - seasonality (≤1 sentence)
+   - noise (≤1 sentence)
+
+3. Define the train/test split:
+   - use strictly chronological split: first int(0.8 * total_timesteps) observations = training set
+   - total_timesteps - training set = test set
+   - report exact numbers and time period (start and end timestamp) of both train and test set
+
+Important rules:
+- Do not forecast yet. Do not train any model yet. Do not write code.
+- Confirm the provided primary target and do not suggest alternatives.
+- Keep each descriptive field concise.
+
+Output format:
+Dataset Inspection
+- Rows:
+- Columns:
+- Time Index:
+- Primary Target:
+- Frequency:
+- Missing Values:
+- Duplicated Timestamps:
+- Raw Data Irregularities:
+- Trend:
+- Seasonality:
+- Noise:
+- Split Rule:
+- Train size:
+- Test size:
+- Train period:
+- Test period:

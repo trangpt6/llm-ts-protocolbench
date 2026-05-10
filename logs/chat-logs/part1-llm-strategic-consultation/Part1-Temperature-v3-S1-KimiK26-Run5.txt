@@ -1,0 +1,69 @@
+From: https://www.perplexity.ai/search/9acf867e-0e62-432f-89ae-b370921b8ce0
+
+
+
+you asked
+
+A time series dataset has been attached as a CSV file together with this prompt. The dataset may contain one or multiple variables (univariate or multivariate).
+
+You must first conduct a thorough initial analysis on the attached dataset to:
+
+Identify exactly ONE primary time series target column that should be forecasted (even if the dataset is multivariate, select only the single most important target column)
+Analyze its key characteristics, including trend, seasonality, and noise components
+Other columns (if any) can be considered as exogenous variables if you recommend a multivariate model
+
+Based solely on this analysis, you must select the SINGLE most appropriate forecasting model and a set of well-justified hyperparameters.
+
+The forecasting setup is strictly defined as follows:
+
+Forecasting type: One-step ahead prediction
+Forecasting strategy: Static setup
+Training scheme: The model is trained once on the training dataset and subsequently applied recursively over the entire test set
+Forecast horizon: 1 (one-step ahead forecasting)
+Use of ground truth during inference: Disabled (no updates using true values after each prediction)
+Model retraining: Not performed during the forecasting process
+
+Use the following as reference examples only. You are free to recommend any appropriate time series forecasting model (univariate or multivariate) that best matches the data characteristics you identified, and define its minimal standard hyperparameters accordingly.
+
+Reference examples (with commonly used minimal parameters):
+
+ExponentialSmoothing: trend, seasonal, seasonal_periods, damped_trend
+SARIMA / ARIMA: order, seasonal_order, trend
+Prophet: seasonality_mode, changepoint_prior_scale, yearly_seasonality, weekly_seasonality, daily_seasonality
+LSTM: units, num_layers, learning_rate, dropout
+VAR / VARMA (for multivariate cases): order, trend
+
+When specifying hyperparameters, you must use only a minimal and standard set of parameters commonly accepted in the literature for that model. Do not include obvious default values or rarely used parameters unless they are critical for addressing the identified trend, seasonality, or noise. Keep the total number of hyperparameters reasonable and minimal (typically 3 to 7 depending on model complexity).
+
+You must reply using the following structure only. Do not add any extra sections, code, explanations, or comments outside this format:
+
+Data Characteristics Summary:
+
+Primary target column: [exactly one column name]
+Trend: [short description]
+Seasonality: [short description]
+Noise: [short description]
+
+Recommended Model: [Exact model name, e.g., SARIMA, ExponentialSmoothing, LSTM, Prophet, VAR, etc.]
+
+Hyperparameters: {'key1': value1, 'key2': value2, ...}   # Clean Python dictionary only
+
+Justification:
+[Clear and concise reasoning in maximum 4 sentences: why this model and these exact hyperparameters are the most suitable based on the data characteristics above. Focus on how they address trend, seasonality, noise, and the choice of the primary target column.]
+
+
+perplexity response
+
+Data Characteristics Summary:
+
+Primary target column: Daily minimum temperatures
+Trend: No strong long-term deterministic trend; the 10-year rolling annual mean shifts only mildly overall, with broad level changes rather than sustained growth or decline 
+Seasonality: Strong annual seasonality in daily data, with much warmer values around January-February and cooler values around June-August; seasonal amplitude is about 8.68 and yearly autocorrelation is substantial 
+Noise: Moderate short-term noise remains after removing seasonal structure, with noticeable day-to-day autocorrelation and residual variation around 2.63
+
+Recommended Model: SARIMA 
+
+Hyperparameters: {'order': (2, 0, 1), 'seasonal_order': (1, 1, 1, 365), 'trend': 'c'} 
+
+Justification:
+The dataset is effectively univariate, so the only forecast target is the temperature series itself and there are no meaningful exogenous variables available in the file. A seasonal ARIMA is the best fit because the series shows strong yearly seasonality, modest nonseasonal persistence, and no need for a complex multivariate or deep learning model . The seasonal differencing term (D=1) with period 365 directly addresses the dominant annual cycle, while the low-order AR and MA terms capture short-run serial dependence and noise . A constant term is appropriate because the series fluctuates around a stable mean level after accounting for seasonality rather than following a strong deterministic trend

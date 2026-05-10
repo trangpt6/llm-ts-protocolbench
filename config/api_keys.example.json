@@ -1,0 +1,61 @@
+{
+  "_comment": "Copy to config/api_keys.json, then fill real keys or keep env:VARIABLE_NAME references.",
+  "openai": {
+    "enabled": true,
+    "provider_type": "openai_compatible",
+    "model_id": "gpt-5.5",
+    "display_name": "GPT55",
+    "base_url": "https://api.openai.com/v1",
+    "max_tokens": 4096,
+    "rotate_after_success": true,
+    "keys": ["env:OPENAI_API_KEY"]
+  },
+  "anthropic": {
+    "enabled": true,
+    "provider_type": "anthropic",
+    "model_id": "claude-opus-4-7-20260201",
+    "display_name": "ClaudeSonnet46",
+    "max_tokens": 4096,
+    "rotate_after_success": true,
+    "keys": ["env:ANTHROPIC_API_KEY"]
+  },
+  "xai": {
+    "enabled": true,
+    "provider_type": "openai_compatible",
+    "model_id": "grok-4",
+    "display_name": "Grok4",
+    "base_url": "https://api.x.ai/v1",
+    "max_tokens": 4096,
+    "rotate_after_success": true,
+    "keys": ["env:XAI_API_KEY"]
+  },
+  "google": {
+    "enabled": true,
+    "provider_type": "google",
+    "model_id": "gemini-3.1-pro",
+    "display_name": "Gemini31Pro",
+    "max_tokens": 4096,
+    "rotate_after_success": true,
+    "keys": ["env:GOOGLE_API_KEY"]
+  },
+  "deepseek": {
+    "enabled": true,
+    "provider_type": "openai_compatible",
+    "model_id": "deepseek-chat",
+    "display_name": "DeepSeekV4",
+    "base_url": "https://api.deepseek.com",
+    "max_tokens": 4096,
+    "rotate_after_success": true,
+    "keys": ["env:DEEPSEEK_API_KEY"]
+  },
+  "moonshot": {
+    "enabled": true,
+    "provider_type": "openai_compatible",
+    "model_id": "kimi-k2-0711-preview",
+    "display_name": "KimiK26",
+    "base_url": "https://api.moonshot.cn/v1",
+    "max_tokens": 4096,
+    "rotate_after_success": true,
+    "keys": ["env:MOONSHOT_API_KEY"]
+  }
+}

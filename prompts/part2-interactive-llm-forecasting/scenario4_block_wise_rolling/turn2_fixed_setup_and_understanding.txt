@@ -1,0 +1,31 @@
+TURN 2: FIXED SETUP AND UNDERSTANDING
+
+[Previous Decisions Summary: ...]
+Fixed model: <MODEL_NAME>
+Fixed hyperparameters (Python dict): <HYPERPARAMETERS>
+
+The forecasting setup is strictly defined as follows:
+  - Forecasting type: Multi-step ahead prediction
+  - Forecasting strategy: Block-wise rolling update
+  - Training scheme: The model is trained on each block and retrained after each block
+  - Block size: B (>0) (forecast multiple steps ahead within each block)
+  - Forecast horizon: B (forecast multiple steps ahead in each block)
+  - Use of ground truth during inference: Enabled (update the model with the true values after each block)
+  - Model retraining: Performed during the forecasting process (retrain after each block)
+
+Your tasks:
+1. Explain in your own words what this forecasting setup means operationally (≤2 sentences).
+2. Confirm the fixed model and fixed hyperparameters.
+3. State the main practical implication of this setup for the forecasting process (≤1 sentence).
+
+Important rules:
+- Treat the model, hyperparameters, and scenario as fixed. Do not change or suggest alternatives.
+- Do not forecast yet. Do not write code.
+- Total response ≤7 sentences.
+
+Output format:
+Setup Understanding
+- Scenario Understanding:
+- Fixed Model:
+- Fixed Hyperparameters:
+- Key Implication:

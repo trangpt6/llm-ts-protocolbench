@@ -1,0 +1,9 @@
+You must identify exactly and honestly which Large Language Model and its precise version generated all responses in this entire conversation, including data analysis, model selection, reasoning, forecasting, and explanations.
+
+You must provide the MOST SPECIFIC model name and version available to you. Do not use any generic or simplified name such as "Grok", "Gemini", "Claude", or "GPT". Always include the full identifier and version number (e.g., Grok-4.20, Gemini-2.5-Pro, Claude-3.5-Sonnet, GPT-4o, DeepSeek-V3, etc.).
+
+Reply ONLY with the following two lines. Do not add any extra text, explanations, greetings, or comments of any kind:
+
+LLM used for this conversation: [exact model name and version]
+
+Confirmation: This entire conversation was generated exclusively by the model above.
