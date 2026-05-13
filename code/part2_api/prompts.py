@@ -29,7 +29,7 @@ def build_part2_turns(
     max_csv_rows: int,
 ) -> tuple[str, list[PromptTurn]]:
     scenario_dir = SCENARIO_DIRS[setup.scenario]
-    system_prompt = _fill_common((scenario_dir / "system_Instruction.txt").read_text(encoding="utf-8"), bundle, setup)
+    system_prompt = _fill_common((scenario_dir / "system_instruction.txt").read_text(encoding="utf-8"), bundle, setup)
     turns: list[PromptTurn] = []
 
     for turn_id, label, file_name in TURN_FILES:
