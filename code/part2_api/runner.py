@@ -60,7 +60,9 @@ class CsvAppendLogger:
             return set()
         # SUCCESS_STATUSES are the canonical new codes; LEGACY_SUCCESS_STATUSES
         # lets old "CHAT_DONE"/"OK" rows serve as skip-checkpoints too.
-        all_success = SUCCESS_STATUSES | LEGACY_SUCCESS_STATUSES
+        # INVALID_LIST_LENGTH was an old strict status for parseable lists with
+        # wrong length; those runs are still complete under the benchmark rule.
+        all_success = SUCCESS_STATUSES | LEGACY_SUCCESS_STATUSES | {"INVALID_LIST_LENGTH"}
         with self.path.open("r", encoding="utf-8-sig", newline="") as f:
             reader = csv.DictReader(f)
             return {
@@ -293,7 +295,7 @@ def _validate_turn3_response(text: str, bundle: DatasetBundle, setup: ModelSetup
             "actual_length": actual_length,
             "length_mismatch": mismatch,
             "validation_warning": (
-                "Forecast list length does not match expected_forecast_length."
+                "INVALID_LIST_LENGTH"
                 if mismatch else ""
             ),
             "protocol_compliant": not mismatch,
@@ -469,6 +471,46 @@ def run_part2_single(
     return {"run_key": run_key, "status": status, "chat_path": chat_path, "error": error}
 
 
+# OpenRouter reasoning tokens are billed as output tokens. Turns 0-2 must
+# explicitly use effort="none" to control cost; Turn 3 is the only
+# reasoning-enabled OpenRouter turn.
+_OPENROUTER_REASONING_NONE = {"reasoning": {"effort": "none", "exclude": True}}
+_OPENROUTER_REASONING_HIGH = {"reasoning": {"effort": "high", "exclude": True}}
+_OPENROUTER_REASONING_CLAUDE_TURN3 = {"reasoning": {"effort": "medium", "exclude": True}}
+
+_OPENROUTER_REASONING: dict[str, dict[str, dict[str, Any]]] = {
+    "openai/gpt-5.4": {
+        "turns_0_2": _OPENROUTER_REASONING_NONE,
+        "turn_3": _OPENROUTER_REASONING_HIGH,
+    },
+    "openai/gpt-5.5": {
+        "turns_0_2": _OPENROUTER_REASONING_NONE,
+        "turn_3": _OPENROUTER_REASONING_HIGH,
+    },
+    "anthropic/claude-opus-4.7": {
+        "turns_0_2": _OPENROUTER_REASONING_NONE,
+        "turn_3": _OPENROUTER_REASONING_CLAUDE_TURN3,
+    },
+    "anthropic/claude-sonnet-4.6": {
+        "turns_0_2": _OPENROUTER_REASONING_NONE,
+        "turn_3": _OPENROUTER_REASONING_CLAUDE_TURN3,
+    },
+    "x-ai/grok-4.3": {
+        "turns_0_2": _OPENROUTER_REASONING_NONE,
+        "turn_3": _OPENROUTER_REASONING_HIGH,
+    },
+}
+
+
+def _get_openrouter_reasoning_config(model_id: str, turn_id: int) -> dict | None:
+    """Return OpenRouter reasoning extra_params for *model_id* at *turn_id*, or None if not mapped."""
+    configs = _OPENROUTER_REASONING.get(model_id)
+    if configs is None:
+        return None
+    config = configs["turn_3"] if turn_id == 3 else configs["turns_0_2"]
+    return {"reasoning": dict(config["reasoning"])}
+
+
 def _call_turn(
     client: LLMClient,
     messages: list[dict[str, str]],
@@ -484,9 +526,13 @@ def _call_turn(
 ) -> str:
     """Call the LLM for turns 0-2 and log metrics. Raises on any API failure."""
     already_logged = (run_key, str(turn.turn_id)) in existing_turns
-    # Turns 0-2 only need short structured answers; disable thinking to avoid
-    # exhausting max_tokens on reasoning_content on heavy prompts.
-    turn_extra_params = {"thinking": {"type": "disabled"}} if client.provider == "deepseek" else None
+    # Turns 0-2 only need short structured answers; minimise/disable reasoning.
+    if client.provider == "deepseek":
+        turn_extra_params: dict | None = {"thinking": {"type": "disabled"}}
+    elif client.provider.startswith("openrouter"):
+        turn_extra_params = _get_openrouter_reasoning_config(client.model_id, turn.turn_id)
+    else:
+        turn_extra_params = None
     started = time.time()
     try:
         response = client.chat(messages, max_tokens=max_tokens, timeout=timeout, extra_params=turn_extra_params)
@@ -561,7 +607,12 @@ def _call_and_validate_turn3(
     already_logged = (run_key, str(turn.turn_id)) in existing_turns
     policy = _get_turn_policy(3, bundle, setup)
     # Turn 3 requires reasoning quality for forecast/code generation; enable thinking.
-    turn_extra_params = {"thinking": {"type": "enabled"}} if client.provider == "deepseek" else None
+    if client.provider == "deepseek":
+        turn_extra_params: dict | None = {"thinking": {"type": "enabled"}}
+    elif client.provider.startswith("openrouter"):
+        turn_extra_params = _get_openrouter_reasoning_config(client.model_id, 3)
+    else:
+        turn_extra_params = None
     started = time.time()
     response = ""
     status = "SYSTEM_REQUEST_FAILED"

@@ -58,6 +58,8 @@ DATASET_CSV_MAP = {
     "Temperature": "Temperature.csv",
 }
 
+_EXPECTED_LENGTH_CACHE: dict[str, int | None] = {}
+
 # All known LLM name keywords that appear before ' response' / ' said:?' in chat exports.
 KNOWN_LLM_HEADERS = [
     "deepseek", "chatgpt", "claude", "gemini", "grok", "kimi", "llm",
@@ -212,6 +214,173 @@ def extract_forecast_list_literal(text: str) -> str:
             continue
         if isinstance(value, list) and all(not isinstance(v, (list, tuple, dict)) for v in value):
             return candidate
+    return ""
+
+
+def _record_value(record: dict, *names: str):
+    """Fetch a value by exact or case-insensitive column name."""
+    for name in names:
+        if name in record:
+            return record[name]
+    lowered = {str(k).lower(): v for k, v in record.items()}
+    for name in names:
+        key = name.lower()
+        if key in lowered:
+            return lowered[key]
+    return ""
+
+
+def _has_value(value) -> bool:
+    if value is None:
+        return False
+    try:
+        if pd.isna(value):
+            return False
+    except (TypeError, ValueError):
+        pass
+    return str(value).strip() != ""
+
+
+def _to_int(value) -> int | None:
+    if not _has_value(value):
+        return None
+    try:
+        return int(float(str(value).strip()))
+    except (TypeError, ValueError):
+        return None
+
+
+def _to_bool(value) -> bool | None:
+    if isinstance(value, bool):
+        return value
+    if not _has_value(value):
+        return None
+    text = str(value).strip().lower()
+    if text in {"true", "1", "yes", "y"}:
+        return True
+    if text in {"false", "0", "no", "n"}:
+        return False
+    return None
+
+
+def _normalise_output_type(value) -> str:
+    text = str(value or "").strip().lower()
+    aliases = {
+        "list": "list",
+        "forecast_list": "list",
+        "script": "script",
+        "error": "error",
+        "model_error_literal": "error",
+        "text": "invalid",
+        "invalid": "invalid",
+        "invalid_output": "invalid",
+        "system_fail": "system",
+    }
+    return aliases.get(text, text)
+
+
+def _parse_flat_numeric_list(text: str) -> list[float] | None:
+    try:
+        value = ast.literal_eval(str(text).strip())
+    except Exception:
+        return None
+    if not isinstance(value, list):
+        return None
+
+    parsed = []
+    for item in value:
+        if isinstance(item, bool) or isinstance(item, (list, tuple, dict)):
+            return None
+        try:
+            parsed.append(float(item))
+        except (TypeError, ValueError):
+            return None
+    return parsed
+
+
+def _expected_forecast_length_for_dataset(dataset: str) -> int | None:
+    dataset = str(dataset or "").strip()
+    if not dataset:
+        return None
+    if dataset in _EXPECTED_LENGTH_CACHE:
+        return _EXPECTED_LENGTH_CACHE[dataset]
+
+    csv_name = DATASET_CSV_MAP.get(dataset)
+    if not csv_name:
+        _EXPECTED_LENGTH_CACHE[dataset] = None
+        return None
+    try:
+        n_rows = len(pd.read_csv(DATA_DIR / csv_name))
+    except Exception:
+        _EXPECTED_LENGTH_CACHE[dataset] = None
+        return None
+
+    split_idx = int(n_rows * 0.8)
+    expected = n_rows - split_idx if 0 < split_idx < n_rows else None
+    _EXPECTED_LENGTH_CACHE[dataset] = expected
+    return expected
+
+
+def derive_analysis_status(record: dict) -> str:
+    """
+    Derived historical status used for analysis only.
+
+    The original stored status is left unchanged. Older rows can have
+    OK_FORECAST_LIST even when the list length is wrong, so list successes are
+    rechecked strictly before analysis.
+    """
+    original_status = str(
+        _record_value(record, "run_status", "status", "h_run_status")
+        or ""
+    ).strip()
+    raw_response = str(_record_value(record, "T3_Raw_Response", "t3_raw_response") or "")
+    if raw_response.strip().upper() == "ERROR" or original_status == "MODEL_ERROR_LITERAL":
+        return "MODEL_ERROR_LITERAL"
+
+    output_type = _normalise_output_type(
+        _record_value(record, "final_output_type", "t3_output_type")
+    )
+
+    expected_length = _to_int(_record_value(record, "expected_forecast_length"))
+    actual_length = _to_int(_record_value(record, "actual_output_length"))
+    length_mismatch = _to_bool(_record_value(record, "length_mismatch"))
+
+    # Prefer existing runner validation columns when they are available.
+    if output_type == "list" and expected_length is not None:
+        if actual_length is not None:
+            return "OK_FORECAST_LIST" if actual_length == expected_length else "INVALID_LIST_LENGTH"
+        if length_mismatch is True:
+            return "INVALID_LIST_LENGTH"
+        if length_mismatch is False:
+            return "OK_FORECAST_LIST"
+
+    if expected_length is None:
+        expected_length = _expected_forecast_length_for_dataset(
+            _record_value(record, "dataset")
+        )
+
+    # Historical rows without validator length columns are rechecked by parsing
+    # the Turn 3 payload as a flat numeric list before any length decision.
+    parsed_list = _parse_flat_numeric_list(raw_response)
+    if parsed_list is None:
+        parsed_list = _parse_flat_numeric_list(
+            _record_value(record, "T3_Forecast_List", "t3_forecast_list")
+        )
+    if parsed_list is not None and expected_length is not None:
+        return "OK_FORECAST_LIST" if len(parsed_list) == expected_length else "INVALID_LIST_LENGTH"
+
+    if output_type == "list":
+        return original_status if original_status and original_status != "OK_FORECAST_LIST" else "INVALID_OUTPUT"
+    if output_type == "script":
+        return original_status if original_status else "OK_FORECAST_SCRIPT"
+    if output_type == "error":
+        return "MODEL_ERROR_LITERAL"
+    if output_type == "invalid":
+        if original_status.startswith(("INVALID_", "SYSTEM_")) or original_status == "MODEL_ERROR_LITERAL":
+            return original_status
+        return "INVALID_OUTPUT"
+    if original_status:
+        return original_status
     return ""
 
 
@@ -564,6 +733,7 @@ def process_file(file_path: Path) -> dict | None:
 
     script_file, raw_file = save_output_file(file_id, output_type, script_content, t3_resp)
 
+    t3_record = parse_turn3(t3_resp, output_type, script_content, forecast_list)
     record = {
         **parse_filename(file_id),
         "n_llm_turns": n_turns,
@@ -575,8 +745,9 @@ def process_file(file_path: Path) -> dict | None:
         **parse_turn0(t0_resp),
         **parse_turn1(t1_resp),
         **parse_turn2(t2_resp),
-        **parse_turn3(t3_resp, output_type, script_content, forecast_list),
+        **t3_record,
     }
+    record["Analysis_Status"] = derive_analysis_status(record)
     return record
 
 

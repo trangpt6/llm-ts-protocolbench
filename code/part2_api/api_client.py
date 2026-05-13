@@ -374,8 +374,11 @@ def _call_openai_compatible(
         messages=messages,
         temperature=temperature,
         max_tokens=max_tokens,
-        extra_body=extra_params or {},
     )
+    # OpenRouter optional parameters should only be sent when present; avoid
+    # sending an empty extra_body={} payload.
+    if extra_params:
+        kwargs["extra_body"] = extra_params
     if timeout is not None:
         kwargs["timeout"] = float(timeout)
     response = client.chat.completions.create(**kwargs)
@@ -419,6 +422,9 @@ def _call_openai_compatible(
         raise EmptyResponseError(
             f"[{model}] API returned an empty or whitespace-only response."
         )
+    # Only message.content is returned to the runner. Provider-side reasoning
+    # fields such as reasoning_content/reasoning_details are not preserved in
+    # chat history or fed into later turns.
     return text
 
 
