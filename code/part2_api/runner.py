@@ -501,6 +501,55 @@ _OPENROUTER_REASONING: dict[str, dict[str, dict[str, Any]]] = {
     },
 }
 
+# Beeknoee (OpenAI-compatible gateway) thinking control for Anthropic models.
+# Claude Opus 4.7: keep turns 0-2 without thinking; enable adaptive thinking on turn 3.
+_BEEKNOEE_THINKING_DISABLED = {"thinking": {"type": "disabled"}}
+_BEEKNOEE_THINKING_ADAPTIVE = {"thinking": {"type": "adaptive"}}
+
+_BEEKNOEE_THINKING: dict[str, dict[str, dict[str, Any]]] = {
+    "claude-opus-4-7": {
+        "turns_0_2": _BEEKNOEE_THINKING_DISABLED,
+        "turn_3": _BEEKNOEE_THINKING_ADAPTIVE,
+    },
+}
+
+# MegaLLM (OpenAI-compatible) reasoning control.
+# We explicitly disable reasoning on turns 0-2 to reduce cost and only
+# enable it on turn 3 for forecast/code generation quality.
+_MEGALLM_REASONING_NONE = {"reasoning": {"effort": "none"}}
+_MEGALLM_REASONING_HIGH = {"reasoning": {"effort": "high"}}
+_MEGALLM_REASONING_MEDIUM = {"reasoning": {"effort": "medium"}}
+
+_MEGALLM_REASONING: dict[str, dict[str, dict[str, Any]]] = {
+    "gpt-5.4": {
+        "turns_0_2": _MEGALLM_REASONING_NONE,
+        "turn_3": _MEGALLM_REASONING_MEDIUM,
+    },
+    "gemini-3.1-pro-preview": {
+        "turns_0_2": _MEGALLM_REASONING_NONE,
+        "turn_3": _MEGALLM_REASONING_HIGH,
+    },
+    "moonshotai/kimi-k2.6": {
+        "turns_0_2": _MEGALLM_REASONING_NONE,
+        "turn_3": _MEGALLM_REASONING_HIGH,
+    }
+}
+
+def _get_beeknoee_thinking_config(model_id: str, turn_id: int) -> dict | None:
+    """Return Beeknoee thinking extra_params for *model_id* at *turn_id*, or None if not mapped."""
+    configs = _BEEKNOEE_THINKING.get(model_id)
+    if configs is None:
+        return None
+    config = configs["turn_3"] if turn_id == 3 else configs["turns_0_2"]
+    return {"thinking": dict(config["thinking"])}
+
+def _get_megallm_reasoning_config(model_id: str, turn_id: int) -> dict | None:
+    """Return MegaLLM reasoning extra_params for *model_id* at *turn_id*, or None if not mapped."""
+    configs = _MEGALLM_REASONING.get(model_id)
+    if configs is None:
+        return None
+    config = configs["turn_3"] if turn_id == 3 else configs["turns_0_2"]
+    return {"reasoning": dict(config["reasoning"])}
 
 def _get_openrouter_reasoning_config(model_id: str, turn_id: int) -> dict | None:
     """Return OpenRouter reasoning extra_params for *model_id* at *turn_id*, or None if not mapped."""
@@ -531,6 +580,10 @@ def _call_turn(
         turn_extra_params: dict | None = {"thinking": {"type": "disabled"}}
     elif client.provider.startswith("openrouter"):
         turn_extra_params = _get_openrouter_reasoning_config(client.model_id, turn.turn_id)
+    elif client.provider == "megallm":
+        turn_extra_params = _get_megallm_reasoning_config(client.model_id, turn.turn_id)
+    elif client.provider == "beeknoee":
+        turn_extra_params = _get_beeknoee_thinking_config(client.model_id, turn.turn_id)
     else:
         turn_extra_params = None
     started = time.time()
@@ -606,11 +659,21 @@ def _call_and_validate_turn3(
     """
     already_logged = (run_key, str(turn.turn_id)) in existing_turns
     policy = _get_turn_policy(3, bundle, setup)
+    if client.provider == "openrouter_gemini" or client.model_id == "google/gemini-3.1-pro-preview":
+        policy["max_tokens"] = 8192
+        if policy["timeout"] is None or policy["timeout"] < 180:
+            policy["timeout"] = 180
+    if client.provider == "megallm" and client.model_id == "gemini-3.1-pro-preview":
+        policy["max_tokens"] = 16384
     # Turn 3 requires reasoning quality for forecast/code generation; enable thinking.
     if client.provider == "deepseek":
         turn_extra_params: dict | None = {"thinking": {"type": "enabled"}}
     elif client.provider.startswith("openrouter"):
         turn_extra_params = _get_openrouter_reasoning_config(client.model_id, 3)
+    elif client.provider == "megallm":
+        turn_extra_params = _get_megallm_reasoning_config(client.model_id, 3)
+    elif client.provider == "beeknoee":
+        turn_extra_params = _get_beeknoee_thinking_config(client.model_id, 3)
     else:
         turn_extra_params = None
     started = time.time()

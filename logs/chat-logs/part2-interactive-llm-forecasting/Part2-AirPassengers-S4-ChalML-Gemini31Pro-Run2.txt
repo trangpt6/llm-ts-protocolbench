@@ -7,8 +7,8 @@ Fixed forecasting model: LightGBM
 LLM: Gemini31Pro
 Provider: openrouter_gemini
 Run: 2
-Run Status: INVALID_SCRIPT_FORMAT
-Run Error: Script does not contain a print or final reference to a forecast/prediction variable.
+Run Status: OK_FORECAST_SCRIPT
+Run Error: 
 
 ===== SYSTEM INSTRUCTION =====
 
@@ -241,9 +241,9 @@ Dataset Inspection
 - Duplicated Timestamps: None
 - Raw Data Irregularities: None
 - Trend: There is a clear, continuous upward trend in the number of passengers over the entire period.
-- Seasonality: A strong, repeating annual seasonal pattern is present, with peaks consistently occurring in the summer months.
-- Noise: The random noise level is relatively low, though the amplitude of seasonal fluctuations increases proportionally with the trend.
-- Split Rule: Chronological split with the first int(0.8 * total_timesteps) for training and the rest for testing.
+- Seasonality: A strong, repeating annual seasonal pattern is present, with peaks consistently occurring during the summer months.
+- Noise: The random noise level is relatively low, though the amplitude of the seasonal fluctuations increases proportionally with the upward trend.
+- Split Rule: strictly chronological split, first int(0.8 * total_timesteps) observations for training
 - Train size: 115
 - Test size: 29
 - Train period: 1949-01 to 1958-07
@@ -281,17 +281,16 @@ Preprocessing Decision
 ===== TURN 1 ASSISTANT (Gemini31Pro) =====
 
 Previous Decisions Summary
-- Target: Passengers
-- Split: Chronological 80/20 (Train: 115, Test: 29)
-- Train period: 1949-01 to 1958-07
-- Test period: 1958-08 to 1960-12
+- Target: Passengers, Time Index: Month (Monthly frequency).
+- Train size: 115 (1949-01 to 1958-07), Test size: 29 (1958-08 to 1960-12).
+- Data characteristics: Upward trend, strong annual seasonality, no missing values or duplicates.
 
 Preprocessing Decision
 - Needed: No
-- Issues Detected: None
-- Preprocessing Steps: None
+- Issues Detected: None (no missing values, no duplicates, regular monthly index, no zeros, no negative values).
+- Preprocessing Steps: None required.
 - Treatment of Zero Values: No zero values are present in the dataset.
-- Justification: The dataset is perfectly regular with a strict monthly frequency and contains no missing values, duplicates, zeros, or negative values. Therefore, no data cleaning or imputation steps are required before model training.
+- Justification: The dataset is already clean, complete, and strictly regular with a monthly frequency. There are no missing values, duplicates, zeros, or negative values that require imputation or correction. Therefore, the raw data can be used directly for modeling without any preprocessing.
 
 ===== TURN 2 USER (setup_understanding) =====
 
@@ -331,15 +330,14 @@ Setup Understanding
 ===== TURN 2 ASSISTANT (Gemini31Pro) =====
 
 Previous Decisions Summary
-- Target: Passengers
-- Split: Chronological 80/20 (Train: 115, Test: 29)
-- Preprocessing: None needed
+- Target: Passengers (Monthly), Preprocessing: None needed.
+- Split: Train=115 (1949-01 to 1958-07), Test=29 (1958-08 to 1960-12).
 
 Setup Understanding
-- Scenario Understanding: The model predicts 12 steps into the future simultaneously using a direct strategy, after which the true values for that block are revealed. The model is then retrained on the updated historical data before forecasting the next 12-step block.
+- Scenario Understanding: The model predicts 12 months ahead at once, after which the actual values for that block are revealed and added to the training data. The model is then retrained on the updated dataset before forecasting the next 12-month block.
 - Fixed Model: LightGBM
 - Fixed Hyperparameters: {'lags': 12, 'n_estimators': 200, 'max_depth': 5, 'learning_rate': 0.05, 'multi_step_strategy': 'direct'}
-- Key Implication: This rolling retraining strategy allows the model to continuously adapt to recent trends and seasonal shifts by incorporating the latest ground truth data every 12 steps.
+- Key Implication: Periodic retraining with recent ground truth allows the model to adapt to newly emerging patterns, improving accuracy over the test period at the cost of higher computation.
 
 ===== TURN 3 USER (train_and_forecast) =====
 
@@ -402,10 +400,6 @@ import pandas as pd
 import numpy as np
 import lightgbm as lgb
 import random
-import warnings
-
-# Suppress warnings to ensure clean output
-warnings.filterwarnings('ignore')
 
 # Set random seeds for reproducibility
 random.seed(42)
@@ -415,7 +409,52 @@ np.random.seed(42)
 df = pd.read_csv('input.csv')
 y = df['Passengers'].values
 
-# Split data
+# Setup parameters
 train_size = 115
-test_size = len(y) - train_size
-train
+total_size = len(y)
+lags = 12
+block_size = 12
+n_estimators = 200
+max_depth = 5
+learning_rate = 0.05
+
+# Function to create features for direct multi-step forecasting
+def create_direct_features(series, lags, step):
+    X, Y = [], []
+    for i in range(lags, len(series) - step + 1):
+        X.append(series[i-lags:i])
+        Y.append(series[i+step-1])
+    return np.array(X), np.array(Y)
+
+forecasts = []
+current_train_end = train_size
+
+# Block-wise rolling update with retraining
+while current_train_end < total_size:
+    steps_to_forecast = min(block_size, total_size - current_train_end)
+    current_train_y = y[:current_train_end]
+    
+    block_forecasts = []
+    # Direct strategy: train a separate model for each step in the horizon
+    for h in range(1, steps_to_forecast + 1):
+        X_train, Y_train = create_direct_features(current_train_y, lags, h)
+        
+        model = lgb.LGBMRegressor(
+            n_estimators=n_estimators,
+            max_depth=max_depth,
+            learning_rate=learning_rate,
+            random_state=42,
+            verbose=-1
+        )
+        model.fit(X_train, Y_train)
+        
+        # Predict using the last 'lags' observations of the current training set
+        X_test = current_train_y[-lags:].reshape(1, -1)
+        pred = model.predict(X_test)[0]
+        block_forecasts.append(pred)
+        
+    forecasts.extend(block_forecasts)
+    current_train_end += steps_to_forecast
+
+# Print final forecast list
+print(forecasts)
