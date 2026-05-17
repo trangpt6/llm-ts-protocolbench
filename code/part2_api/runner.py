@@ -513,6 +513,13 @@ _BEEKNOEE_THINKING: dict[str, dict[str, dict[str, Any]]] = {
     },
 }
 
+_XAI_REASONING: dict[str, dict[str, dict[str, Any]]] = {
+    "grok-4-3": {
+        "turns_0_2": {"reasoning": {"effort": "none"}},
+        "turn_3": {"reasoning": {"effort": "medium"}},
+    },
+}
+
 # MegaLLM (OpenAI-compatible) reasoning control.
 # We explicitly disable reasoning on turns 0-2 to reduce cost and only
 # enable it on turn 3 for forecast/code generation quality.
@@ -531,9 +538,19 @@ _MEGALLM_REASONING: dict[str, dict[str, dict[str, Any]]] = {
     },
     "moonshotai/kimi-k2.6": {
         "turns_0_2": _MEGALLM_REASONING_NONE,
-        "turn_3": _MEGALLM_REASONING_HIGH,
+        "turn_3": _MEGALLM_REASONING_MEDIUM,
     }
 }
+
+def _get_moonshot_turn_config(turn_id: int) -> tuple[dict[str, Any], float]:
+    if turn_id == 3:
+        return {"thinking": {"type": "enabled"}}, 1.0
+    return {"thinking": {"type": "disabled"}}, 0.6
+
+def _get_fm_turn_config(turn_id: int) -> dict[str, Any]:
+    if turn_id == 3:
+        return {"reasoning": {"effort": "xhigh"}}
+    return {"reasoning": {"effort": "none"}}
 
 def _get_beeknoee_thinking_config(model_id: str, turn_id: int) -> dict | None:
     """Return Beeknoee thinking extra_params for *model_id* at *turn_id*, or None if not mapped."""
@@ -542,6 +559,14 @@ def _get_beeknoee_thinking_config(model_id: str, turn_id: int) -> dict | None:
         return None
     config = configs["turn_3"] if turn_id == 3 else configs["turns_0_2"]
     return {"thinking": dict(config["thinking"])}
+
+def _get_xai_reasoning_config(model_id: str, turn_id: int) -> dict | None:
+    """Return XAI reasoning extra_params for *model_id* at *turn_id*, or None if not mapped."""
+    configs = _XAI_REASONING.get(model_id)
+    if configs is None:
+        return None
+    config = configs["turn_3"] if turn_id == 3 else configs["turns_0_2"]
+    return {"reasoning": dict(config["reasoning"])}
 
 def _get_megallm_reasoning_config(model_id: str, turn_id: int) -> dict | None:
     """Return MegaLLM reasoning extra_params for *model_id* at *turn_id*, or None if not mapped."""
@@ -575,20 +600,30 @@ def _call_turn(
 ) -> str:
     """Call the LLM for turns 0-2 and log metrics. Raises on any API failure."""
     already_logged = (run_key, str(turn.turn_id)) in existing_turns
+    temperature: float | None = None
     # Turns 0-2 only need short structured answers; minimise/disable reasoning.
     if client.provider == "deepseek":
         turn_extra_params: dict | None = {"thinking": {"type": "disabled"}}
+    elif client.provider == "moonshot":
+        turn_extra_params, temperature = _get_moonshot_turn_config(turn.turn_id)
+    elif client.provider == "fm":
+        turn_extra_params = _get_fm_turn_config(turn.turn_id)
+    elif client.provider == "xai":
+        turn_extra_params = _get_xai_reasoning_config(client.model_id, turn.turn_id)
     elif client.provider.startswith("openrouter"):
         turn_extra_params = _get_openrouter_reasoning_config(client.model_id, turn.turn_id)
     elif client.provider == "megallm":
-        turn_extra_params = _get_megallm_reasoning_config(client.model_id, turn.turn_id)
+        if client.model_id == "moonshotai/kimi-k2.6":
+            turn_extra_params, temperature = _get_moonshot_turn_config(turn.turn_id)
+        else:
+            turn_extra_params = _get_megallm_reasoning_config(client.model_id, turn.turn_id)
     elif client.provider == "beeknoee":
         turn_extra_params = _get_beeknoee_thinking_config(client.model_id, turn.turn_id)
     else:
         turn_extra_params = None
     started = time.time()
     try:
-        response = client.chat(messages, max_tokens=max_tokens, timeout=timeout, extra_params=turn_extra_params)
+        response = client.chat(messages, max_tokens=max_tokens, timeout=timeout, extra_params=turn_extra_params, temperature=temperature)
         if not response or not response.strip():
             raise RuntimeError(
                 f"Empty model response at turn {turn.turn_id} (provider={client.provider})."
@@ -659,15 +694,23 @@ def _call_and_validate_turn3(
     """
     already_logged = (run_key, str(turn.turn_id)) in existing_turns
     policy = _get_turn_policy(3, bundle, setup)
-    if client.provider == "openrouter_gemini" or client.model_id == "google/gemini-3.1-pro-preview":
-        policy["max_tokens"] = 8192
+    temperature: float | None = None
+    if client.provider == "openrouter_gemini" or client.model_id == "gemini-3.1-pro-preview" or client.model_id == "moonshotai/kimi-k2.6":
+        policy["max_tokens"] = 16384
         if policy["timeout"] is None or policy["timeout"] < 180:
             policy["timeout"] = 180
-    if client.provider == "megallm" and client.model_id == "gemini-3.1-pro-preview":
-        policy["max_tokens"] = 16384
     # Turn 3 requires reasoning quality for forecast/code generation; enable thinking.
-    if client.provider == "deepseek":
+    elif client.provider == "moonshot" or (client.provider == "megallm" and client.model_id == "moonshotai/kimi-k2.6"):
+        turn_extra_params, temperature = _get_moonshot_turn_config(3)
+        policy["max_tokens"] = 16384
+        if policy["timeout"] is None or policy["timeout"] < 180:
+            policy["timeout"] = 180
+    elif client.provider == "fm":
+        turn_extra_params = _get_fm_turn_config(3)
+    elif client.provider == "deepseek":
         turn_extra_params: dict | None = {"thinking": {"type": "enabled"}}
+    elif client.provider == "xai":
+        turn_extra_params = _get_xai_reasoning_config(client.model_id, 3)
     elif client.provider.startswith("openrouter"):
         turn_extra_params = _get_openrouter_reasoning_config(client.model_id, 3)
     elif client.provider == "megallm":
@@ -683,7 +726,7 @@ def _call_and_validate_turn3(
     validation: dict[str, Any] = {}
 
     try:
-        response = client.chat(messages, max_tokens=policy["max_tokens"], timeout=policy["timeout"], extra_params=turn_extra_params)
+        response = client.chat(messages, max_tokens=policy["max_tokens"], timeout=policy["timeout"], extra_params=turn_extra_params, temperature=temperature)
         latency = time.time() - started
 
         validation = _validate_turn3_response(response, bundle, setup)

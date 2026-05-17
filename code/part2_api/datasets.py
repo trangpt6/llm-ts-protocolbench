@@ -66,6 +66,10 @@ def load_dataset(dataset_name: str, target_col: str, source: str = "auto") -> Da
     else:
         raise FileNotFoundError(f"No local file or Darts mapping found for dataset '{dataset_name}'.")
 
+    """Special-case for ETTh1: keep only the date_col and the OT (target) column"""
+    if dataset_name.lower() == "etth1" and date_col and date_col in raw_df.columns:
+        raw_df = raw_df[[date_col, "OT"]]
+
     if raw_df.empty:
         raise ValueError(f"Dataset '{dataset_name}' is empty.")
     if target_col not in raw_df.columns:

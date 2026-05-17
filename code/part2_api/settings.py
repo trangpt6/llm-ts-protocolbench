@@ -97,4 +97,4 @@ MODEL_TRACK_LABELS = {
 }
 
 
-DEFAULT_PROVIDER_ORDER = ["openai", "anthropic", "xai", "google", "deepseek", "moonshot"]
+DEFAULT_PROVIDER_ORDER = ["openai", "anthropic", "xai", "gemini", "deepseek", "moonshot", "megallm", "beeknoee", "openrouter_gpt", "openrouter_gemini", "openrouter_claude", "openrouter_grok", "bedrock"]
