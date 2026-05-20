@@ -1,0 +1,99 @@
+STDOUT
+[np.float64(489.724162374718), np.float64(429.4062900764506), np.float64(372.2166775486934), np.float64(331.8368151173174), np.float64(362.7002239101374), np.float64(367.72013159661117), np.float64(346.37785974881524), np.float64(392.2396272611424), np.float64(378.8781942129707), np.float64(392.9240698944544), np.float64(464.5270235582007), np.float64(519.0933079279215), np.float64(545.2386025077165), np.float64(414.2617499389509), np.float64(371.0126969836568), np.float64(318.7270372843465), np.float64(339.8522589608439), np.float64(373.8494896781255), np.float64(363.2819727995587), np.float64(437.78443924930167), np.float64(431.5099621797805), np.float64(463.39332677308875), np.float64(508.72599419769807), np.float64(596.3568890670294), np.float64(611.8991822853176), np.float64(512.8932782875003), np.float64(450.5886163425173), np.float64(408.43678752364264), np.float64(466.2168588033143)]
+
+
+STDERR
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\base\model.py:607: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals
+  warnings.warn("Maximum Likelihood optimization failed to "
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\base\model.py:607: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals
+  warnings.warn("Maximum Likelihood optimization failed to "
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\base\model.py:607: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals
+  warnings.warn("Maximum Likelihood optimization failed to "
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\base\model.py:607: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals
+  warnings.warn("Maximum Likelihood optimization failed to "
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\base\model.py:607: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals
+  warnings.warn("Maximum Likelihood optimization failed to "
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\base\model.py:607: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals
+  warnings.warn("Maximum Likelihood optimization failed to "
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\base\model.py:607: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals
+  warnings.warn("Maximum Likelihood optimization failed to "
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\base\model.py:607: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals
+  warnings.warn("Maximum Likelihood optimization failed to "
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\base\model.py:607: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals
+  warnings.warn("Maximum Likelihood optimization failed to "
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\base\model.py:607: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals
+  warnings.warn("Maximum Likelihood optimization failed to "
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\base\model.py:607: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals
+  warnings.warn("Maximum Likelihood optimization failed to "

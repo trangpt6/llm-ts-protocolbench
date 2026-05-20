@@ -1,0 +1,23 @@
+STDOUT
+
+
+STDERR
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency h will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency h will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\base\model.py:607: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals
+  warnings.warn("Maximum Likelihood optimization failed to "
+Traceback (most recent call last):
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-ETTh1-S1-Base-Grok43-Run1.py", line 17, in <module>
+    forecasts.append(pred[0])
+                     ~~~~^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\pandas\core\series.py", line 959, in __getitem__
+    return self._get_value(key)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\pandas\core\series.py", line 1046, in _get_value
+    loc = self.index.get_loc(label)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\pandas\core\indexes\datetimes.py", line 993, in get_loc
+    raise KeyError(key)
+KeyError: 0

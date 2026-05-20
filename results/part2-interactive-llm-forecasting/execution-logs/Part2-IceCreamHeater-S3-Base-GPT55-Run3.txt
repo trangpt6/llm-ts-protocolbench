@@ -1,0 +1,165 @@
+STDOUT
+[48.9886133481201, 56.33650132282958, 62.46607522642653, 69.50741242882526, 77.51932490640243, 62.99303143931516, 53.07306599893406, 48.1332072251469, 50.444716428793, 58.830924128585885, 48.03653517043159, 50.7558242309818, 53.61085728570122, 60.23570136938648, 67.3755680300853, 75.27486751839211, 60.88407187940226, 51.00011891562083, 46.05863424984151, 48.241142671291065, 56.350609766868054, 45.976446190862546, 48.62383358985724, 54.01143716207922, 60.983294465563816, 67.98442152269229, 75.87190965907553, 61.451683091842185, 51.56420566389825, 46.62920260462727, 48.838691261179086, 57.00636534933097, 46.54591127442643, 49.2070048525635, 54.60393274470812, 63.02433557998616, 67.45017166026622, 75.41666717394973, 61.03954309731104, 51.16311502216404, 46.22927564317725, 48.41879985397139, 56.543765221702564, 46.14604048421781, 48.79515269413188, 54.180777708524815, 62.585626668451155, 68.17634766785262, 79.09365793257484, 63.77596289380069, 53.75068473437506, 48.90789427163433, 51.388693427098005, 60.21497801957021, 48.66351648555179, 51.416546559969184, 56.81035290235975, 65.39001156645884, 70.97482671219535, 81.30064150271892, 68.92955394596436, 57.726575964524706, 52.69985421361352, 55.55347033989497, 65.39525506465579, 52.14470795920362, 55.07919366490232, 60.547294983940745, 69.41152566738928, 75.02189064224696, 85.81389237159958, 97.55747745627534, 55.12019279779286, 50.71657145781857, 53.8439522750369, 64.0647077663165, 50.19069738677868, 53.15428059200501, 58.596841289311364, 67.5256109259246, 73.10431640342443, 83.99964385864874, 95.84911664548802, 75.67373934146845, 46.92016895286332, 50.925154237539346, 61.40471660073334, 47.48662882581513, 50.4546003878571, 55.885306311278306, 64.80888409195393, 70.36833728923392, 81.26883172849308, 93.12744631609345, 72.88871285741757, 59.89383346101634, 46.93136797623352, 57.95604151818678, 44.96419491676002, 47.9677051567938, 53.43904437781049, 62.279687920175, 67.85150871463405, 78.64330242740228, 90.40267382267194, 70.26221284671988, 57.35290395423979, 51.11581520645784, 49.73366421995436, 40.72140172702751, 44.04609858125855, 49.720511989346505, 58.273902532949364, 63.91132782851823, 74.20577383730348, 85.45541646128584, 65.99582936473853, 53.497900877692175, 47.47524519960766, 47.69181548660113, 35.31485301285919, 39.67089753884018, 46.00168179476683, 54.013351955485675, 59.87021799811541, 69.03510939109218, 79.09669586130723, 61.33482150522181, 49.83518954990142, 44.325053577204265, 45.61415040995228, 53.061810242540886, 42.85360218664478, 48.662134675279404, 56.28351786937528, 62.10575108328867, 70.95569056172808, 80.70566162846819, 63.41925963233686, 52.196744685331986, 46.83232160073469, 48.3839879868009, 56.19932120723404, 46.288761022234, 48.10572840581496, 55.83880747364834, 61.70021646865645, 70.56734122031973, 80.32539522587668, 63.030652723295795, 51.802720338421004, 46.434687329739184, 47.98308503009248, 55.79711786836617, 45.88073607508787, 48.608229133064256, 57.68532771805304, 63.158748772548165, 71.86119283088365, 81.55205861650971, 64.26760210417272, 53.05998429052258, 47.711847813263944, 49.30318905663171, 57.1894209289766, 47.17478538180039, 49.918529902665924, 56.07248581120414, 62.09799513131745, 71.02239685003687, 80.78397730910432, 63.55585432079853, 52.36867008615549, 47.02471801571089, 48.616984400468425, 56.498785356881534, 46.47957287547906, 49.216848502889114, 55.35856419608333, 63.45137088234536, 76.59512041392694, 85.08737283856782, 67.29060246372744, 55.91412441071662, 50.530818786699534, 52.19089780711508, 60.25946176528154, 49.96357958878531, 52.750435702790405, 58.92049158562317, 67.08380464093445, 74.59258016169392, 86.68783829800107, 68.43568628960327, 56.8726711523804, 51.421774373064245, 53.06361940695935, 61.1632449904135, 50.80585045637939, 53.60652751666157, 59.80416184833764, 67.97717583955766, 75.54080326376811, 85.93271688460837, 70.98971587542512, 58.721571042517354, 53.01417214307687, 54.597822912546, 62.82849416300411, 52.180788506151494, 55.0193156304049, 61.2840336271845, 69.4922439671038, 77.19554875349209, 87.69396311433717, 99.84986120078202, 55.553436785458175, 50.58954473237816, 52.47428696217607, 60.88891389605426, 50.1536297658744, 53.0177763646311, 59.32385984728319, 67.52637781947557, 75.32666053999672, 85.86355938800364, 98.10075686862687, 76.28400603416472, 46.41924751469129, 49.19430964252252, 57.83597225564519, 47.56120786168907, 50.46576328342392, 56.83953559920554, 64.97622817752134, 72.90868991420572, 83.38385883412639, 95.60411211905125, 73.7030443237914, 59.465723587637385, 44.24294103871061, 53.7413666059443, 44.522176058415575, 47.61122073816372, 54.11877944745362, 62.191196637662436, 70.25591846787435, 80.61431538201795, 92.74785358465013, 70.8782268358449, 56.624580924122974, 49.25488537524131, 45.77597239126963, 39.685215238550015, 43.413715391218986, 50.36106292075357, 58.333828184932116, 66.7353299923493, 76.7757753600519, 88.62666341789165, 67.02945634764245, 52.84703390957523, 45.429543633301954, 43.58614324943577, 34.467755719890235, 39.324610605021945, 47.018531571771064, 54.99974755216605, 63.859647749917585, 73.48954053267687, 84.8958919422527, 63.87011427587783, 49.898984183024034, 42.48068964587885, 40.60368357537079, 44.28492321074984, 42.62017835251962, 49.73136901752119, 57.27458321783625, 66.08808050606974, 75.4445223574928, 86.60838578575623, 65.83032613225052, 51.965428987126046, 44.56606275906364, 42.679765585153504, 46.30887137614554, 44.509691307340546, 49.29250932426883, 56.92722838508428, 65.78479473920517, 75.16529985562913, 86.3423934086488, 65.56320894616107, 51.69690656489207, 44.29627199842949, 42.408431791307166, 46.036754189780964, 44.234380129906384, 46.80630049483893, 59.52933420684903, 67.85736862147907, 76.93162437959154, 87.94939177329351, 67.11393446946596, 53.21834699157148, 45.8008716804492, 43.90142429356661, 47.52303419412291, 45.757958890117536, 48.33872570394338, 56.54634207984504, 66.1205201000337, 75.58341624794706, 86.8059295818931, 66.04967162403543, 52.187708639300816, 44.78034404192634, 42.875410910398756, 46.49119340438336, 44.741775645994515, 47.31935983670379, 55.53320585151598, 61.511809993191804, 74.81313040215177, 86.20025064523116, 65.56298726343692, 51.7651166332572, 44.39359964739316, 42.514987974612545, 46.14127560452472, 44.36861555489441, 46.94186736520608, 55.135961269557214, 61.12281218932388, 70.01860128906235, 91.23906694421117, 69.22869269812918, 54.7282510786148, 47.00841110213576, 44.94449938319538, 48.5146147571123, 46.71308132762973, 49.29821374063541, 57.571352663479814, 63.551994780809416, 72.5635508605782, 84.44508400810997, 75.16176427371254, 59.07677121119096, 50.48363786284593, 47.90855152991986, 51.239797766047296, 49.3283428156992, 51.87371332069312, 60.232450689894115, 66.17229309381086, 75.34822419640037, 87.34887155911585, 53.990616503747496, 46.52126092246541, 44.48920579716318, 48.13723961971755, 46.549278776819214, 49.219918074819134, 57.781805463643366, 63.66599449660941, 72.98639518128763, 85.1698112377438, 44.52325850778721, 42.961465902043734, 46.84165017244977, 45.413843212371994, 48.14666662279952, 56.77077652223567, 62.644082834735826, 71.99482511097331, 84.22283104538528, 39.91610491169554, 44.5273448752244, 43.53496836405395, 46.45540915868602, 55.215201755550105, 61.096327977913475, 70.48922039182668, 82.78916620006139, 41.866579740481036, 41.5813427814137, 44.82417941474281, 53.790347530328845, 59.71267598236481, 69.16764414359494, 81.55194419787983, 37.69357226179393, 41.88110119860202, 51.37896180855445, 57.48341965495298, 67.09064889614989, 79.61354817102509, 45.396703651163904, 54.036353817405356, 59.681651843953944, 69.06168916051297, 81.54382973940477, 53.77434228002973, 59.485168427485995, 68.89881098814506, 81.39556275583426, 53.11133991069968, 64.10569404778734, 77.2836662522177, 64.03196604687595, 77.22640394387737, 81.16744480297062]
+
+
+STDERR
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)

@@ -1,0 +1,9 @@
+STDOUT
+[28.11871910095215, 28.11871910095215, 28.11871910095215, 28.11871910095215, 28.11871910095215, 28.11871910095215, 28.11871910095215, 28.11871910095215, 28.11871910095215, 28.11871910095215, 28.11871910095215, 28.11871910095215, 28.11871910095215, 28.11871910095215, 28.11871910095215, 28.11871910095215, 28.11871910095215, 28.11871910095215, 28.11871910095215, 28.11871910095215, 28.11871910095215, 28.11871910095215, 28.11871910095215, 28.11871910095215, 28.11871910095215, 28.11871910095215, 28.11871910095215, 28.11871910095215, 28.11871910095215]
+
+
+STDERR
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\torch\nn\modules\loss.py:634: UserWarning: Using a target size (torch.Size([16, 1, 1])) that is different to the input size (torch.Size([16, 1])). This will likely lead to incorrect results due to broadcasting. Please ensure they have the same size.
+  return F.mse_loss(input, target, reduction=self.reduction)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\torch\nn\modules\loss.py:634: UserWarning: Using a target size (torch.Size([7, 1, 1])) that is different to the input size (torch.Size([7, 1])). This will likely lead to incorrect results due to broadcasting. Please ensure they have the same size.
+  return F.mse_loss(input, target, reduction=self.reduction)

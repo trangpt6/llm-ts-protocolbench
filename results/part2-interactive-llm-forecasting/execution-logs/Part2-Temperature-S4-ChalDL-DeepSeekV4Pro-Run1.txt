@@ -1,0 +1,9 @@
+STDOUT
+
+
+STDERR
+Traceback (most recent call last):
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-Temperature-S4-ChalDL-DeepSeekV4Pro-Run1.py", line 116, in <module>
+    extended_data = np.concatenate([current_data, (true_block.reshape(-1, 1) - scaler.min_[0]) / scaler.scale_[0] 
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: all the input arrays must have same number of dimensions, but the array at index 0 has 1 dimension(s) and the array at index 1 has 2 dimension(s)

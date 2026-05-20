@@ -1,0 +1,9 @@
+STDOUT
+
+
+STDERR
+Traceback (most recent call last):
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-ETTh1-S4-ChalML-DeepSeekV4Pro-Run1.py", line 68, in <module>
+    pred = model.predict(window.reshape(1, -1))[0]
+                         ^^^^^^^^^^^^^^
+AttributeError: 'list' object has no attribute 'reshape'

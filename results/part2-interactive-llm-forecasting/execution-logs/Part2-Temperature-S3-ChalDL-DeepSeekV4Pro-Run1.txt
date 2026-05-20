@@ -1,0 +1,9 @@
+STDOUT
+
+
+STDERR
+D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-Temperature-S3-ChalDL-DeepSeekV4Pro-Run1.py:45: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\torch\csrc\utils\tensor_new.cpp:256.)
+  X = torch.tensor(X, dtype=torch.float32).unsqueeze(-1)  # (N, seq_len, 1)
+
+
+TIMEOUT after 120 seconds

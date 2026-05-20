@@ -1,0 +1,9 @@
+STDOUT
+
+
+STDERR
+Traceback (most recent call last):
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-Temperature-S2-ChalML-Grok43-Run2.py", line 13, in <module>
+    target[:train_size] = np.where(target[:train_size] == 0, median_val, target[:train_size])
+    ~~~~~~^^^^^^^^^^^^^
+ValueError: assignment destination is read-only

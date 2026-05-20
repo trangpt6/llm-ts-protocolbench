@@ -1,0 +1,20 @@
+import pandas as pd
+import numpy as np
+import random
+from statsmodels.tsa.holtwinters import ExponentialSmoothing
+
+# Set random seeds for reproducibility
+np.random.seed(42)
+random.seed(42)
+
+df = pd.read_csv(r'../../../data/AirPassengers.csv')
+y = df['Passengers'].values
+
+train_size = 115
+y_train = y[:train_size]
+
+model = ExponentialSmoothing(y_train, trend='add', damped_trend=False, seasonal='mul', seasonal_periods=12)
+fit_model = model.fit()
+
+forecasts = fit_model.forecast(29).tolist()
+print(forecasts)

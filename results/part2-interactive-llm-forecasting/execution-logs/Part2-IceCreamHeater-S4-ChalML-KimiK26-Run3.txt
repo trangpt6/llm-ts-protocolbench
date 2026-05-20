@@ -1,0 +1,85 @@
+STDOUT
+[np.float64(48.11102853107141), np.float64(56.797205021115296), np.float64(57.78409375056376), np.float64(57.24617724673047), np.float64(58.312636405569144), np.float64(52.38357993594366), np.float64(53.45643901115447), np.float64(57.35819045823702), np.float64(57.33730363515722), np.float64(57.49133262790302), np.float64(56.70298093097049), np.float64(56.279909817366935), np.float64(49.53221292297357), np.float64(63.52968597034818), np.float64(65.7567121746937), np.float64(62.967793546350514), np.float64(54.37940410385608), np.float64(54.88358816477007), np.float64(51.767907267239394), np.float64(62.74443779356381), np.float64(67.02504325184928), np.float64(67.78499125649348), np.float64(66.81962683215687), np.float64(65.56991567544964), np.float64(49.88744638483149), np.float64(72.45746222194224), np.float64(74.3923301808079), np.float64(66.79163475379129), np.float64(54.545429692914695), np.float64(49.74915489441332), np.float64(56.198601862108646), np.float64(73.30173328845139), np.float64(74.12968802389962), np.float64(75.16508407173788), np.float64(72.467535701554), np.float64(69.10994634322078), np.float64(53.65355747282459), np.float64(73.49267494159974), np.float64(81.1845040411818), np.float64(71.0565954386247)]
+
+
+STDERR
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(

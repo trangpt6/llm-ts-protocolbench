@@ -1,0 +1,6 @@
+[2026-05-21 02:56:09] [INFO] part2-compare-with-part0: Log file: D:\UET\KLTN\llm-ts-protocolbench\logs\master-logs\part2-compare-with-part0_20260521_025609_678959.log
+[2026-05-21 02:56:13] [INFO] part2-compare-with-part0: Saved Part 2 vs Part 0 comparison: D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\summary-tables\part2-vs-part0-comparison.csv rows=550
+[2026-05-21 02:56:13] [INFO] part2-compare-with-part0: Saved Part 2 vs Part 0 comparison by LLM: D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\summary-tables\part2-vs-part0-comparison-by-llm.csv rows=2650
+[2026-05-21 02:56:13] [INFO] part2-compare-with-part0: Saved Part 2 vs Part 0 win/tie/loss summary: D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\summary-tables\part2-vs-part0-win-tie-loss.csv rows=45
+[2026-05-21 02:56:13] [INFO] part2-compare-with-part0: Saved Part 2 vs Part 0 DM win/tie/loss summary: D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\summary-tables\part2-vs-part0-dm-win-tie-loss.csv rows=9
+[2026-05-21 02:56:13] [INFO] part2-compare-with-part0: Saved Part 2 vs Part 0 DM comparison: D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\summary-tables\part2-vs-part0-diebold-mariano.csv rows=1324

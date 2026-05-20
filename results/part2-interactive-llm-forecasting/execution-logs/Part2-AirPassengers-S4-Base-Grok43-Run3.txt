@@ -1,0 +1,11 @@
+STDOUT
+[485.501113324189, 426.4757518575547, 370.7832510037984, 324.3753426178755, 365.7063255687339, 372.7058185852188, 360.23315535522704, 415.7561537258083, 403.2896245855067, 407.7708125838263, 472.10138273203756, 525.0919245944275, 547.0222178319627, 442.80993309044345, 390.8351735456219, 338.1841501408346, 371.4393353123697, 392.83413594854443, 371.0323999114227, 435.4683101747751, 422.5544615479967, 444.5295134151418, 508.83958747824, 583.932565731101, 626.7020127508001, 512.5967687542201, 447.67716114620146, 392.50386808526906, 432.1818399640722]
+
+
+STDERR
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\tsa_model.py:473: ValueWarning: No frequency information was provided, so inferred frequency MS will be used.
+  self._init_dates(dates, freq)

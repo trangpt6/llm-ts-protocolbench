@@ -1,0 +1,9 @@
+STDOUT
+
+
+STDERR
+Traceback (most recent call last):
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-ILINet-S3-ChalDL-DeepSeekV4Pro-Run2.py", line 109, in <module>
+    true_val = test_series[step]
+               ~~~~~~~~~~~^^^^^^
+IndexError: index 251 is out of bounds for axis 0 with size 251

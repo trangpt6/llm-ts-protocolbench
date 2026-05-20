@@ -1,0 +1,8 @@
+STDOUT
+
+
+STDERR
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-ILINet-S3-ChalML-DeepSeekV4Pro-Run3.py", line 45
+    for i in
+            ^
+SyntaxError: invalid syntax

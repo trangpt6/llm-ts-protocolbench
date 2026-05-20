@@ -1,0 +1,9 @@
+STDOUT
+
+
+STDERR
+Traceback (most recent call last):
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-ETTh1-S3-ChalML-DeepSeekV4Pro-Run3.py", line 19, in <module>
+    last_day_mask = df.index == df.index.shift(1, freq='D').asfreq('H', method='pad') + pd.DateOffset(days=1) - pd.DateOffset(hours=1)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'DatetimeIndex' object has no attribute 'asfreq'. Did you mean: 'freq'?

@@ -1,0 +1,9 @@
+STDOUT
+
+
+STDERR
+Traceback (most recent call last):
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-ILINet-S3-ChalDL-DeepSeekV4Pro-Run3.py", line 116, in <module>
+    cumulative.append(float(y_test[i]))
+                            ~~~~~~^^^
+IndexError: index 251 is out of bounds for axis 0 with size 251

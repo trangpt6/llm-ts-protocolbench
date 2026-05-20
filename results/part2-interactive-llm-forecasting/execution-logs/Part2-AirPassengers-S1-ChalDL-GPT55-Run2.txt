@@ -1,0 +1,7 @@
+STDOUT
+
+
+STDERR
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-AirPassengers-S1-ChalDL-GPT55-Run2.py", line 36
+    for_end = len(train_values) - seq_len - pred_len + 1
+IndentationError: unexpected indent

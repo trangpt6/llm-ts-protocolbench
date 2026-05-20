@@ -1,0 +1,10 @@
+﻿branch,part0_model,dm_tests,significant_wins,ties_or_not_significant,significant_losses,significant_win_rate_pct,mean_loss_diff
+Base,Auto-ARIMA,83,25,34,24,30.12,70.6194104570754
+Base,Naive (Flat),133,100,21,12,75.19,-2984.0562898278376
+Base,Naive (Seasonal),133,57,47,29,42.86,-831.9084320709991
+ChalDL,Auto-ARIMA,94,0,27,67,0.0,48451.44867266829
+ChalDL,Naive (Flat),172,32,55,85,18.6,39000.66426117285
+ChalDL,Naive (Seasonal),172,18,40,114,10.47,40673.067626045544
+ChalML,Auto-ARIMA,113,10,25,78,8.85,2570.4883214405777
+ChalML,Naive (Flat),212,133,56,23,62.74,-492.91138941739774
+ChalML,Naive (Seasonal),212,65,72,75,30.66,901.2353282053931

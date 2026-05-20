@@ -1,0 +1,28 @@
+STDOUT
+
+
+STDERR
+Traceback (most recent call last):
+  File "pandas/_libs/tslibs/offsets.pyx", line 6313, in pandas._libs.tslibs.offsets.to_offset
+  File "pandas/_libs/tslibs/offsets.pyx", line 6180, in pandas._libs.tslibs.offsets._validate_to_offset_alias
+ValueError: 'M' is no longer supported for offsets. Please use 'ME' instead.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-AirPassengers-S1-Base-Grok43-Run1.py", line 9, in <module>
+    df = df.asfreq('M')
+         ^^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\pandas\core\generic.py", line 8901, in asfreq
+    return asfreq(
+           ^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\pandas\core\resample.py", line 3115, in asfreq
+    dti = date_range(obj.index.min(), obj.index.max(), freq=freq, unit=unit)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\pandas\core\indexes\datetimes.py", line 1442, in date_range
+    freq = to_offset(freq)
+           ^^^^^^^^^^^^^^^
+  File "pandas/_libs/tslibs/offsets.pyx", line 6229, in pandas._libs.tslibs.offsets.to_offset
+  File "pandas/_libs/tslibs/offsets.pyx", line 6352, in pandas._libs.tslibs.offsets.to_offset
+  File "pandas/_libs/tslibs/offsets.pyx", line 6137, in pandas._libs.tslibs.offsets.raise_invalid_freq
+ValueError: Invalid frequency: M. Failed to parse with error message: ValueError("'M' is no longer supported for offsets. Please use 'ME' instead.")

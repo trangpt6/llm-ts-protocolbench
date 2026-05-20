@@ -1,0 +1,14 @@
+STDOUT
+
+
+STDERR
+Traceback (most recent call last):
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-Temperature-S2-ChalDL-Gemini31Pro-Run3.py", line 62, in <module>
+    model = GRUModel(1, hidden_size, num_layers)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-Temperature-S2-ChalDL-Gemini31Pro-Run3.py", line 34, in __init__
+    self.gru = nn.GRU(input_size, hidden_size, num_layers, batch_size_first=True)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\torch\nn\modules\rnn.py", line 1317, in __init__
+    super().__init__("GRU", *args, **kwargs)
+TypeError: RNNBase.__init__() got an unexpected keyword argument 'batch_size_first'

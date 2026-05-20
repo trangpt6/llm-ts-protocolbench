@@ -1,0 +1,59 @@
+STDOUT
+
+
+STDERR
+Traceback (most recent call last):
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-ETTh1-S4-ChalDL-Gemini31Pro-Run1.py", line 129, in <module>
+    train_model(model, train_X, train_y, epochs, batch_size, lr)
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-ETTh1-S4-ChalDL-Gemini31Pro-Run1.py", line 121, in train_model
+    output = model(batch_X)
+             ^^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-ETTh1-S4-ChalDL-Gemini31Pro-Run1.py", line 105, in forward
+    y = self.tcn(x)
+        ^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\torch\nn\modules\container.py", line 250, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-ETTh1-S4-ChalDL-Gemini31Pro-Run1.py", line 87, in forward
+    out = self.net(x)
+          ^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\torch\nn\modules\container.py", line 250, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\torch\nn\modules\conv.py", line 371, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\torch\nn\modules\conv.py", line 366, in _conv_forward
+    return F.conv1d(
+           ^^^^^^^^^
+RuntimeError: Given groups=1, weight of size [64, 7, 4], expected input[32, 13, 168] to have 7 channels, but got 13 channels instead

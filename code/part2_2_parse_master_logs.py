@@ -1,29 +1,25 @@
 """
-part2_parse_master_logs.py
-
-Parse Part 2 (Interactive Forecasting) chat log .txt files into a structured
-master CSV log. Each file maps to one row.
+Parse Part 2 chat logs into one structured master CSV row per run.
 
 File naming convention:
     Part2-<Dataset>-<Scenario>-<Branch>-<LLMVersion>-Run<N>.txt
     e.g.  Part2-Temperature-S4-ChalDL-DeepSeekV4-Run1.txt
 
-LLM response header formats supported (header must be alone on its own line):
+Current API chat format:
+    ===== TURN 0 ASSISTANT (<LLMName>) =====
+    ...
+    ===== TURN 3 ASSISTANT (<LLMName>) =====
+
+Legacy web-exported header formats are still supported:
     '<name> response'   e.g.  deepseek response
     '<name> said:'      e.g.  ChatGPT said:       (some ChatGPT export formats)
     '<name> said'       e.g.  ChatGPT said
-
-Turn mapping (after skipping the optional ack turn):
-    LLM response 2 -> T0: data inspection
-    LLM response 3 -> T1: preprocessing decision
-    LLM response 4 -> T2: setup understanding
-    LLM response 5 -> T3: forecast / code output  (always = last LLM response)
 
 Turn 3 - three content columns in master log:
     T3_Raw_Response   : full text of last LLM response (always filled)
     T3_Script_Content : extracted Python code  (filled when SCRIPT, else "")
     T3_Forecast_List  : extracted list string  (filled when LIST, else "").
-                        For SCRIPT rows this stays blank; paste results manually after running the script.
+                        For SCRIPT rows this stays blank until metrics execution.
 
 Saved files on disk:
     results/part2-interactive-llm-forecasting/scripts-output/<file_id>.py   (when output is SCRIPT)
@@ -31,7 +27,6 @@ Saved files on disk:
 """
 
 import ast
-import json
 import re
 from pathlib import Path
 
@@ -177,15 +172,8 @@ def classify_last_response(response: str) -> tuple[str, str, str]:
     if stripped.upper() == "ERROR":
         return "ERROR", "", ""
 
-    code_start = re.search(
-        r'^(import\s+\w+|from\s+\w+\s+import|'
-        r'class\s+\w+\s*[\(:]|def\s+\w+\s*\(|'
-        r'(?:random|np|torch|pd|plt)\.\w+\s*\(|'
-        r'(?:np|torch)\.random\.\w+)',
-        stripped, re.MULTILINE
-    )
-    if code_start:
-        script_content = stripped[code_start.start():].strip()
+    script_content = extract_script_content(stripped)
+    if script_content:
         return "SCRIPT", script_content, ""
 
     forecast_list = extract_forecast_list_literal(stripped)
@@ -193,6 +181,60 @@ def classify_last_response(response: str) -> tuple[str, str, str]:
         return "LIST", "", forecast_list
 
     return "TEXT", "", ""
+
+
+def extract_script_content(text: str) -> str:
+    """
+    Extract executable Python from the first real code line onward.
+
+    Some LLMs wrap the whole script in triple quotes.  If the wrapper appears
+    before the first real code line, drop only that outer wrapper while leaving
+    legitimate inner docstrings untouched.
+    """
+    code_start = re.search(
+        r'^(import\s+\w+|from\s+\w+\s+import|'
+        r'class\s+\w+\s*[\(:]|def\s+\w+\s*\(|'
+        r'(?:random|np|torch|pd|plt)\.\w+\s*\(|'
+        r'(?:np|torch)\.random\.\w+)',
+        text,
+        re.MULTILINE,
+    )
+    if not code_start:
+        return ""
+
+    prefix = text[: code_start.start()]
+    script = text[code_start.start() :].strip()
+    wrapper = detect_outer_script_wrapper(prefix)
+    if wrapper:
+        closing_idx = script.rfind(wrapper)
+        if closing_idx != -1 and not script[closing_idx + len(wrapper) :].strip():
+            script = script[:closing_idx].rstrip()
+    return strip_trailing_markdown_fences(script)
+
+
+def strip_trailing_markdown_fences(script: str) -> str:
+    """Drop closing markdown fences that can appear after extracted code."""
+    lines = script.rstrip().splitlines()
+    while lines and re.fullmatch(r"\s*```\s*", lines[-1]):
+        lines.pop()
+    return "\n".join(lines).rstrip()
+
+
+def detect_outer_script_wrapper(prefix: str) -> str:
+    """
+    Return an outer triple-quote delimiter when only wrapper text precedes code.
+
+    The prefix may contain whitespace and one optional language hint such as
+    `python`, but no other prose.  That keeps normal explanations from being
+    mistaken for wrappers.
+    """
+    cleaned = prefix.strip()
+    for delimiter in ("'''", '"""'):
+        if cleaned == delimiter:
+            return delimiter
+        if cleaned.lower() in {f"python{delimiter}", f"{delimiter}python"}:
+            return delimiter
+    return ""
 
 
 def extract_forecast_list_literal(text: str) -> str:
@@ -239,28 +281,6 @@ def _has_value(value) -> bool:
     except (TypeError, ValueError):
         pass
     return str(value).strip() != ""
-
-
-def _to_int(value) -> int | None:
-    if not _has_value(value):
-        return None
-    try:
-        return int(float(str(value).strip()))
-    except (TypeError, ValueError):
-        return None
-
-
-def _to_bool(value) -> bool | None:
-    if isinstance(value, bool):
-        return value
-    if not _has_value(value):
-        return None
-    text = str(value).strip().lower()
-    if text in {"true", "1", "yes", "y"}:
-        return True
-    if text in {"false", "0", "no", "n"}:
-        return False
-    return None
 
 
 def _normalise_output_type(value) -> str:
@@ -329,35 +349,13 @@ def derive_analysis_status(record: dict) -> str:
     OK_FORECAST_LIST even when the list length is wrong, so list successes are
     rechecked strictly before analysis.
     """
-    original_status = str(
-        _record_value(record, "run_status", "status", "h_run_status")
-        or ""
-    ).strip()
+    original_status = str(_record_value(record, "run_status", "status") or "").strip()
     raw_response = str(_record_value(record, "T3_Raw_Response", "t3_raw_response") or "")
     if raw_response.strip().upper() == "ERROR" or original_status == "MODEL_ERROR_LITERAL":
         return "MODEL_ERROR_LITERAL"
 
-    output_type = _normalise_output_type(
-        _record_value(record, "final_output_type", "t3_output_type")
-    )
-
-    expected_length = _to_int(_record_value(record, "expected_forecast_length"))
-    actual_length = _to_int(_record_value(record, "actual_output_length"))
-    length_mismatch = _to_bool(_record_value(record, "length_mismatch"))
-
-    # Prefer existing runner validation columns when they are available.
-    if output_type == "list" and expected_length is not None:
-        if actual_length is not None:
-            return "OK_FORECAST_LIST" if actual_length == expected_length else "INVALID_LIST_LENGTH"
-        if length_mismatch is True:
-            return "INVALID_LIST_LENGTH"
-        if length_mismatch is False:
-            return "OK_FORECAST_LIST"
-
-    if expected_length is None:
-        expected_length = _expected_forecast_length_for_dataset(
-            _record_value(record, "dataset")
-        )
+    output_type = _normalise_output_type(_record_value(record, "t3_output_type"))
+    expected_length = _expected_forecast_length_for_dataset(_record_value(record, "dataset"))
 
     # Historical rows without validator length columns are rechecked by parsing
     # the Turn 3 payload as a flat numeric list before any length decision.
@@ -540,40 +538,6 @@ def parse_turn3(
     }
 
 
-def parse_file_header(text: str) -> dict:
-    """
-    Extract metadata from the header block at the top of an API-format chat log.
-
-    Expects lines of the form:
-        Dataset: AirPassengers
-        Scenario: S1
-        Forecast model type: Base
-        Fixed forecasting model: ExponentialSmoothing
-        LLM: KimiK26
-        Provider: moonshot
-        Run: 1
-
-    Returns a dict with keys: dataset, scenario, branch, llm_version, provider, run_id.
-    Missing fields are returned as empty strings.
-    """
-    def _hfield(label: str) -> str:
-        m = re.search(rf'^{re.escape(label)}\s*:\s*(.+)', text, re.IGNORECASE | re.MULTILINE)
-        return m.group(1).strip() if m else ""
-
-    return {
-        "h_dataset":    _hfield("Dataset"),
-        "h_scenario":   _hfield("Scenario"),
-        "h_branch":     _hfield("Forecast model type"),
-        "h_llm":        _hfield("LLM"),
-        "h_provider":   _hfield("Provider"),
-        "h_run":        _hfield("Run"),
-        "h_fixed_model": _hfield("Fixed forecasting model"),
-        # Written by runner._write_chat_text for API-format logs.
-        "h_run_status": _hfield("Run Status"),
-        "h_run_error":  _hfield("Run Error"),
-    }
-
-
 # File metadata parsed from filename stem
 def parse_filename(stem: str) -> dict:
     """
@@ -613,13 +577,13 @@ def save_output_file(
         out = SCRIPT_OUTPUT_DIR / f"{file_id}.py"
         out.write_text(script_content, encoding="utf-8")
         rel_path = out.relative_to(BASE_DIR)
-        script_file = "llm-ts-protocolbench/" + str(rel_path).replace("\\", "/")
+        script_file = str(rel_path).replace("\\", "/")
 
     elif output_type == "LIST":
         out = RAW_OUTPUT_DIR / f"{file_id}.json"
         out.write_text(raw_response.strip(), encoding="utf-8")
         rel_path = out.relative_to(BASE_DIR)
-        raw_file = "llm-ts-protocolbench/" + str(rel_path).replace("\\", "/")
+        raw_file = str(rel_path).replace("\\", "/")
 
     return script_file, raw_file
 
@@ -636,9 +600,7 @@ def process_file(file_path: Path) -> dict | None:
         return None
 
     api_turns = get_api_chat_turns(content)
-    file_header = {}
     if api_turns:
-        file_header = parse_file_header(content)
         # Count only assistant turns that are present (keys 0-3)
         n_turns = sum(1 for k in api_turns if isinstance(k, int))
         t0_resp = api_turns.get(0, "")
@@ -678,53 +640,9 @@ def process_file(file_path: Path) -> dict | None:
               f"T2={'yes' if t2_resp else 'no'} "
               f"T3(last)={'yes' if t3_resp else 'no'}")
 
-    # ------------------------------------------------------------------
-    # Determine T3 output type.
-    # For API-format logs (where runner writes Run Status into the file
-    # header), use that status to guide classification and avoid
-    # extracting content from failed/invalid responses.
-    # For old/web-exported logs (no h_run_status), fall back to
-    # content-based classification for backward compatibility.
-    # ------------------------------------------------------------------
-    run_status = file_header.get("h_run_status", "") if api_turns else ""
-    run_error  = file_header.get("h_run_error",  "") if api_turns else ""
-
-    _INVALID_STATUSES = {
-        "INVALID_LIST_FORMAT",
-        "INVALID_SCRIPT_TOO_LONG", "INVALID_SCRIPT_FORMAT", "INVALID_OUTPUT",
-    }
-
-    if run_status == "MODEL_ERROR_LITERAL" or t3_resp.strip() == "ERROR":
-        # Hard rule: literal ERROR from model – do not attempt extraction.
-        output_type    = "ERROR"
-        script_content = ""
-        forecast_list  = ""
-    elif run_status.startswith("SYSTEM_"):
-        # System/API failure – no forecast output to parse.
-        output_type    = "SYSTEM_FAIL"
-        script_content = ""
-        forecast_list  = ""
-    elif run_status in _INVALID_STATUSES:
-        # Model output was present but failed validation – keep raw,
-        # classify type for diagnostics only, do not extract.
-        output_type, _, _ = classify_last_response(t3_resp)
-        script_content = ""
-        forecast_list  = ""
-    elif run_status in {"OK_FORECAST_LIST", "INVALID_LIST_LENGTH"}:
-        # OK_FORECAST_LIST: normal success path.
-        # INVALID_LIST_LENGTH: old logs where list was parseable but length
-        # mismatched under the old strict rule – list is still valid, extract it.
-        output_type    = "LIST"
-        _, _, forecast_list = classify_last_response(t3_resp)
-        script_content = ""
-    elif run_status == "OK_FORECAST_SCRIPT":
-        output_type, script_content, _ = classify_last_response(t3_resp)
-        forecast_list = ""
-    else:
-        # No run_status (old or web-exported logs) – full content classification.
-        output_type, script_content, forecast_list = classify_last_response(t3_resp)
-
-    print(f"    T3 type -> {output_type}" + (f"  [{run_status}]" if run_status else ""))
+    # Determine Turn-3 output only from the actual Turn-3 response body.
+    output_type, script_content, forecast_list = classify_last_response(t3_resp)
+    print(f"    T3 type -> {output_type}")
 
     # Fix read_csv paths before saving the script
     if output_type == "SCRIPT" and script_content:
@@ -739,9 +657,6 @@ def process_file(file_path: Path) -> dict | None:
         "n_llm_turns": n_turns,
         "script_file": script_file,
         "raw_file":    raw_file,
-        "run_status":  run_status,
-        "run_error":   run_error,
-        **file_header,
         **parse_turn0(t0_resp),
         **parse_turn1(t1_resp),
         **parse_turn2(t2_resp),

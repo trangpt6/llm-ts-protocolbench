@@ -1,0 +1,24 @@
+STDOUT
+
+
+STDERR
+Traceback (most recent call last):
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-Temperature-S3-ChalML-DeepSeekV4Pro-Run2.py", line 11, in <module>
+    df['Date'] = pd.to_datetime(df['Date'], dayfirst=True)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\pandas\core\tools\datetimes.py", line 1040, in to_datetime
+    values = convert_listlike(arg._values, format)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\pandas\core\tools\datetimes.py", line 435, in _convert_listlike_datetimes
+    return _array_strptime_with_fallback(arg, name, utc, format, exact, errors)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\pandas\core\tools\datetimes.py", line 470, in _array_strptime_with_fallback
+    result, tz_out = array_strptime(arg, fmt, exact=exact, errors=errors, utc=utc)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/tslibs/strptime.pyx", line 563, in pandas._libs.tslibs.strptime.array_strptime
+  File "pandas/_libs/tslibs/strptime.pyx", line 511, in pandas._libs.tslibs.strptime.array_strptime
+  File "pandas/_libs/tslibs/strptime.pyx", line 617, in pandas._libs.tslibs.strptime._parse_with_format
+ValueError: time data "1/13/1981" doesn't match format "%d/%m/%Y". You might want to try:
+    - passing `format` if your strings have a consistent format;
+    - passing `format='ISO8601'` if your strings are all ISO8601 but not necessarily in exactly the same format;
+    - passing `format='mixed'`, and the format will be inferred for each element individually. You might want to use `dayfirst` alongside this.

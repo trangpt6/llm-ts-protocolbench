@@ -1,0 +1,12 @@
+STDOUT
+
+
+STDERR
+Traceback (most recent call last):
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-ILINet-S1-ChalML-DeepSeekV4Pro-Run3.py", line 34, in <module>
+    X_train, y_train = create_lag_features(train_series.values, n_lags=52)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-ILINet-S1-ChalML-DeepSeekV4Pro-Run3.py", line 30, in create_lag_features
+    X.append(s[i - n_lags:i].values)
+             ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'numpy.ndarray' object has no attribute 'values'

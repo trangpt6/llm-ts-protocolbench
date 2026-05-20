@@ -1,0 +1,15 @@
+STDOUT
+
+
+STDERR
+Traceback (most recent call last):
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-ILINet-S4-ChalDL-Grok43-Run1.py", line 73, in <module>
+    loss.backward()
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\torch\_tensor.py", line 625, in backward
+    torch.autograd.backward(
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\torch\autograd\__init__.py", line 354, in backward
+    _engine_run_backward(
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\torch\autograd\graph.py", line 841, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Found dtype Double but expected Float

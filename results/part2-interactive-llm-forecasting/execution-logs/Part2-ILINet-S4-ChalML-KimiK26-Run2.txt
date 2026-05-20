@@ -1,0 +1,9 @@
+STDOUT
+
+
+STDERR
+Traceback (most recent call last):
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-ILINet-S4-ChalML-KimiK26-Run2.py", line 71, in <module>
+    pred = models[h].predict(feat)[0]
+           ~~~~~~^^^
+IndexError: list index out of range

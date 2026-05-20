@@ -1,0 +1,23 @@
+﻿llm_version,error_group,runs,total_runs,rate_pct
+ClaudeOpus47,OK,101,148,68.24
+ClaudeOpus47,runtime/infra issue,43,148,29.05
+ClaudeOpus47,model/output issue,4,148,2.7
+DeepSeekV4Pro,runtime/infra issue,91,180,50.56
+DeepSeekV4Pro,OK,75,180,41.67
+DeepSeekV4Pro,model/output issue,8,180,4.44
+DeepSeekV4Pro,code issue,6,180,3.33
+GPT55,OK,98,148,66.22
+GPT55,runtime/infra issue,38,148,25.68
+GPT55,code issue,12,148,8.11
+Gemini31Pro,OK,95,149,63.76
+Gemini31Pro,runtime/infra issue,42,149,28.19
+Gemini31Pro,code issue,8,149,5.37
+Gemini31Pro,model/output issue,4,149,2.68
+Grok43,OK,75,151,49.67
+Grok43,runtime/infra issue,53,151,35.1
+Grok43,model/output issue,16,151,10.6
+Grok43,code issue,7,151,4.64
+KimiK26,OK,73,148,49.32
+KimiK26,runtime/infra issue,48,148,32.43
+KimiK26,model/output issue,22,148,14.86
+KimiK26,code issue,5,148,3.38

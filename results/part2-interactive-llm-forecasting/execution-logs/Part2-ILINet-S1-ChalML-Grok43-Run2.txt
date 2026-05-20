@@ -1,0 +1,9 @@
+STDOUT
+
+
+STDERR
+Traceback (most recent call last):
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-ILINet-S1-ChalML-Grok43-Run2.py", line 11, in <module>
+    df[cols_to_fill] = df[cols_to_fill].fillna(method='ffill')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: NDFrame.fillna() got an unexpected keyword argument 'method'

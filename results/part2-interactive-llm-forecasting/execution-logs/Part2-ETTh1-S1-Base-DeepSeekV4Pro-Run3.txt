@@ -1,0 +1,35 @@
+STDOUT
+
+
+STDERR
+Traceback (most recent call last):
+  File "pandas/_libs/tslibs/offsets.pyx", line 6213, in pandas._libs.tslibs.offsets._get_offset
+KeyError: 'H'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "pandas/_libs/tslibs/offsets.pyx", line 6344, in pandas._libs.tslibs.offsets.to_offset
+  File "pandas/_libs/tslibs/offsets.pyx", line 6219, in pandas._libs.tslibs.offsets._get_offset
+  File "pandas/_libs/tslibs/offsets.pyx", line 6137, in pandas._libs.tslibs.offsets.raise_invalid_freq
+ValueError: Invalid frequency: H. Failed to parse with error message: KeyError('H'). Did you mean h?
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-ETTh1-S1-Base-DeepSeekV4Pro-Run3.py", line 10, in <module>
+    df = df.set_index('date').asfreq('H')
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\pandas\core\generic.py", line 8901, in asfreq
+    return asfreq(
+           ^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\pandas\core\resample.py", line 3115, in asfreq
+    dti = date_range(obj.index.min(), obj.index.max(), freq=freq, unit=unit)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\pandas\core\indexes\datetimes.py", line 1442, in date_range
+    freq = to_offset(freq)
+           ^^^^^^^^^^^^^^^
+  File "pandas/_libs/tslibs/offsets.pyx", line 6229, in pandas._libs.tslibs.offsets.to_offset
+  File "pandas/_libs/tslibs/offsets.pyx", line 6352, in pandas._libs.tslibs.offsets.to_offset
+  File "pandas/_libs/tslibs/offsets.pyx", line 6137, in pandas._libs.tslibs.offsets.raise_invalid_freq
+ValueError: Invalid frequency: H. Failed to parse with error message: ValueError("Invalid frequency: H. Failed to parse with error message: KeyError('H'). Did you mean h?") Did you mean h?

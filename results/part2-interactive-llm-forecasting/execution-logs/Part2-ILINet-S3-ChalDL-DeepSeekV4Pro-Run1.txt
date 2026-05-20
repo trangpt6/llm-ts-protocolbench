@@ -1,0 +1,9 @@
+STDOUT
+
+
+STDERR
+Traceback (most recent call last):
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-ILINet-S3-ChalDL-DeepSeekV4Pro-Run1.py", line 96, in <module>
+    true_val = series[train_size + step]
+               ~~~~~~^^^^^^^^^^^^^^^^^^^
+IndexError: index 1301 is out of bounds for axis 0 with size 1301

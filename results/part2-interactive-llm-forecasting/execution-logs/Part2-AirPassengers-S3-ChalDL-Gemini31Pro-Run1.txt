@@ -1,0 +1,9 @@
+STDOUT
+[478.1724853515625, 379.4188232421875, 428.8620300292969, 423.0931701660156, 402.0202941894531, 377.4349365234375, 306.6658630371094, 357.97271728515625, 396.4990234375, 376.3359069824219, 402.4377746582031, 420.7370910644531, 451.1379089355469, 391.35809326171875, 410.1377868652344, 357.625244140625, 353.1840515136719, 437.5903015136719, 390.0248718261719, 399.5477600097656, 391.2109680175781, 477.1296691894531, 472.6480407714844, 514.9456787109375, 485.3499450683594, 497.1553649902344, 479.9384460449219, 482.4448547363281, 494.88336181640625]
+
+
+STDERR
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\torch\nn\utils\weight_norm.py:144: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\torch\nn\utils\weight_norm.py:144: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)

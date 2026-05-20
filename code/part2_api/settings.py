@@ -21,8 +21,20 @@ TURN_3_MAX_TOKENS_BASE: int = 2400
 TURN_3_MAX_TOKENS_PER_ITEM: int = 20
 TURN_3_MAX_TOKENS_CAP: int = 8192
 
+# ILINet keeps the full CSV payload in Turn 0 and expands to a much larger
+# provider-side token count than its whitespace estimate suggests.
+ILINET_TURN_MAX_TOKENS: dict[int, int] = {0: 16384, 1: 4096, 2: 4096, 3: 16384}
+
 # Turn-level request timeouts in seconds (0 = rely on SDK default).
 TURN_TIMEOUT_SECONDS: dict[int, int] = {0: 120, 1: 120, 2: 120, 3: 300}
+
+# ETTh1 uses a much larger Turn-0 CSV payload than the other benchmark datasets.
+# Keep a dataset-specific override so full-CSV runs have more time without slowing
+# every provider/dataset combination.
+ETTH1_TURN_TIMEOUT_SECONDS: dict[int, int] = {0: 300, 1: 300, 2: 300, 3: 600}
+
+# ILINet full-CSV requests are also materially heavier for some gateways.
+ILINET_TURN_TIMEOUT_SECONDS: dict[int, int] = {0: 300, 1: 300, 2: 300, 3: 600}
 
 # Maximum characters allowed in a Turn-3 script response.
 MAX_SCRIPT_CHARS: int = 16_000

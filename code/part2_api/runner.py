@@ -17,9 +17,12 @@ from .model_setup import ModelSetup
 from .prompts import build_part2_turns
 from .settings import (
     LEGACY_SUCCESS_STATUSES,
+    ILINET_TURN_MAX_TOKENS,
+    ILINET_TURN_TIMEOUT_SECONDS,
     MAX_SCRIPT_CHARS,
     MODEL_TRACK_LABELS,
     SUCCESS_STATUSES,
+    ETTH1_TURN_TIMEOUT_SECONDS,
     TURN_3_MAX_TOKENS_BASE,
     TURN_3_MAX_TOKENS_CAP,
     TURN_3_MAX_TOKENS_PER_ITEM,
@@ -151,15 +154,28 @@ def _expected_forecast_length(bundle: DatasetBundle, setup: ModelSetup) -> int:
 
 def _get_turn_policy(turn_id: int, bundle: DatasetBundle, setup: ModelSetup) -> dict[str, Any]:
     """Return {"max_tokens": int, "timeout": int|None} for a given turn."""
-    timeout = TURN_TIMEOUT_SECONDS.get(turn_id)
-    if turn_id == 3:
-        expected_len = _expected_forecast_length(bundle, setup)
-        max_tokens = min(
-            TURN_3_MAX_TOKENS_CAP,
-            TURN_3_MAX_TOKENS_BASE + expected_len * TURN_3_MAX_TOKENS_PER_ITEM,
-        )
+    if bundle.name == "ILINet":
+        timeout_by_turn = ILINET_TURN_TIMEOUT_SECONDS
+    elif bundle.name == "ETTh1":
+        timeout_by_turn = ETTH1_TURN_TIMEOUT_SECONDS
     else:
-        max_tokens = TURN_MAX_TOKENS_DEFAULTS.get(turn_id, 1200)
+        timeout_by_turn = TURN_TIMEOUT_SECONDS
+    timeout = timeout_by_turn.get(turn_id)
+    if turn_id == 3:
+        if bundle.name == "ILINet":
+            max_tokens = ILINET_TURN_MAX_TOKENS[3]
+        else:
+            expected_len = _expected_forecast_length(bundle, setup)
+            max_tokens = min(
+                TURN_3_MAX_TOKENS_CAP,
+                TURN_3_MAX_TOKENS_BASE + expected_len * TURN_3_MAX_TOKENS_PER_ITEM,
+            )
+    else:
+        max_tokens = (
+            ILINET_TURN_MAX_TOKENS.get(turn_id, TURN_MAX_TOKENS_DEFAULTS.get(turn_id, 1200))
+            if bundle.name == "ILINet"
+            else TURN_MAX_TOKENS_DEFAULTS.get(turn_id, 1200)
+        )
     return {"max_tokens": max_tokens, "timeout": timeout}
 
 
@@ -479,19 +495,11 @@ _OPENROUTER_REASONING_HIGH = {"reasoning": {"effort": "high", "exclude": True}}
 _OPENROUTER_REASONING_CLAUDE_TURN3 = {"reasoning": {"effort": "medium", "exclude": True}}
 
 _OPENROUTER_REASONING: dict[str, dict[str, dict[str, Any]]] = {
-    "openai/gpt-5.4": {
-        "turns_0_2": _OPENROUTER_REASONING_NONE,
-        "turn_3": _OPENROUTER_REASONING_HIGH,
-    },
     "openai/gpt-5.5": {
         "turns_0_2": _OPENROUTER_REASONING_NONE,
         "turn_3": _OPENROUTER_REASONING_HIGH,
     },
     "anthropic/claude-opus-4.7": {
-        "turns_0_2": _OPENROUTER_REASONING_NONE,
-        "turn_3": _OPENROUTER_REASONING_CLAUDE_TURN3,
-    },
-    "anthropic/claude-sonnet-4.6": {
         "turns_0_2": _OPENROUTER_REASONING_NONE,
         "turn_3": _OPENROUTER_REASONING_CLAUDE_TURN3,
     },
@@ -511,6 +519,10 @@ _BEEKNOEE_THINKING: dict[str, dict[str, dict[str, Any]]] = {
         "turns_0_2": _BEEKNOEE_THINKING_DISABLED,
         "turn_3": _BEEKNOEE_THINKING_ADAPTIVE,
     },
+    "gpt-5.5": {
+        "turns_0_2": {"reasoning": {"effort": "none"}},
+        "turn_3": {"reasoning": {"effort": "high"}},
+    },
 }
 
 _XAI_REASONING: dict[str, dict[str, dict[str, Any]]] = {
@@ -528,7 +540,7 @@ _MEGALLM_REASONING_HIGH = {"reasoning": {"effort": "high"}}
 _MEGALLM_REASONING_MEDIUM = {"reasoning": {"effort": "medium"}}
 
 _MEGALLM_REASONING: dict[str, dict[str, dict[str, Any]]] = {
-    "gpt-5.4": {
+    "gpt-5.5": {
         "turns_0_2": _MEGALLM_REASONING_NONE,
         "turn_3": _MEGALLM_REASONING_MEDIUM,
     },
@@ -542,15 +554,28 @@ _MEGALLM_REASONING: dict[str, dict[str, dict[str, Any]]] = {
     }
 }
 
+_LLMGATE_THINKING: dict[str, dict[str, dict[str, Any]]] = {
+    "claude-opus-4-7": {
+        "turns_0_2": {"thinking": {"type": "disabled"}},
+        "turn_3": {"thinking": {"type": "adaptive"}},
+    },
+    "gpt-5.5": {
+        "turns_0_2": {"reasoning": {"effort": "none"}},
+        "turn_3": {"reasoning": {"effort": "high"}},
+    },
+}
+
 def _get_moonshot_turn_config(turn_id: int) -> tuple[dict[str, Any], float]:
     if turn_id == 3:
         return {"thinking": {"type": "enabled"}}, 1.0
     return {"thinking": {"type": "disabled"}}, 0.6
 
-def _get_fm_turn_config(turn_id: int) -> dict[str, Any]:
-    if turn_id == 3:
-        return {"reasoning": {"effort": "xhigh"}}
-    return {"reasoning": {"effort": "none"}}
+def _get_llmgate_thinking_config(model_id: str, turn_id: int) -> dict | None:
+    configs = _LLMGATE_THINKING.get(model_id)
+    if configs is None:
+        return None
+    config = configs["turn_3"] if turn_id == 3 else configs["turns_0_2"]
+    return dict(config)
 
 def _get_beeknoee_thinking_config(model_id: str, turn_id: int) -> dict | None:
     """Return Beeknoee thinking extra_params for *model_id* at *turn_id*, or None if not mapped."""
@@ -558,7 +583,7 @@ def _get_beeknoee_thinking_config(model_id: str, turn_id: int) -> dict | None:
     if configs is None:
         return None
     config = configs["turn_3"] if turn_id == 3 else configs["turns_0_2"]
-    return {"thinking": dict(config["thinking"])}
+    return dict(config)
 
 def _get_xai_reasoning_config(model_id: str, turn_id: int) -> dict | None:
     """Return XAI reasoning extra_params for *model_id* at *turn_id*, or None if not mapped."""
@@ -606,8 +631,12 @@ def _call_turn(
         turn_extra_params: dict | None = {"thinking": {"type": "disabled"}}
     elif client.provider == "moonshot":
         turn_extra_params, temperature = _get_moonshot_turn_config(turn.turn_id)
-    elif client.provider == "fm":
-        turn_extra_params = _get_fm_turn_config(turn.turn_id)
+    elif client.provider == "llmgate":
+        max_tokens = max(max_tokens or 0, 16384)
+        if client.model_id == "kimi-k2.6":
+            turn_extra_params, temperature = _get_moonshot_turn_config(turn.turn_id)
+        else:
+            turn_extra_params = _get_llmgate_thinking_config(client.model_id, turn.turn_id)
     elif client.provider == "xai":
         turn_extra_params = _get_xai_reasoning_config(client.model_id, turn.turn_id)
     elif client.provider.startswith("openrouter"):
@@ -618,7 +647,11 @@ def _call_turn(
         else:
             turn_extra_params = _get_megallm_reasoning_config(client.model_id, turn.turn_id)
     elif client.provider == "beeknoee":
-        turn_extra_params = _get_beeknoee_thinking_config(client.model_id, turn.turn_id)
+        if client.model_id == "kimi-k2.6":
+            max_tokens = max(max_tokens or 0, 16384)
+            turn_extra_params, temperature = _get_moonshot_turn_config(turn.turn_id)
+        else:
+            turn_extra_params = _get_beeknoee_thinking_config(client.model_id, turn.turn_id)
     else:
         turn_extra_params = None
     started = time.time()
@@ -695,18 +728,21 @@ def _call_and_validate_turn3(
     already_logged = (run_key, str(turn.turn_id)) in existing_turns
     policy = _get_turn_policy(3, bundle, setup)
     temperature: float | None = None
-    if client.provider == "openrouter_gemini" or client.model_id == "gemini-3.1-pro-preview" or client.model_id == "moonshotai/kimi-k2.6":
+    if client.provider == "openrouter_gemini":
         policy["max_tokens"] = 16384
         if policy["timeout"] is None or policy["timeout"] < 180:
             policy["timeout"] = 180
     # Turn 3 requires reasoning quality for forecast/code generation; enable thinking.
-    elif client.provider == "moonshot" or (client.provider == "megallm" and client.model_id == "moonshotai/kimi-k2.6"):
+    elif client.provider == "moonshot" or client.model_id == ("kimi-k2.6" or "moonshotai/kimi-k2.6"):
         turn_extra_params, temperature = _get_moonshot_turn_config(3)
         policy["max_tokens"] = 16384
         if policy["timeout"] is None or policy["timeout"] < 180:
             policy["timeout"] = 180
-    elif client.provider == "fm":
-        turn_extra_params = _get_fm_turn_config(3)
+    elif client.provider == "llmgate":
+        policy["max_tokens"] = 16384
+        if policy["timeout"] is None or policy["timeout"] < 180:
+            policy["timeout"] = 180
+        turn_extra_params = _get_llmgate_thinking_config(client.model_id, 3)
     elif client.provider == "deepseek":
         turn_extra_params: dict | None = {"thinking": {"type": "enabled"}}
     elif client.provider == "xai":
@@ -714,7 +750,13 @@ def _call_and_validate_turn3(
     elif client.provider.startswith("openrouter"):
         turn_extra_params = _get_openrouter_reasoning_config(client.model_id, 3)
     elif client.provider == "megallm":
-        turn_extra_params = _get_megallm_reasoning_config(client.model_id, 3)
+        if client.model_id == "gemini-3.1-pro-preview":
+            turn_extra_params = _get_megallm_reasoning_config(client.model_id, 3)
+            policy["max_tokens"] = 16384
+            if policy["timeout"] is None or policy["timeout"] < 180:
+                policy["timeout"] = 180
+        else:
+            turn_extra_params = _get_megallm_reasoning_config(client.model_id, 3)
     elif client.provider == "beeknoee":
         turn_extra_params = _get_beeknoee_thinking_config(client.model_id, 3)
     else:

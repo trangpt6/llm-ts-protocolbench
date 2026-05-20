@@ -1,0 +1,23 @@
+STDOUT
+
+
+STDERR
+Traceback (most recent call last):
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\pandas\core\arrays\datetimelike.py", line 1953, in _validate_frequency
+    raise ValueError
+ValueError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-Temperature-S2-Base-Gemini31Pro-Run3.py", line 18, in <module>
+    df.index.freq = 'D'
+    ^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\pandas\core\indexes\datetimelike.py", line 176, in freq
+    self._data.freq = value  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\pandas\core\arrays\datetimelike.py", line 1883, in freq
+    self._validate_frequency(self, value)
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\pandas\core\arrays\datetimelike.py", line 1964, in _validate_frequency
+    raise ValueError(
+ValueError: Inferred frequency None from passed values does not conform to passed frequency D

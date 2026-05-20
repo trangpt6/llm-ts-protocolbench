@@ -1,0 +1,9 @@
+STDOUT
+
+
+STDERR
+Traceback (most recent call last):
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-ETTh1-S2-ChalDL-ClaudeOpus47-Run1.py", line 9, in <module>
+    np.random.sed(42)
+    ^^^^^^^^^^^^^
+AttributeError: module 'numpy.random' has no attribute 'sed'. Did you mean: 'seed'?

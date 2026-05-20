@@ -1,0 +1,9 @@
+STDOUT
+
+
+STDERR
+Traceback (most recent call last):
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-AirPassengers-S4-ChalML-DeepSeekV4Pro-Run3.py", line 63, in <module>
+    X, y = create_supervised_dataset(np.array(known_series), lag, h)
+                                                             ^^^
+NameError: name 'lag' is not defined. Did you mean: 'lags'?

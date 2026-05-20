@@ -1,0 +1,9 @@
+STDOUT
+
+
+STDERR
+Traceback (most recent call last):
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-ETTh1-S3-ChalDL-DeepSeekV4Pro-Run2.py", line 128, in <module>
+    train_end_idx = full_series_valid.index.get_loc(df.index[train_size - 1], method='ffill')
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: DatetimeIndex.get_loc() got an unexpected keyword argument 'method'

@@ -1,0 +1,7 @@
+STDOUT
+
+
+STDERR
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-Temperature-S1-ChalML-GPT55-Run1.py", line 25
+    for_i = range(lags, train_size)
+IndentationError: unexpected indent

@@ -1,0 +1,21 @@
+﻿dataset,error_group,runs,total_runs,rate_pct
+AirPassengers,OK,189,216,87.5
+AirPassengers,runtime/infra issue,19,216,8.8
+AirPassengers,model/output issue,7,216,3.24
+AirPassengers,code issue,1,216,0.46
+ETTh1,runtime/infra issue,43,60,71.67
+ETTh1,OK,8,60,13.33
+ETTh1,code issue,6,60,10.0
+ETTh1,model/output issue,3,60,5.0
+ILINet,runtime/infra issue,107,216,49.54
+ILINet,OK,94,216,43.52
+ILINet,model/output issue,9,216,4.17
+ILINet,code issue,6,216,2.78
+IceCreamHeater,OK,180,216,83.33
+IceCreamHeater,runtime/infra issue,21,216,9.72
+IceCreamHeater,model/output issue,14,216,6.48
+IceCreamHeater,code issue,1,216,0.46
+Temperature,runtime/infra issue,125,216,57.87
+Temperature,OK,46,216,21.3
+Temperature,code issue,24,216,11.11
+Temperature,model/output issue,21,216,9.72

@@ -1,0 +1,9 @@
+STDOUT
+
+
+STDERR
+Traceback (most recent call last):
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-AirPassengers-S1-ChalDL-Grok43-Run3.py", line 56, in <module>
+    current_seq = torch.cat((current_seq[:, 1:, :], pred.unsqueeze(1).unsqueeze(2)), dim=1)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Tensors must have same number of dimensions: got 3 and 4

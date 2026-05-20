@@ -1,0 +1,19 @@
+STDOUT
+
+
+STDERR
+Traceback (most recent call last):
+  File "D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scripts-output\Part2-ILINet-S4-Base-KimiK26-Run1.py", line 36, in <module>
+    results = model.fit(disp=False, maxiter=200, method='innovations_mle')
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\statespace\mlemodel.py", line 705, in fit
+    mlefit = super().fit(start_params, method=method,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\base\model.py", line 566, in fit
+    xopt, retvals, optim_settings = optimizer._fit(f, score, start_params,
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\base\optimizer.py", line 225, in _fit
+    _check_method(method, methods)
+  File "D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\base\optimizer.py", line 34, in _check_method
+    raise ValueError(message)
+ValueError: Unknown fit method innovations_mle

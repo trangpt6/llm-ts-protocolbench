@@ -1,0 +1,5 @@
+STDOUT
+[np.float32(40.015846), np.float32(47.35205), np.float32(60.888657), np.float32(62.589413), np.float32(68.4706), np.float32(59.652767), np.float32(54.332317), np.float32(50.84997), np.float32(51.82383), np.float32(39.018463), np.float32(37.367126), np.float32(43.493156), np.float32(42.64333), np.float32(66.28249), np.float32(70.82152), np.float32(72.97637), np.float32(83.201164), np.float32(72.41301), np.float32(55.423126), np.float32(48.109142), np.float32(40.735443), np.float32(36.247864), np.float32(37.630257), np.float32(42.37395), np.float32(46.985596), np.float32(56.045326), np.float32(73.06492), np.float32(72.953354), np.float32(85.852234), np.float32(70.53425), np.float32(53.168503), np.float32(42.42461), np.float32(39.403736), np.float32(37.30809), np.float32(38.92075), np.float32(47.547356), np.float32(49.64002), np.float32(58.75791), np.float32(62.584217), np.float32(75.47447)]
+
+
+STDERR
