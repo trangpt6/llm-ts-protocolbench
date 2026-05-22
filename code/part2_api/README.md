@@ -1,27 +1,27 @@
 # Part 2 API Runner
 
-Thu muc nay la package ho tro `code/part2_1_run_api.py`, dung de chay Part 2 Interactive LLM Forecasting qua API provider.
+This package supports `code/part2_1_run_api.py`, which runs Part 2 Interactive LLM Forecasting through provider APIs.
 
-## Thanh phan
+## Components
 
-- `api_client.py`: nap cau hinh provider, xoay API key, retry khi gap rate limit/timeout/API error, goi OpenAI-compatible, Anthropic va Google API.
-- `datasets.py`: nap dataset tu `data/` hoac tu `darts.datasets`, tao train/test split va CSV payload cho prompt.
-- `model_setup.py`: doc `results/part1-llm-strategic-consultation/part2-model-setup.csv` va lay fixed model/hyperparameters theo dataset, scenario, track.
-- `prompts.py`: ghep prompt template Part 2 cho 4 turn.
-- `runner.py`: chay mot run gom Turn 0 den Turn 3, validate output, ghi chat log, run summary, turn metrics va checkpoint.
-- `settings.py`: cau hinh dataset, scenario, model track, timeout, max token va status taxonomy.
-- `paths.py`: cac duong dan chuan trong repo.
-- `logging_utils.py`: tao logger file/console.
+- `api_client.py`: loads provider configuration, rotates API keys, retries rate-limit/timeout/API failures, and dispatches calls to OpenAI-compatible, Anthropic, and Google APIs.
+- `datasets.py`: loads datasets from `data/` or `darts.datasets`, creates train/test splits, and builds CSV payloads for prompts.
+- `model_setup.py`: reads `results/part1-llm-strategic-consultation/part2-model-setup.csv` and selects fixed models/hyperparameters by dataset, scenario, and track.
+- `prompts.py`: builds the four-turn Part 2 prompt sequence from templates.
+- `runner.py`: executes one run from Turn 0 through Turn 3, validates output, and writes chat logs, run summaries, turn metrics, and checkpoints.
+- `settings.py`: stores dataset, scenario, model-track, timeout, max-token, and status-taxonomy configuration.
+- `paths.py`: defines canonical repository paths.
+- `logging_utils.py`: creates file and console loggers.
 
-## Cau hinh API key
+## API-Key Configuration
 
-Tao file config tu mau:
+Create a config file from the example:
 
 ```powershell
 Copy-Item .\config\api_keys.example.json .\config\api_keys.json
 ```
 
-Moi provider co dang:
+Each provider has this shape:
 
 ```json
 {
@@ -36,62 +36,62 @@ Moi provider co dang:
 }
 ```
 
-`provider_type` hop le:
+Valid `provider_type` values:
 
 - `openai_compatible`
 - `anthropic`
 - `google`
 
-`keys` co the la key truc tiep hoac `env:VARIABLE_NAME`. Neu mot bien moi truong chua nhieu key, co the ngan cach bang dau phay.
+`keys` can contain direct API keys or `env:VARIABLE_NAME` references. If an environment variable contains multiple keys, separate them with commas.
 
 ## Quick Start
 
-Test provider:
+Test one provider:
 
 ```powershell
 python .\code\part2_0_test_apis.py --provider deepseek
 ```
 
-Dry-run mot batch:
+Dry-run one batch:
 
 ```powershell
 python .\code\part2_1_run_api.py --dataset AirPassengers --scenario S1 --provider deepseek --num-runs 1 --dry-run
 ```
 
-Chay mot combination:
+Run one combination:
 
 ```powershell
 python .\code\part2_1_run_api.py --dataset AirPassengers --scenario S1 --provider deepseek --model-track baseline --num-runs 1
 ```
 
-Chay toan bo provider/dataset/scenario/track da cau hinh:
+Run all configured provider/dataset/scenario/track combinations:
 
 ```powershell
 python .\code\part2_1_run_api.py
 ```
 
-## Tuy chon quan trong
+## Important Options
 
-- `--dataset`: lap lai de chon nhieu dataset; bo qua de chay tat ca dataset local.
-- `--scenario`: `S1`, `S2`, `S3`, `S4`; bo qua de chay tat ca.
-- `--provider`: ten provider trong `config/api_keys.json`; bo qua de chay tat ca provider hop le.
-- `--model-track`: `baseline`, `challenger_ml`, `challenger_dl`; bo qua de chay ca 3 track.
-- `--num-runs`: so lan lap moi combination, mac dinh 3.
-- `--run-id-start`: run id bat dau, mac dinh 1.
-- `--dataset-source`: `auto`, `local`, hoac `darts`.
-- `--csv-mode`: `full`, `head_tail`, hoac `metadata_only`.
-- `--max-csv-rows`: gioi han so dong khi `csv-mode=head_tail`.
-- `--force`: chay lai ca run da co checkpoint thanh cong.
-- `--dry-run`: chi in ke hoach, khong goi API.
+- `--dataset`: repeat to select multiple datasets; omit to run all local datasets.
+- `--scenario`: `S1`, `S2`, `S3`, or `S4`; omit to run all scenarios.
+- `--provider`: provider name from `config/api_keys.json`; omit to run all valid providers.
+- `--model-track`: `baseline`, `challenger_ml`, or `challenger_dl`; omit to run all three tracks.
+- `--num-runs`: repeated runs per combination; default is 3.
+- `--run-id-start`: starting run id; default is 1.
+- `--dataset-source`: `auto`, `local`, or `darts`.
+- `--csv-mode`: `full`, `head_tail`, or `metadata_only`.
+- `--max-csv-rows`: row limit when `csv-mode=head_tail`.
+- `--force`: rerun combinations even if a successful checkpoint already exists.
+- `--dry-run`: print the plan without calling any API.
 
-## Input
+## Inputs
 
 - Prompt templates: `prompts/part2-interactive-llm-forecasting/`
-- Dataset CSV: `data/`
+- Dataset CSV files: `data/`
 - Model setup: `results/part1-llm-strategic-consultation/part2-model-setup.csv`
 - API config: `config/api_keys.json`
 
-## Output
+## Outputs
 
 - Chat logs: `logs/chat-logs/part2-interactive-llm-forecasting/Part2-<Dataset>-<Scenario>-<Branch>-<LLMVersion>-Run<N>.txt`
 - Run summary: `logs/system-logs/run-summary-part2-interactive-llm-forecasting.csv`
@@ -99,7 +99,7 @@ python .\code\part2_1_run_api.py
 - Run logs: `logs/system-logs/run-logs/`
 - Checkpoints: `checkpoints/part2-interactive-llm-forecasting/`
 
-Sau khi thu thap chat logs, tiep tuc pipeline:
+After chat logs are collected, continue with:
 
 ```powershell
 python .\code\part2_2_parse_master_logs.py

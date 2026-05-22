@@ -298,7 +298,7 @@ def _normalise_keys(raw_keys: list[Any], provider_name: str) -> list[str]:
             if not env_val:
                 logger.warning("[%s] env key is not set: %s", provider_name, env_name)
                 continue
-            # Tach nhieu keys trong 1 bien env
+            # Split multiple keys stored in one environment variable.
             candidates = [k.strip() for k in env_val.split(",") if k.strip()]
         else:
             candidates = [key]
