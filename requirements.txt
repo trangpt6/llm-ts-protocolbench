@@ -1,18 +1,26 @@
-# Core LLM SDKs
-openai==2.34.0
-anthropic==0.98.1
-google-generativeai==0.8.6
+# LLM provider SDKs
+openai>=1.59.0
+anthropic>=0.40.0
+google-generativeai>=0.8.0
 
-# Time series and data science
-darts==0.44.0
-pandas==3.0.2
-numpy==2.4.4
-scikit-learn==1.8.0
-statsmodels==0.14.6
+# Data processing and statistics
+numpy>=1.26.0,<2.0.0
+pandas>=2.2.0
+scipy>=1.11.0
+scikit-learn>=1.4.0
+statsmodels>=0.14.0
+pmdarima>=2.0.4
+
+# Forecast/script execution environment
 xgboost>=2.0.0
 lightgbm>=4.0.0
 torch>=2.2.0
+darts>=0.30.0
+
+# Reporting and visualization
+matplotlib>=3.8.0
+openpyxl>=3.1.0
 
 # Utilities
-python-dotenv==1.2.2
-tqdm==4.67.3
+python-dotenv>=1.0.1
+tqdm>=4.66.0

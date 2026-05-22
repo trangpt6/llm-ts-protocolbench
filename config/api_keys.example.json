@@ -14,7 +14,7 @@
     "enabled": true,
     "provider_type": "anthropic",
     "model_id": "claude-opus-4-7-20260201",
-    "display_name": "ClaudeSonnet46",
+    "display_name": "ClaudeOpus47",
     "max_tokens": 4096,
     "rotate_after_success": true,
     "keys": ["env:ANTHROPIC_API_KEY"]
@@ -22,8 +22,8 @@
   "xai": {
     "enabled": true,
     "provider_type": "openai_compatible",
-    "model_id": "grok-4",
-    "display_name": "Grok4",
+    "model_id": "grok-4.3",
+    "display_name": "Grok43",
     "base_url": "https://api.x.ai/v1",
     "max_tokens": 4096,
     "rotate_after_success": true,
@@ -41,7 +41,7 @@
   "deepseek": {
     "enabled": true,
     "provider_type": "openai_compatible",
-    "model_id": "deepseek-chat",
+    "model_id": "deepseek-v4-pro",
     "display_name": "DeepSeekV4",
     "base_url": "https://api.deepseek.com",
     "max_tokens": 4096,
@@ -51,7 +51,7 @@
   "moonshot": {
     "enabled": true,
     "provider_type": "openai_compatible",
-    "model_id": "kimi-k2-0711-preview",
+    "model_id": "kimi-k2.6",
     "display_name": "KimiK26",
     "base_url": "https://api.moonshot.cn/v1",
     "max_tokens": 4096,
