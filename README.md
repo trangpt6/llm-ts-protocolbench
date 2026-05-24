@@ -182,9 +182,3 @@ python .\code\part2_5_summarize_protocol_following.py
 python .\code\part2_5_compare_with_part0.py
 python .\code\part2_6_generate_visuals.py --phase all
 ```
-
-## Notes
-
-- Do not commit `config/api_keys.json`.
-- `results/` and `logs/` can become large; commit only the artifacts needed for the paper or thesis.
-- LLM-generated forecast scripts may import `statsmodels`, `scikit-learn`, `xgboost`, `lightgbm`, or `torch`, so `requirements.txt` includes dependencies for both the main pipeline and forecast-script execution.
