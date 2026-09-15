@@ -4,4 +4,4 @@ STDOUT
 STDERR
 
 
-TIMEOUT after 120 seconds
+TIMEOUT after 900 seconds

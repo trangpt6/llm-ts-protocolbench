@@ -1,0 +1,4 @@
+﻿branch,n,mase_mean,mase_median,rmse_mean,r2_mean
+Base,135,1.557,1.238,16.745,0.44
+ChalML,216,1.665,1.351,26.122,0.22
+ChalDL,184,6.567,2.101,110.504,-15.946

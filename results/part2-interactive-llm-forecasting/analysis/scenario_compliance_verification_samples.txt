@@ -1,0 +1,119 @@
+Scenario=S1
+run_id=3
+expected_requirements=retraining=False; ground_truth=False; blockwise=None; multistep=None
+turn2_semantic_values={"blockwise": false, "ground_truth": false, "retraining": false}
+turn3_implementation_values={"blockwise": true, "ground_truth": true, "retraining": false}
+semantic_score=100.0%
+implementation_score=50.0%
+execution_status=False
+final_classification=semantic_ok/implementation_fail/execution_fail
+
+Scenario=S1
+run_id=2
+expected_requirements=retraining=False; ground_truth=False; blockwise=None; multistep=None
+turn2_semantic_values={"blockwise": false, "ground_truth": false, "retraining": false}
+turn3_implementation_values={"blockwise": true, "ground_truth": false, "retraining": false}
+semantic_score=100.0%
+implementation_score=100.0%
+execution_status=False
+final_classification=semantic_ok/implementation_ok/execution_fail
+
+Scenario=S1
+run_id=3
+expected_requirements=retraining=False; ground_truth=False; blockwise=None; multistep=None
+turn2_semantic_values={"blockwise": false, "ground_truth": false, "retraining": false}
+turn3_implementation_values={"blockwise": true, "ground_truth": true, "retraining": false}
+semantic_score=100.0%
+implementation_score=50.0%
+execution_status=False
+final_classification=semantic_ok/implementation_fail/execution_fail
+
+Scenario=S2
+run_id=3
+expected_requirements=retraining=True; ground_truth=True; blockwise=None; multistep=None
+turn2_semantic_values={"blockwise": false, "ground_truth": true, "retraining": false}
+turn3_implementation_values={"blockwise": true, "ground_truth": true, "retraining": false}
+semantic_score=50.0%
+implementation_score=50.0%
+execution_status=False
+final_classification=semantic_fail/implementation_unknown/execution_fail
+
+Scenario=S2
+run_id=3
+expected_requirements=retraining=True; ground_truth=True; blockwise=None; multistep=None
+turn2_semantic_values={"blockwise": false, "ground_truth": true, "retraining": true}
+turn3_implementation_values={"blockwise": true, "ground_truth": true, "retraining": false}
+semantic_score=100.0%
+implementation_score=50.0%
+execution_status=False
+final_classification=semantic_ok/implementation_fail/execution_fail
+
+Scenario=S2
+run_id=3
+expected_requirements=retraining=True; ground_truth=True; blockwise=None; multistep=None
+turn2_semantic_values={"blockwise": false, "ground_truth": false, "retraining": false}
+turn3_implementation_values={"blockwise": true, "ground_truth": false, "retraining": false}
+semantic_score=0.0%
+implementation_score=0.0%
+execution_status=True
+final_classification=semantic_fail/implementation_unknown/execution_ok
+
+Scenario=S3
+run_id=2
+expected_requirements=retraining=True; ground_truth=True; blockwise=None; multistep=True
+turn2_semantic_values={"blockwise": false, "ground_truth": true, "retraining": true}
+turn3_implementation_values={"blockwise": true, "ground_truth": false, "retraining": false}
+semantic_score=100.0%
+implementation_score=0.0%
+execution_status=True
+final_classification=semantic_ok/implementation_fail/execution_ok
+
+Scenario=S3
+run_id=3
+expected_requirements=retraining=True; ground_truth=True; blockwise=None; multistep=True
+turn2_semantic_values={"blockwise": false, "ground_truth": false, "retraining": true}
+turn3_implementation_values={"blockwise": true, "ground_truth": true, "retraining": false}
+semantic_score=50.0%
+implementation_score=50.0%
+execution_status=True
+final_classification=semantic_fail/implementation_unknown/execution_ok
+
+Scenario=S3
+run_id=2
+expected_requirements=retraining=True; ground_truth=True; blockwise=None; multistep=True
+turn2_semantic_values={"blockwise": false, "ground_truth": false, "retraining": false}
+turn3_implementation_values={"blockwise": true, "ground_truth": true, "retraining": false}
+semantic_score=0.0%
+implementation_score=50.0%
+execution_status=False
+final_classification=semantic_fail/implementation_unknown/execution_fail
+
+Scenario=S4
+run_id=3
+expected_requirements=retraining=True; ground_truth=True; blockwise=True; multistep=True
+turn2_semantic_values={"blockwise": true, "ground_truth": false, "retraining": true}
+turn3_implementation_values={"blockwise": true, "ground_truth": true, "retraining": false}
+semantic_score=66.7%
+implementation_score=66.7%
+execution_status=False
+final_classification=semantic_fail/implementation_unknown/execution_fail
+
+Scenario=S4
+run_id=1
+expected_requirements=retraining=True; ground_truth=True; blockwise=True; multistep=True
+turn2_semantic_values={"blockwise": true, "ground_truth": false, "retraining": true}
+turn3_implementation_values={"blockwise": true, "ground_truth": true, "retraining": true}
+semantic_score=66.7%
+implementation_score=100.0%
+execution_status=False
+final_classification=semantic_fail/implementation_unknown/execution_fail
+
+Scenario=S4
+run_id=3
+expected_requirements=retraining=True; ground_truth=True; blockwise=True; multistep=True
+turn2_semantic_values={"blockwise": true, "ground_truth": true, "retraining": true}
+turn3_implementation_values={"blockwise": true, "ground_truth": true, "retraining": false}
+semantic_score=100.0%
+implementation_score=66.7%
+execution_status=True
+final_classification=semantic_ok/implementation_fail/execution_ok

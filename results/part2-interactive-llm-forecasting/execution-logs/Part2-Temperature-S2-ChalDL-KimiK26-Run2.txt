@@ -36,4 +36,4 @@ D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\torch\nn\modules\loss.p
   return F.mse_loss(input, target, reduction=self.reduction)
 
 
-TIMEOUT after 120 seconds
+TIMEOUT after 900 seconds

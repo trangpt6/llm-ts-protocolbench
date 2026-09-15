@@ -1,0 +1,10 @@
+﻿branch,part0_model,comparisons,wins,losses,ties,win_rate_pct
+Base,Auto-ARIMA,11,4,7,0,36.4
+Base,Naive (Flat),11,10,1,0,90.9
+Base,Naive (Seasonal),11,5,6,0,45.5
+ChalDL,Auto-ARIMA,15,1,14,0,6.7
+ChalDL,Naive (Flat),15,7,8,0,46.7
+ChalDL,Naive (Seasonal),15,5,10,0,33.3
+ChalML,Auto-ARIMA,18,3,15,0,16.7
+ChalML,Naive (Flat),18,13,5,0,72.2
+ChalML,Naive (Seasonal),18,9,9,0,50.0

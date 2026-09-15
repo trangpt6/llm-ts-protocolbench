@@ -1,0 +1,6 @@
+﻿dataset,total,ok,execution_success_rate_pct
+AirPassengers,216,189,87.5
+ETTh1,56,5,8.93
+ILINet,216,99,45.83
+IceCreamHeater,216,180,83.33
+Temperature,216,62,28.7

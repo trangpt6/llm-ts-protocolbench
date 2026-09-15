@@ -1,0 +1,6 @@
+﻿dataset,type,variables,samples,target,seasonality,horizon_or_block,total_runs,missing_pct
+AirPassengers,Univariate,1,144,Passengers,12,1,30,0.0
+ETTh1,Multivariate,7,17420,OT,24,1,30,0.0
+ILINet,Multivariate,11,1301,% WEIGHTED ILI,52,1,30,11.11
+IceCreamHeater,Multivariate,2,198,Ice cream,12,1,30,0.0
+Temperature,Univariate,1,3650,Daily minimum temperatures,365,1,30,0.0

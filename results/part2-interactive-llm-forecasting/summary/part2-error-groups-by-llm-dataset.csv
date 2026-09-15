@@ -1,81 +1,89 @@
 ﻿llm_version,dataset,error_group,runs,total_runs,rate_pct
 ClaudeOpus47,AirPassengers,OK,34,36,94.44
-ClaudeOpus47,AirPassengers,runtime/infra issue,2,36,5.56
-ClaudeOpus47,ETTh1,runtime/infra issue,4,4,100.0
-ClaudeOpus47,ILINet,OK,24,36,66.67
-ClaudeOpus47,ILINet,runtime/infra issue,12,36,33.33
+ClaudeOpus47,AirPassengers,model/output issue,2,36,5.56
+ClaudeOpus47,ETTh1,code issue,4,4,100.0
+ClaudeOpus47,ILINet,OK,25,36,69.44
+ClaudeOpus47,ILINet,runtime/infra issue,6,36,16.67
+ClaudeOpus47,ILINet,model/output issue,3,36,8.33
+ClaudeOpus47,ILINet,code issue,2,36,5.56
 ClaudeOpus47,IceCreamHeater,OK,33,36,91.67
-ClaudeOpus47,IceCreamHeater,runtime/infra issue,3,36,8.33
-ClaudeOpus47,Temperature,runtime/infra issue,22,36,61.11
-ClaudeOpus47,Temperature,OK,10,36,27.78
-ClaudeOpus47,Temperature,model/output issue,4,36,11.11
+ClaudeOpus47,IceCreamHeater,model/output issue,3,36,8.33
+ClaudeOpus47,Temperature,runtime/infra issue,18,36,50.0
+ClaudeOpus47,Temperature,OK,13,36,36.11
+ClaudeOpus47,Temperature,model/output issue,3,36,8.33
+ClaudeOpus47,Temperature,code issue,2,36,5.56
 DeepSeekV4Pro,AirPassengers,OK,29,36,80.56
-DeepSeekV4Pro,AirPassengers,runtime/infra issue,7,36,19.44
-DeepSeekV4Pro,ETTh1,runtime/infra issue,31,36,86.11
+DeepSeekV4Pro,AirPassengers,code issue,7,36,19.44
+DeepSeekV4Pro,ETTh1,code issue,19,36,52.78
+DeepSeekV4Pro,ETTh1,runtime/infra issue,12,36,33.33
 DeepSeekV4Pro,ETTh1,OK,4,36,11.11
-DeepSeekV4Pro,ETTh1,code issue,1,36,2.78
-DeepSeekV4Pro,ILINet,runtime/infra issue,29,36,80.56
+DeepSeekV4Pro,ETTh1,model/output issue,1,36,2.78
+DeepSeekV4Pro,ILINet,code issue,14,36,38.89
+DeepSeekV4Pro,ILINet,model/output issue,12,36,33.33
 DeepSeekV4Pro,ILINet,OK,5,36,13.89
-DeepSeekV4Pro,ILINet,code issue,1,36,2.78
-DeepSeekV4Pro,ILINet,model/output issue,1,36,2.78
+DeepSeekV4Pro,ILINet,runtime/infra issue,5,36,13.89
 DeepSeekV4Pro,IceCreamHeater,OK,31,36,86.11
-DeepSeekV4Pro,IceCreamHeater,runtime/infra issue,4,36,11.11
+DeepSeekV4Pro,IceCreamHeater,code issue,4,36,11.11
 DeepSeekV4Pro,IceCreamHeater,model/output issue,1,36,2.78
-DeepSeekV4Pro,Temperature,runtime/infra issue,20,36,55.56
+DeepSeekV4Pro,Temperature,runtime/infra issue,17,36,47.22
+DeepSeekV4Pro,Temperature,model/output issue,7,36,19.44
 DeepSeekV4Pro,Temperature,OK,6,36,16.67
-DeepSeekV4Pro,Temperature,model/output issue,6,36,16.67
-DeepSeekV4Pro,Temperature,code issue,4,36,11.11
+DeepSeekV4Pro,Temperature,code issue,6,36,16.67
 GPT55,AirPassengers,OK,35,36,97.22
 GPT55,AirPassengers,code issue,1,36,2.78
 GPT55,ETTh1,code issue,4,4,100.0
-GPT55,ILINet,OK,24,36,66.67
-GPT55,ILINet,runtime/infra issue,9,36,25.0
+GPT55,ILINet,OK,27,36,75.0
+GPT55,ILINet,runtime/infra issue,6,36,16.67
 GPT55,ILINet,code issue,3,36,8.33
 GPT55,IceCreamHeater,OK,32,36,88.89
-GPT55,IceCreamHeater,runtime/infra issue,3,36,8.33
-GPT55,IceCreamHeater,code issue,1,36,2.78
-GPT55,Temperature,runtime/infra issue,26,36,72.22
-GPT55,Temperature,OK,7,36,19.44
+GPT55,IceCreamHeater,code issue,2,36,5.56
+GPT55,IceCreamHeater,model/output issue,2,36,5.56
+GPT55,Temperature,runtime/infra issue,18,36,50.0
+GPT55,Temperature,OK,15,36,41.67
 GPT55,Temperature,code issue,3,36,8.33
 Gemini31Pro,AirPassengers,OK,29,36,80.56
-Gemini31Pro,AirPassengers,runtime/infra issue,7,36,19.44
-Gemini31Pro,ETTh1,runtime/infra issue,3,5,60.0
-Gemini31Pro,ETTh1,OK,2,5,40.0
+Gemini31Pro,AirPassengers,model/output issue,5,36,13.89
+Gemini31Pro,AirPassengers,code issue,2,36,5.56
+Gemini31Pro,ETTh1,runtime/infra issue,2,4,50.0
+Gemini31Pro,ETTh1,OK,1,4,25.0
+Gemini31Pro,ETTh1,code issue,1,4,25.0
 Gemini31Pro,ILINet,OK,28,36,77.78
-Gemini31Pro,ILINet,runtime/infra issue,8,36,22.22
+Gemini31Pro,ILINet,runtime/infra issue,6,36,16.67
+Gemini31Pro,ILINet,code issue,1,36,2.78
+Gemini31Pro,ILINet,model/output issue,1,36,2.78
 Gemini31Pro,IceCreamHeater,OK,29,36,80.56
-Gemini31Pro,IceCreamHeater,runtime/infra issue,7,36,19.44
-Gemini31Pro,Temperature,runtime/infra issue,17,36,47.22
-Gemini31Pro,Temperature,code issue,8,36,22.22
-Gemini31Pro,Temperature,OK,7,36,19.44
-Gemini31Pro,Temperature,model/output issue,4,36,11.11
+Gemini31Pro,IceCreamHeater,model/output issue,7,36,19.44
+Gemini31Pro,Temperature,runtime/infra issue,12,36,33.33
+Gemini31Pro,Temperature,OK,9,36,25.0
+Gemini31Pro,Temperature,code issue,9,36,25.0
+Gemini31Pro,Temperature,model/output issue,6,36,16.67
 Grok43,AirPassengers,OK,33,36,91.67
-Grok43,AirPassengers,runtime/infra issue,2,36,5.56
+Grok43,AirPassengers,code issue,2,36,5.56
 Grok43,AirPassengers,model/output issue,1,36,2.78
-Grok43,ETTh1,runtime/infra issue,3,7,42.86
-Grok43,ETTh1,OK,2,7,28.57
-Grok43,ETTh1,model/output issue,2,7,28.57
-Grok43,ILINet,runtime/infra issue,28,36,77.78
-Grok43,ILINet,model/output issue,8,36,22.22
+Grok43,ETTh1,model/output issue,2,4,50.0
+Grok43,ETTh1,runtime/infra issue,2,4,50.0
+Grok43,ILINet,model/output issue,19,36,52.78
+Grok43,ILINet,code issue,12,36,33.33
+Grok43,ILINet,runtime/infra issue,5,36,13.89
 Grok43,IceCreamHeater,OK,30,36,83.33
-Grok43,IceCreamHeater,model/output issue,5,36,13.89
-Grok43,IceCreamHeater,runtime/infra issue,1,36,2.78
-Grok43,Temperature,runtime/infra issue,19,36,52.78
-Grok43,Temperature,OK,10,36,27.78
+Grok43,IceCreamHeater,model/output issue,6,36,16.67
+Grok43,Temperature,runtime/infra issue,16,36,44.44
+Grok43,Temperature,OK,13,36,36.11
 Grok43,Temperature,code issue,7,36,19.44
 KimiK26,AirPassengers,OK,29,36,80.56
 KimiK26,AirPassengers,model/output issue,6,36,16.67
-KimiK26,AirPassengers,runtime/infra issue,1,36,2.78
-KimiK26,ETTh1,runtime/infra issue,2,4,50.0
-KimiK26,ETTh1,code issue,1,4,25.0
+KimiK26,AirPassengers,code issue,1,36,2.78
+KimiK26,ETTh1,code issue,2,4,50.0
 KimiK26,ETTh1,model/output issue,1,4,25.0
-KimiK26,ILINet,runtime/infra issue,21,36,58.33
-KimiK26,ILINet,OK,13,36,36.11
-KimiK26,ILINet,code issue,2,36,5.56
+KimiK26,ETTh1,runtime/infra issue,1,4,25.0
+KimiK26,ILINet,OK,14,36,38.89
+KimiK26,ILINet,code issue,9,36,25.0
+KimiK26,ILINet,model/output issue,8,36,22.22
+KimiK26,ILINet,runtime/infra issue,5,36,13.89
 KimiK26,IceCreamHeater,OK,25,36,69.44
-KimiK26,IceCreamHeater,model/output issue,8,36,22.22
-KimiK26,IceCreamHeater,runtime/infra issue,3,36,8.33
-KimiK26,Temperature,runtime/infra issue,21,36,58.33
-KimiK26,Temperature,model/output issue,7,36,19.44
+KimiK26,IceCreamHeater,model/output issue,9,36,25.0
+KimiK26,IceCreamHeater,code issue,2,36,5.56
+KimiK26,Temperature,runtime/infra issue,16,36,44.44
+KimiK26,Temperature,model/output issue,12,36,33.33
 KimiK26,Temperature,OK,6,36,16.67
 KimiK26,Temperature,code issue,2,36,5.56

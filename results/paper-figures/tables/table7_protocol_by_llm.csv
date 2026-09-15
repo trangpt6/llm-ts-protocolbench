@@ -1,0 +1,7 @@
+﻿llm_version,execution_success_rate,overall_protocol_score,scenario_understanding_score,code_structure_score
+ClaudeOpus47,0.73,86.3,66.39,79.4
+DeepSeekV4Pro,0.49,77.52,60.69,74.08
+GPT55,0.76,86.89,68.33,79.25
+Gemini31Pro,0.66,83.28,59.72,76.31
+Grok43,0.53,77.04,70.69,69.29
+KimiK26,0.51,82.13,57.36,79.32

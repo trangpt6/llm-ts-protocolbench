@@ -1,0 +1,6 @@
+﻿dataset,series_type,num_variables,num_samples,target_column,seasonal_period,missing_values,missing_rate_pct,note
+AirPassengers,Univariate,1,144,Passengers,12,0,0.0,
+ETTh1,Multivariate,7,17420,OT,24,0,0.0,"largest dataset (17,420 samples)"
+ILINet,Multivariate,11,1301,% WEIGHTED ILI,52,1735,11.11,contains missing values
+IceCreamHeater,Multivariate,2,198,Ice cream,12,0,0.0,
+Temperature,Univariate,1,3650,Daily minimum temperatures,365,0,0.0,

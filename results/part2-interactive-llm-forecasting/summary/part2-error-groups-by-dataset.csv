@@ -1,21 +1,19 @@
 ﻿dataset,error_group,runs,total_runs,rate_pct
 AirPassengers,OK,189,216,87.5
-AirPassengers,runtime/infra issue,19,216,8.8
-AirPassengers,model/output issue,7,216,3.24
-AirPassengers,code issue,1,216,0.46
-ETTh1,runtime/infra issue,43,60,71.67
-ETTh1,OK,8,60,13.33
-ETTh1,code issue,6,60,10.0
-ETTh1,model/output issue,3,60,5.0
-ILINet,runtime/infra issue,107,216,49.54
-ILINet,OK,94,216,43.52
-ILINet,model/output issue,9,216,4.17
-ILINet,code issue,6,216,2.78
+AirPassengers,model/output issue,14,216,6.48
+AirPassengers,code issue,13,216,6.02
+ETTh1,code issue,30,56,53.57
+ETTh1,runtime/infra issue,17,56,30.36
+ETTh1,OK,5,56,8.93
+ETTh1,model/output issue,4,56,7.14
+ILINet,OK,99,216,45.83
+ILINet,model/output issue,43,216,19.91
+ILINet,code issue,41,216,18.98
+ILINet,runtime/infra issue,33,216,15.28
 IceCreamHeater,OK,180,216,83.33
-IceCreamHeater,runtime/infra issue,21,216,9.72
-IceCreamHeater,model/output issue,14,216,6.48
-IceCreamHeater,code issue,1,216,0.46
-Temperature,runtime/infra issue,125,216,57.87
-Temperature,OK,46,216,21.3
-Temperature,code issue,24,216,11.11
-Temperature,model/output issue,21,216,9.72
+IceCreamHeater,model/output issue,28,216,12.96
+IceCreamHeater,code issue,8,216,3.7
+Temperature,runtime/infra issue,97,216,44.91
+Temperature,OK,62,216,28.7
+Temperature,code issue,29,216,13.43
+Temperature,model/output issue,28,216,12.96

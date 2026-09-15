@@ -8,4 +8,4 @@ D:\UET\KLTN\llm-ts-protocolbench\.venv\Lib\site-packages\statsmodels\tsa\base\ts
   self._init_dates(dates, freq)
 
 
-TIMEOUT after 120 seconds
+TIMEOUT after 900 seconds

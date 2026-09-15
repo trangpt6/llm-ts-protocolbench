@@ -6,4 +6,4 @@ D:\UET\KLTN\llm-ts-protocolbench\results\part2-interactive-llm-forecasting\scrip
   X = torch.tensor(X, dtype=torch.float32).unsqueeze(-1)  # (N, seq_len, 1)
 
 
-TIMEOUT after 120 seconds
+TIMEOUT after 900 seconds
