@@ -35,15 +35,11 @@ requirements_backup.txt
 docs
 code/journal_analysis
 # journal-analysis stays local, except the aggregate CSVs that
-# code/part2_7_generate_paper_figures.py reads to rebuild the manuscript figures
+# code/part2_6_generate_paper_figures.py reads to rebuild the manuscript figures
 results/journal-analysis/*
 !results/journal-analysis/csv/
 paper_audit.md
 scripts
-
-# Keep only the scenario-compliance regression test; other local test scaffolding stays out
-tests/*
-!tests/test_scenario_compliance.py
 
 # Internal review artifacts: manuscript drafts, page renders, pre-change backups
 .review/

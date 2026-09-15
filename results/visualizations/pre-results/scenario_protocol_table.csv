@@ -1,5 +1,0 @@
-﻿scenario,forecast_mode,update_mode,ground_truth_available,retraining,inference_style
-S1,One-step,Static,No,No,Recursive inference
-S2,One-step,Rolling,Yes,Every step,Continuous retraining
-S3,Multi-step,Rolling,Yes,Every step,Continuous retraining
-S4,Multi-step,Block-wise rolling,Yes,Every block,Periodic retraining

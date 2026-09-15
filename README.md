@@ -1,15 +1,15 @@
 # llm-ts-protocolbench
 
-`llm-ts-protocolbench` is a research benchmark for evaluating time-series forecasting with LLMs, with an emphasis on protocol following, executable forecast generation, and comparisons against traditional baselines. The repository contains scripts for traditional baseline forecasting, LLM-derived model setup analysis, interactive Part 2 API experiments, chat-log parsing, forecast execution, metric computation, failure analysis, Part 0 comparisons, and visualization generation.
+`llm-ts-protocolbench` is a research benchmark for evaluating time-series forecasting with LLMs, with an emphasis on protocol following, executable forecast generation, and comparisons against traditional baselines. The repository contains scripts for traditional baseline forecasting, LLM-derived model setup analysis, interactive Part 2 API experiments, chat-log parsing, forecast execution, metric computation, failure analysis, Part 0 comparisons, and manuscript figure generation.
 
 ## Repository Structure
 
-- `code/`: main pipeline scripts.
+- `code/`: main pipeline scripts and the scenario-compliance regression test.
 - `code/part2_api/`: support package for the Part 2 API runner, including API clients, dataset loading, prompt construction, checkpoints, logging, and single-run orchestration.
 - `config/`: provider and API-key configuration. Use `api_keys.example.json` as the template for `api_keys.json`.
 - `data/`: benchmark datasets: `AirPassengers`, `ETTh1`, `IceCreamHeater`, `ILINet`, and `Temperature`.
 - `prompts/`: prompt templates for Part 1 and Part 2.
-- `results/`: output artifacts, including model setup files, forecast outputs, metrics, summary tables, and visualizations.
+- `results/`: output artifacts, including model setup files, forecast outputs, metrics, summary tables, and the manuscript figures and tables.
 - `logs/`: chat logs, master logs, system logs, and run logs.
 - `docs/`: supporting research documentation.
 
@@ -157,23 +157,10 @@ python .\code\part2_5_compare_with_part0.py
 
 Outputs are written to `results/part2-interactive-llm-forecasting/summary-tables/`, including comparison tables, win/tie/loss summaries, and Diebold-Mariano tests for Part 2 vs Part 0.
 
-### 8. Generate Visualizations
+### 8. Scenario Compliance Analysis
 
 ```powershell
-python .\code\part2_6_generate_visuals.py --phase all
-```
-
-Use `--phase pre`, `--phase post`, or `--dry-run` as needed.
-
-Outputs:
-
-- `results/visualizations/pre-results/`
-- `results/visualizations/post-results/`
-
-### 9. Scenario Compliance Analysis
-
-```powershell
-python .\code\part2_7_scenario_compliance.py
+python .\code\part2_6_scenario_compliance.py
 ```
 
 Cross-checks the Turn 2 / Turn 3 protocol columns against the per-scenario requirements in `prompts/4scenarios.txt` and reports semantic compliance, implementation compliance, and execution success per scenario.
@@ -189,13 +176,13 @@ Outputs (written to `results/part2-interactive-llm-forecasting/analysis/`):
 Regression test for the compliance rules:
 
 ```powershell
-python .\tests\test_scenario_compliance.py
+python .\code\test_scenario_compliance.py
 ```
 
-### 10. Generate the Manuscript Figures and Tables
+### 9. Generate the Manuscript Figures and Tables
 
 ```powershell
-python .\code\part2_7_generate_paper_figures.py --figures fig3
+python .\code\part2_6_generate_paper_figures.py --figures fig3
 ```
 
 `--figures` accepts one or more ids (`fig1`-`fig7`) and `--tables` one or more table ids; omit both to regenerate everything. Every run also rewrites the CSV tables.
@@ -214,8 +201,10 @@ Note that both the figure ids and the file names are offset from the numbering u
 | Fig. 2 | `fig1_execution_success_rate` |
 | Fig. 6 | `fig2_failure_adjusted` |
 | Fig. 5 | `fig3_branch_vs_base` |
+| Fig. 4 | `fig5_protocol_vs_success` |
 | Fig. 3 | `fig6_failure_taxonomy` |
-| Fig. 7 | `fig7_difficulty_profiles` |
+
+Fig. 1 is drawn outside this pipeline. `fig4_part2_vs_part0` and `fig7_difficulty_profiles` are generated for completeness but are not used in the current manuscript revision.
 
 ## Reproducible Execution Order
 
@@ -229,9 +218,8 @@ python .\code\part2_4_summary_tables.py
 python .\code\part2_4_execution_failure_summary.py
 python .\code\part2_5_summarize_protocol_following.py
 python .\code\part2_5_compare_with_part0.py
-python .\code\part2_6_generate_visuals.py --phase all
-python .\code\part2_7_scenario_compliance.py
-python .\code\part2_7_generate_paper_figures.py
+python .\code\part2_6_scenario_compliance.py
+python .\code\part2_6_generate_paper_figures.py
 ```
 
 ## Notes

@@ -1,5 +1,5 @@
 """
-Generate publication-ready figures and tables for the IJF paper.
+Generate publication-ready figures and tables for the manuscript.
 
 Output structure:
     results/paper-figures/
@@ -7,8 +7,8 @@ Output structure:
         tables/           # LaTeX-ready CSV tables
 
 Usage:
-    python code/part2_7_generate_paper_figures.py
-    python code/part2_7_generate_paper_figures.py --format pdf  # vector only
+    python code/part2_6_generate_paper_figures.py
+    python code/part2_6_generate_paper_figures.py --format pdf  # vector only
 """
 
 from __future__ import annotations
@@ -58,8 +58,6 @@ LLM_COLORS = {
     "ClaudeOpus47": "#33658A", "GPT55": "#588B8B", "Gemini31Pro": "#D95D39",
     "DeepSeekV4Pro": "#E9C46A", "Grok43": "#9B5DE5", "KimiK26": "#F4A261",
 }
-# Backward-compatible merged dict, kept only for any external references.
-COLORS = {**STATUS_COLORS, **BRANCH_COLORS, **LLM_COLORS}
 LLM_ORDER = ["ClaudeOpus47", "GPT55", "Gemini31Pro", "DeepSeekV4Pro", "Grok43", "KimiK26"]
 # Display names, spelled exactly as in the manuscript (Table V).
 LLM_LABEL = {
@@ -243,7 +241,6 @@ def fig1_coverage_failure():
 
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
 
-    # Panel (a)
     y1 = [i * 0.8 for i in range(len(ds_data))]
     ax1.barh(y1, ds_data["ok"], color=STATUS_COLORS["success"], label="Success", height=0.6)
     ax1.barh(y1, ds_data["fail"], left=ds_data["ok"], color=STATUS_COLORS["failure"],
@@ -255,9 +252,7 @@ def fig1_coverage_failure():
         fontsize=14,
     )
     ax1.set_xlabel("Number of runs")
-    # ax1.set_title("(a) By Dataset", fontweight="bold")
 
-    # Panel (b)
     y2 = [i * 0.8 for i in range(len(llm_data))]
     ax2.barh(y2, llm_data["ok"], color=STATUS_COLORS["success"], label="Success", height=0.6)
     ax2.barh(y2, llm_data["fail"], left=llm_data["ok"], color=STATUS_COLORS["failure"],
@@ -269,10 +264,7 @@ def fig1_coverage_failure():
         fontsize=14,
     )
     ax2.set_xlabel("Number of runs")
-    # ax2.set_title("(b) By LLM", fontweight="bold")
 
-    # fig.suptitle("Execution Success Rate by Dataset and LLM",
-    #              fontweight="bold", fontsize=13, y=1.02)
     handles, labels = ax1.get_legend_handles_labels()
     fig.legend(handles, labels, loc="upper center", bbox_to_anchor=(0.58, 0.06), ncol=2, framealpha=0.9, fontsize=13, columnspacing=0.5)
     fig.subplots_adjust(left=0.18, right=0.98, top=0.95, bottom=0.12, wspace=0.5)
@@ -392,11 +384,6 @@ def fig3_branch_vs_base():
                 ax.text(x + 0.28, med, f"{med:.2f}", ha="left", va="center",
                         fontsize=18, fontweight="bold")
 
-    # fig.text(
-    #     0.5, 0.03,
-    #     "Medians are annotated; whiskers extend to 1.5×IQR; outliers are omitted for readability.",
-    #     ha="center", fontsize=19,
-    # )
     fig.tight_layout(rect=[0, 0.04, 1, 0.98])
     save_figure(fig, "fig3_branch_vs_base")
 
@@ -436,8 +423,6 @@ def fig4_part2_vs_part0():
     ax.set_xticks(x + width)
     ax.set_xticklabels(baselines)
     ax.set_ylabel("RMSE Win Rate (%)")
-    # ax.set_title("(a) Part 2 Win Rate vs Traditional Baselines (RMSE)",
-    #              fontweight="bold")
     ax.axhline(y=50, color="gray", linestyle="--", linewidth=0.8, alpha=0.5)
     # Placed above the Auto-ARIMA group (left side), which has no bar value
     # label near y=50-52, instead of over the Naive (Seasonal) group where it
@@ -477,12 +462,8 @@ def fig4_part2_vs_part0():
         ax.set_xticks(x2)
         ax.set_xticklabels(br_list)
         ax.set_ylabel("Number of DM Tests")
-        # ax.set_title("(b) Diebold-Mariano Significant Results (Part 2 vs Part 0)",
-        #              fontweight="bold")
         ax.legend(framealpha=0.9)
 
-    # fig.suptitle("Part 2 vs Traditional Baselines: Win Rates & Statistical Tests",
-    #              fontweight="bold", fontsize=13, y=1.02)
     fig.tight_layout()
     save_figure(fig, "fig4_part2_vs_part0")
 
@@ -531,7 +512,7 @@ def fig5_protocol_vs_success():
             va=va,
         )
 
-    # Đường xu hướng (giữ nguyên)
+    # LLM-level trend line.
     from numpy.polynomial.polynomial import polyfit
     if len(xs) > 1:
         b, m = polyfit(xs, ys, 1)
@@ -540,7 +521,7 @@ def fig5_protocol_vs_success():
         ax.plot(x_fit, y_fit, "k--", alpha=0.55, linewidth=1.5,
                 label="LLM-level trend")
 
-    # Box thông tin: point-biserial ở mức run, tính trên dữ liệu loại ETTh1
+    # Info box: run-level point-biserial on the ETTh1-excluded data.
     x_pb = pd.to_numeric(run_level["overall_protocol_score"], errors="coerce")
     y_pb = run_level["executed_successfully"].astype(int)
     valid = x_pb.notna()
@@ -571,8 +552,6 @@ def fig5_protocol_vs_success():
     ax.set_xlim(float(xs.min()) - 3.0, float(xs.max()) + 3.0)
     ax.set_ylim(max(0.0, float(ys.min()) - 0.05), min(1.0, float(ys.max()) + 0.05))
 
-    # Put the one-item trend legend in the open upper-left area so it does
-    # not collide with the point-biserial box in the lower-right area.
     ax.legend(loc="upper left", framealpha=0.9, fontsize=15)
 
     fig.tight_layout()
@@ -586,13 +565,7 @@ def fig5_protocol_vs_success():
 def fig6_failure_taxonomy():
     ft = load_failure_taxonomy_llm()
 
-    # Group smaller categories into a catch-all bucket. If the raw taxonomy
-    # already contains a genuine category literally named "Other", grouping
-    # the remaining tail categories into that same name would silently merge
-    # two different things into one bar segment, inflating the real "Other"
-    # category. Use a distinct label for the catch-all bucket so the two are
-    # never conflated.
-    # NOTE: all categories are shown; no grouping into "Other".
+    # Every failure category keeps its own segment; nothing is merged into "Other".
     ft["cat_grouped"] = ft["error_category"]
 
     pivot = ft.pivot_table(
@@ -663,7 +636,6 @@ def fig7_difficulty_profiles():
     ax1.set_yticks(x1)
     ax1.set_yticklabels(ds_sorted[ds_col])
     ax1.set_xlabel("Operational Difficulty Score\n(lower = easier)")
-    # ax1.set_title("(a) Dataset Operational Difficulty", fontweight="bold")
     ax1.set_xlim(0, 1.15)
 
     # Panel (b): Scenario difficulty
@@ -679,11 +651,8 @@ def fig7_difficulty_profiles():
     ax2.set_yticks(x2)
     ax2.set_yticklabels(sc_sorted["scenario"])
     ax2.set_xlabel("Operational Difficulty Score\n(lower = easier)")
-    # ax2.set_title("(b) Scenario Operational Difficulty", fontweight="bold")
     ax2.set_xlim(0, 0.95)
 
-    # fig.suptitle("Operational Difficulty: Dataset & Scenario Profiles",
-    #              fontweight="bold", fontsize=13, y=1.02)
     fig.tight_layout()
     save_figure(fig, "fig7_difficulty_profiles")
 
@@ -698,7 +667,6 @@ def table1_dataset_scenario_design():
     PART1_SETUP = RESULTS_DIR / "part1-llm-strategic-consultation" / "part2-model-setup.csv"
     setup = read_csv(PART1_SETUP)
 
-    # Dataset description
     metadata = (
         setup[["dataset", "dataset_type", "dataset_primary_target"]]
         .drop_duplicates()
@@ -715,7 +683,6 @@ def table1_dataset_scenario_design():
         total_missing = int(frame.isna().sum().sum())
         total_cells = int(frame.size)
 
-        # Seasonal period from setup
         ds_setup = setup[setup["dataset"] == ds_name]
         seasonal = "N/A"
         for raw in ds_setup["baseline_hyperparameters"].dropna():
@@ -744,12 +711,10 @@ def table1_dataset_scenario_design():
             "missing_pct": round(total_missing / total_cells * 100, 2),
         })
     ds_table = pd.DataFrame(rows)
-    # Round numeric columns
     for col in ["missing_pct"]:
         ds_table[col] = ds_table[col].round(2)
     save_table(ds_table, "table1a_dataset_description")
 
-    # Scenario protocol
     sc_table = pd.DataFrame([
         {"scenario": "S1", "forecast_mode": "One-step", "update_mode": "Static",
          "ground_truth": "No", "retraining": "No", "inference": "Recursive"},
@@ -778,7 +743,6 @@ def table2_branch_metrics():
         .reset_index()
     )
     branch_summary = branch_summary.set_index("branch").reindex(BRANCH_ORDER).reset_index()
-    # Round for publication
     for col in ["mase_mean", "mase_median", "rmse_mean", "r2_mean"]:
         branch_summary[col] = branch_summary[col].round(3)
     save_table(branch_summary, "table2_branch_metrics")
@@ -796,9 +760,6 @@ def table3_paired_comparison():
             dif_col = f"{metric}_difference"
             w_row = wilcoxon[(wilcoxon["branch"] == branch) & (wilcoxon["metric"] == metric)]
             p_val = w_row["p_value"].values[0] if not w_row.empty else None
-            # Format p-value nicely (values >= 0.001 all use the same 4-decimal
-            # format, so a single branch replaces the previous three identical
-            # elif/else branches).
             if p_val is None:
                 p_str = ""
             elif p_val < 0.001:
@@ -939,7 +900,6 @@ def main():
     FIG_DIR.mkdir(parents=True, exist_ok=True)
     TAB_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Figures
     if "all" in args.figures:
         figs_to_run = list(FIGURE_GENERATORS)
     else:
@@ -953,7 +913,6 @@ def main():
         except Exception as e:
             print(f"  ✗ {key} FAILED: {e}")
 
-    # Tables
     if "all" in args.tables:
         tabs_to_run = list(TABLE_GENERATORS)
     else:

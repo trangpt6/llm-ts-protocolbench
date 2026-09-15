@@ -4,10 +4,12 @@ from pathlib import Path
 
 import pandas as pd
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(REPO_ROOT / "code"))
+CODE_DIR = Path(__file__).resolve().parent
+REPO_ROOT = CODE_DIR.parent
+if str(CODE_DIR) not in sys.path:
+    sys.path.insert(0, str(CODE_DIR))
 
-from part2_7_scenario_compliance import (  # noqa: E402
+from part2_6_scenario_compliance import (  # noqa: E402
     build_scenario_compliance,
     parse_scenario_requirements,
 )
