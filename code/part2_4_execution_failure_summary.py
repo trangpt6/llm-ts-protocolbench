@@ -75,6 +75,28 @@ def add_error_categories(df: pd.DataFrame) -> pd.DataFrame:
     out["execution_status"] = out.get("execution_status", "").fillna("").astype(str)
     out["execution_log_tail"] = out.apply(read_execution_log_tail, axis=1)
     out["error_category"] = out.apply(classify_error, axis=1)
+
+    # ---- Deep-log analysis for OTHER_FAIL entries ----
+    # OTHER_FAIL means "previous script execution failed" — the real error
+    # is buried in the execution log.  Read full logs and re-classify.
+    other_mask = out["error_category"] == "OTHER_FAIL"
+    if other_mask.any():
+        for idx in out[other_mask].index:
+            row = out.loc[idx]
+            path_text = str(row.get("execution_log_file", "") or "").strip()
+            if not path_text:
+                continue
+            log_path = resolve_repo_path(path_text)
+            if not log_path.exists():
+                continue
+            try:
+                content = log_path.read_text(encoding="utf-8", errors="replace")
+            except OSError:
+                continue
+            new_cat = classify_exec_log_deep(content)
+            if new_cat and new_cat != "OTHER_FAIL":
+                out.at[idx, "error_category"] = new_cat
+
     out["error_group"] = out["error_category"].map(error_group).fillna("runtime/infra issue")
     return out
 
@@ -140,6 +162,9 @@ def error_group(category: str) -> str:
         "MODEL_RETURNED_ERROR",
         "UNSTRUCTURED_TEXT_OUTPUT",
         "FORECAST_LENGTH_MISMATCH",
+        "FORECAST_NUMPY_WRAPPED",
+        "FORECAST_TENSOR_WRAPPED",
+        "FORECAST_PARSE_FAILURE",
         "NO_FORECAST_LIST_FOUND",
     }:
         return "model/output issue"
@@ -149,10 +174,98 @@ def error_group(category: str) -> str:
         "TIMEOUT",
         "MISSING_PACKAGE",
         "OTHER_FAIL",
+        "OTHER_FAIL_UNCLASSIFIED",
         "FAIL_UNKNOWN",
     }:
         return "runtime/infra issue"
     return "runtime/infra issue"
+
+
+# ---------------------------------------------------------------------------
+# Deep execution-log classifier for OTHER_FAIL decomposition.
+# When the surface-level error is just "previous script execution failed",
+# this function opens the full execution log and extracts the real error.
+# ---------------------------------------------------------------------------
+def classify_exec_log_deep(content: str) -> str:
+    """Classify the actual error from a full execution log's content."""
+    has_stdout = bool(re.search(r'(?:^|\n)STDOUT\s*\n\s*\S', content))
+    has_stderr = bool(re.search(r'(?:^|\n)STDERR\s*\n\s*\S', content))
+    full_lower = content.lower()
+
+    # 1. Syntax / Indentation errors
+    if "syntaxerror" in full_lower or "indentationerror" in full_lower:
+        return "SCRIPT_SYNTAX_ERROR"
+
+    # 2. Timeout (script timed out during execution)
+    if "timed out" in full_lower or "timeout after" in full_lower:
+        return "TIMEOUT"
+
+    # 3. Missing imports
+    if "nameerror" in full_lower:
+        if "'pd' is not defined" in full_lower or "'np' is not defined" in full_lower:
+            return "SCRIPT_MISSING_IMPORT"
+        if "torch" in full_lower and "is not defined" in full_lower:
+            return "SCRIPT_MISSING_IMPORT"
+        return "SCRIPT_NAME_ERROR"
+
+    # 4. AttributeError (typos like np.random.sed)
+    if "attributeerror" in full_lower:
+        return "SCRIPT_ATTRIBUTE_ERROR"
+
+    # 5. ValueError (shape mismatch, array concatenation, etc.)
+    if "valueerror" in full_lower:
+        return "SCRIPT_VALUE_ERROR"
+
+    # 6. TypeError (fillna method='ffill' in pandas 2.x, etc.)
+    if "typeerror" in full_lower:
+        return "SCRIPT_TYPE_ERROR"
+
+    # 7. KeyError (column not found, etc.)
+    if "keyerror" in full_lower:
+        return "SCRIPT_KEY_ERROR"
+
+    # 8. ImportError / ModuleNotFoundError
+    if "importerror" in full_lower or "modulenotfounderror" in full_lower:
+        return "SCRIPT_MISSING_PACKAGE"
+
+    # 9. Framework-specific errors from traceback
+    if "traceback" in full_lower:
+        if "torch" in full_lower:
+            return "SCRIPT_TORCH_ERROR"
+        if "statsmodels" in full_lower:
+            return "SCRIPT_STATSMODELS_ERROR"
+        if "pandas" in full_lower:
+            return "SCRIPT_PANDAS_ERROR"
+        if "sklearn" in full_lower or "xgboost" in full_lower or "lightgbm" in full_lower:
+            return "SCRIPT_SKLEARN_ERROR"
+        return "SCRIPT_RUNTIME_ERROR"
+
+    # 10. No STDERR but STDOUT has output → forecast parse issue
+    if has_stdout and not has_stderr:
+        stdout_content = content.split("STDOUT", 1)[1] if "STDOUT" in content else ""
+        if "np.float" in stdout_content or "np.int" in stdout_content:
+            return "FORECAST_NUMPY_WRAPPED"
+        if "tensor(" in stdout_content:
+            return "FORECAST_TENSOR_WRAPPED"
+        if re.search(r'[\d.]+', stdout_content):
+            return "FORECAST_PARSE_FAILURE"
+        return "SCRIPT_EMPTY_OUTPUT"
+
+    # 11. Only warnings (sklearn UserWarning, statsmodels ValueWarning) in output
+    if "userwarning" in full_lower or "valuewarning" in full_lower:
+        if "sklearn" in full_lower or "lgbmregressor" in full_lower or "lightgbm" in full_lower:
+            return "SCRIPT_MODEL_WARNING_OUTPUT"
+        if "statsmodels" in full_lower:
+            return "SCRIPT_STATSMODELS_WARNING"
+        if "torch" in full_lower:
+            return "SCRIPT_TORCH_WARNING"
+        return "FORECAST_PARSE_FAILURE"
+
+    # 12. No STDOUT, no STDERR, but log exists
+    if not has_stdout and not has_stderr:
+        return "SCRIPT_NO_OUTPUT"
+
+    return "OTHER_FAIL"  # genuinely unclassifiable — should be rare
 
 
 def read_execution_log_tail(row: pd.Series, max_lines: int = 40) -> str:
@@ -181,7 +294,7 @@ def resolve_repo_path(value: str) -> Path:
 
 def write_status_summary(df: pd.DataFrame, group_cols: list[str], filename: str) -> None:
     grouped = df.groupby(group_cols, dropna=False)
-    summary = grouped.apply(status_row, include_groups=False).reset_index()
+    summary = grouped.apply(status_row).reset_index()
     summary = sort_summary(summary, group_cols)
     summary.to_csv(SUMMARY_DIR / filename, index=False, encoding="utf-8-sig")
 

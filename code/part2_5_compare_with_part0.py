@@ -237,6 +237,33 @@ def build_dm_win_tie_loss_summary(dm: pd.DataFrame) -> pd.DataFrame:
     return summary[columns].sort_values(["branch", "part0_model"]).reset_index(drop=True)
 
 
+def benjamini_hochberg(p_values: np.ndarray) -> np.ndarray:
+    """Benjamini–Hochberg FDR-adjusted p-values.
+
+    NaN p-values (tests that could not be computed) stay NaN and are never
+    treated as significant by downstream ``adjusted < 0.05`` comparisons.
+    """
+    p = np.asarray(p_values, dtype=float)
+    adjusted = np.full(p.shape, np.nan)
+    finite = np.isfinite(p)
+    p_fin = p[finite]
+    m = int(p_fin.size)
+    if m == 0:
+        return adjusted
+
+    order = np.argsort(p_fin)  # sorted position -> original index
+    sorted_p = p_fin[order]
+    q = np.empty(m)
+    running_min = np.inf
+    # BH step-up adjusted p-values: q_(i) = min_{j >= i} p_(j) * m / (j + 1)
+    for i in range(m - 1, -1, -1):
+        candidate = sorted_p[i] * m / (i + 1)
+        running_min = min(running_min, candidate)
+        q[i] = running_min
+    adjusted[finite] = q[np.argsort(order)]  # map back to original order
+    return adjusted
+
+
 def build_dm_comparison(part2_ok: pd.DataFrame, part0: pd.DataFrame) -> pd.DataFrame:
     """Run DM tests for every Part 2 forecast paired with each matching Part 0 forecast."""
     rows: list[dict[str, Any]] = []
@@ -324,7 +351,15 @@ def build_dm_comparison(part2_ok: pd.DataFrame, part0: pd.DataFrame) -> pd.DataF
                 "part2_better_than_part0": significant_win,
             })
 
-    return pd.DataFrame(rows, columns=columns)
+    df = pd.DataFrame(rows, columns=columns)
+    # Apply Benjamini–Hochberg FDR correction across all run-level DM tests
+    # before declaring significance, so the reported win/loss counts control
+    # the false discovery rate instead of the per-test Type I error rate.
+    df["fdr_p_value"] = benjamini_hochberg(df["p_value"].to_numpy(dtype=float))
+    df["significant_win"] = (df["fdr_p_value"] < 0.05) & (df["mean_loss_diff"] < 0)
+    df["significant_loss"] = (df["fdr_p_value"] < 0.05) & (df["mean_loss_diff"] > 0)
+    df["part2_better_than_part0"] = df["significant_win"]
+    return df
 
 
 def load_forecast_pair(

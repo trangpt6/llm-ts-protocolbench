@@ -26,6 +26,8 @@ class DatasetBundle:
     target_col: str
     date_col: str | None
     source: str
+    # Seasonal period (m) for the MASE scaling factor; see DatasetSpec.
+    seasonal_period: int = 1
 
     @property
     def split_idx(self) -> int:
@@ -85,6 +87,7 @@ def load_dataset(dataset_name: str, target_col: str, source: str = "auto") -> Da
         target_col=target_col,
         date_col=date_col,
         source=dataset_source,
+        seasonal_period=spec.seasonal_period,
     )
 
 

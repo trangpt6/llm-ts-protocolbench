@@ -44,10 +44,13 @@ PARTIAL_METRICS_PATH = PART2_RESULTS_DIR / "metrics-part2-interactive-llm-foreca
 FORECAST_OUTPUT_DIR = PART2_RESULTS_DIR / "forecast-outputs"
 EXECUTION_LOG_DIR = PART2_RESULTS_DIR / "execution-logs"
 SCRIPT_TIMEOUT_SEC = 900
-DATASET_SCRIPT_TIMEOUT_SEC = {
-    "Temperature": 120,
-}
+DATASET_SCRIPT_TIMEOUT_SEC: dict[str, int] = {}
 RERUN_FAILED_SCRIPTS = False
+# Failure reasons recorded by the previous execution of this stage, keyed by
+# file_id.  Re-running the stage must not replace them with a placeholder:
+# see previous_failure().
+PREVIOUS_RUN_ERRORS: dict[str, str] = {}
+PLACEHOLDER_ERROR_PREFIX = "previous script execution failed"
 BRANCH_TO_TRACK = {
     "Base": "baseline",
     "ChalML": "challenger_ml",
@@ -58,12 +61,13 @@ logger = logging.getLogger("part2_compute_metrics")
 
 
 def main() -> None:
-    global logger
+    global logger, PREVIOUS_RUN_ERRORS
     logger = setup_logger("part2-compute-metrics", LOG_DIR / "master-logs")
     if not PARSED_MASTER_LOG.exists():
         raise FileNotFoundError(f"Parsed master log not found: {PARSED_MASTER_LOG}")
 
     df = pd.read_csv(PARSED_MASTER_LOG)
+    PREVIOUS_RUN_ERRORS = load_previous_run_errors()
     records = []
 
     for _, row in tqdm(df.iterrows(), total=len(df), desc="Part2 metrics", unit="run"):
@@ -136,12 +140,12 @@ def process_row(row: pd.Series) -> dict:
         if forecast_path.exists():
             forecasts = load_existing_forecast_output(forecast_path)
         else:
-            forecasts = load_forecasts(row, file_id, bundle, dataset)
+            forecasts = load_forecasts(row, file_id, bundle, dataset, expected_length=len(y_true))
         record["forecast_length"] = len(forecasts)
         if len(forecasts) != len(y_true):
             raise ValueError(f"forecast length mismatch: expected {len(y_true)}, got {len(forecasts)}")
 
-        naive_factor = calculate_naive_factor(bundle.train_target_values())
+        naive_factor = calculate_naive_factor(bundle.train_target_values(), bundle.seasonal_period)
         metrics = calculate_metrics(y_true, forecasts, naive_factor)
         record.update(metrics)
         write_forecast_output(bundle, forecasts, forecast_path)
@@ -149,6 +153,8 @@ def process_row(row: pd.Series) -> dict:
         record["execution_status"] = "OK"
     except Exception as exc:
         record["execution_status"] = "FAIL"
+        if isinstance(exc, PreviousFailure) and exc.forecast_length != "":
+            record["forecast_length"] = exc.forecast_length
         record["error"] = str(exc)
         logger.error("Failed %s: %s", file_id, exc)
 
@@ -160,7 +166,13 @@ def write_partial_metrics(records: list[dict]) -> None:
     pd.DataFrame(records).to_csv(PARTIAL_METRICS_PATH, index=False, encoding="utf-8-sig")
 
 
-def load_forecasts(row: pd.Series, file_id: str, bundle, dataset: str) -> list[float]:
+def load_forecasts(
+    row: pd.Series,
+    file_id: str,
+    bundle,
+    dataset: str,
+    expected_length: int,
+) -> list[float]:
     output_type = str(row.get("t3_output_type", ""))
     if output_type == "LIST":
         return parse_forecast_list(str(row.get("t3_forecast_list", "")))
@@ -170,13 +182,113 @@ def load_forecasts(row: pd.Series, file_id: str, bundle, dataset: str) -> list[f
             raise FileNotFoundError(f"script file not found: {script_file}")
         previous_log_path = EXECUTION_LOG_DIR / f"{file_id}.txt"
         if previous_log_path.exists() and not RERUN_FAILED_SCRIPTS:
-            raise RuntimeError(f"previous script execution failed; see {previous_log_path}")
+            # This run is deliberately not re-executed, so the reason it failed
+            # has to be reproduced rather than replaced by a generic message.
+            raise previous_failure(file_id, previous_log_path, expected_length)
         # Turn-3 prompts now require scripts to read input.csv from the current
         # working directory. Scripts are executed sequentially, so refreshing the
         # shared file immediately before each run keeps old and new scripts usable.
         bundle.write_input_csv(script_file.parent / "input.csv")
         return execute_script(script_file, file_id, script_timeout_sec(dataset))
     raise ValueError(f"unsupported output type: {output_type}")
+
+
+class PreviousFailure(RuntimeError):
+    """A script run that already failed once is not executed a second time.
+
+    Carries the original diagnosis (``str(exc)``) and, when the execution log
+    still holds the list the script printed, the length of that forecast, so a
+    re-run reproduces the previous report instead of erasing it.
+    """
+
+    def __init__(self, message: str, forecast_length: int | str = "") -> None:
+        super().__init__(message)
+        self.forecast_length = forecast_length
+
+
+def load_previous_run_errors() -> dict[str, str]:
+    """Failure reasons recorded by the previous run of this stage, by file_id."""
+    if not METRICS_PATH.exists():
+        return {}
+    previous = pd.read_csv(METRICS_PATH, encoding="utf-8-sig")
+    errors: dict[str, str] = {}
+    for _, row in previous.iterrows():
+        error = str(row.get("error", "") or "").strip()
+        if error and error.lower() != "nan":
+            errors[str(row.get("file_id", ""))] = error
+    return errors
+
+
+def previous_failure(file_id: str, log_path: Path, expected_length: int) -> PreviousFailure:
+    """Rebuild the reason a previously executed script run failed.
+
+    The reason recorded by the previous run of this stage is authoritative, and
+    is reproduced verbatim so that re-running the stage leaves the failure
+    taxonomy untouched.  Only when the metrics file no longer holds a reason for
+    this run — it was deleted, or the stage never wrote one — is the execution
+    log used to reconstruct one; that reconstruction is best effort, because a
+    log records stdout/stderr but not the script's return code.
+    """
+    forecast_length = forecast_length_from_log(log_path)
+    remembered = PREVIOUS_RUN_ERRORS.get(file_id, "")
+    if remembered:
+        return PreviousFailure(remembered, forecast_length)
+    reconstructed = reconstructed_failure(log_path, expected_length)
+    if reconstructed is not None:
+        if reconstructed.forecast_length == "":
+            reconstructed.forecast_length = forecast_length
+        return reconstructed
+    return PreviousFailure(f"{PLACEHOLDER_ERROR_PREFIX}; see {log_path}", forecast_length)
+
+
+def read_execution_log(log_path: Path) -> str:
+    try:
+        return log_path.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return ""
+
+
+def log_stdout(log_path: Path) -> str:
+    stdout = read_execution_log(log_path).partition("\nSTDERR\n")[0]
+    return re.sub(r"^STDOUT\s*\n", "", stdout)
+
+
+def log_timeout_seconds(log_path: Path) -> int | None:
+    match = re.search(r"TIMEOUT after (\d+) seconds", read_execution_log(log_path))
+    return int(match.group(1)) if match else None
+
+
+def forecast_length_from_log(log_path: Path) -> int | str:
+    """Length of the list the script printed, when the log still contains it."""
+    try:
+        return len(parse_forecast_list(log_stdout(log_path)))
+    except Exception:
+        return ""
+
+
+def reconstructed_failure(log_path: Path, expected_length: int) -> PreviousFailure | None:
+    """Deduce the original failure from the execution log alone.
+
+    Returns ``None`` when the log cannot account for the failure. A non-empty
+    STDERR section means the interpreter aborted, and the original code reports
+    that as ``script exited with code N``; the return code is not part of the
+    log, so nothing can be reconstructed and the caller keeps the placeholder.
+    """
+    timeout_sec = log_timeout_seconds(log_path)
+    if timeout_sec is not None:
+        return PreviousFailure(f"script timed out after {timeout_sec}s; see {log_path}")
+    if read_execution_log(log_path).partition("\nSTDERR\n")[2].strip():
+        return None
+    try:
+        forecasts = parse_forecast_list(log_stdout(log_path))
+    except Exception as exc:
+        return PreviousFailure(str(exc))
+    if len(forecasts) != expected_length:
+        return PreviousFailure(
+            f"forecast length mismatch: expected {expected_length}, got {len(forecasts)}",
+            len(forecasts),
+        )
+    return None
 
 
 def load_existing_forecast_output(path: Path) -> list[float]:
@@ -316,16 +428,27 @@ def calculate_metrics(y_true: np.ndarray, forecasts: list[float], naive_factor: 
     return {"mae": mae, "rmse": rmse, "smape": smape, "mase": mase, "r2": r2}
 
 
-def calculate_naive_factor(y_train: np.ndarray) -> float:
+def calculate_naive_factor(y_train: np.ndarray, m: int) -> float:
+    """In-sample MAE of the seasonal naive forecast, the MASE scaling factor.
+
+    ``m`` is the seasonal period; ``m = 1`` reduces to the non-seasonal
+    (random-walk) scale.  This follows Hyndman & Koehler (2006), who define the
+    scaling factor with the naive method appropriate to the data's seasonality.
+    """
     y_train = np.asarray(y_train, dtype=float)
     mask = np.isfinite(y_train)
     if not mask.any():
         raise ValueError("no finite training values to compute naive factor")
     y_train = y_train[mask]
-    if len(y_train) < 2:
-        raise ValueError("not enough training values to compute naive factor")
-    diffs = np.diff(y_train)
-    return float(np.mean(np.abs(diffs)))
+    if m < 1:
+        raise ValueError(f"seasonal period must be >= 1, got {m}")
+    if len(y_train) <= m:
+        raise ValueError(
+            f"not enough training values for seasonal period m={m}: {len(y_train)}"
+        )
+    lagged = y_train[:-m]
+    diffs = np.abs(y_train[m:] - lagged)
+    return float(np.mean(diffs))
 
 
 def write_forecast_output(bundle, forecasts: list[float], path: Path) -> None:

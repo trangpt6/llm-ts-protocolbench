@@ -89,7 +89,9 @@ def main() -> None:
                     seasonal_period=config.seasonal_period,
                 )
                 y_true = bundle.test_target_values()
-                naive_factor = calculate_naive_factor(bundle.train_target_values())
+                naive_factor = calculate_naive_factor(
+                    bundle.train_target_values(), bundle.seasonal_period
+                )
                 metrics = calculate_metrics(y_true, forecasts.tolist(), naive_factor)
                 forecast_path = write_forecast_output(
                     bundle=bundle,

@@ -76,14 +76,17 @@ class DatasetSpec:
     local_path: Path | None
     date_col: str | None
     darts_name: str | None = None
+    # Seasonal period (m) used as the MASE scaling factor, per Hyndman & Koehler.
+    # m = 1 would mean the non-seasonal (random-walk) scaling.
+    seasonal_period: int = 1
 
 
 DATASET_SPECS: dict[str, DatasetSpec] = {
-    "AirPassengers": DatasetSpec("AirPassengers", DATA_DIR / "AirPassengers.csv", "Month", "AirPassengers"),
-    "ETTh1": DatasetSpec("ETTh1", DATA_DIR / "ETTh1.csv", "date", "ETTh1"),
-    "ILINet": DatasetSpec("ILINet", DATA_DIR / "ILINet.csv", "DATE", "ILINet"),
-    "IceCreamHeater": DatasetSpec("IceCreamHeater", DATA_DIR / "IceCreamHeater.csv", "Month", "IceCreamHeater"),
-    "Temperature": DatasetSpec("Temperature", DATA_DIR / "Temperature.csv", "Date", "Temperature"),
+    "AirPassengers": DatasetSpec("AirPassengers", DATA_DIR / "AirPassengers.csv", "Month", "AirPassengers", seasonal_period=12),
+    "ETTh1": DatasetSpec("ETTh1", DATA_DIR / "ETTh1.csv", "date", "ETTh1", seasonal_period=24),
+    "ILINet": DatasetSpec("ILINet", DATA_DIR / "ILINet.csv", "DATE", "ILINet", seasonal_period=52),
+    "IceCreamHeater": DatasetSpec("IceCreamHeater", DATA_DIR / "IceCreamHeater.csv", "Month", "IceCreamHeater", seasonal_period=12),
+    "Temperature": DatasetSpec("Temperature", DATA_DIR / "Temperature.csv", "Date", "Temperature", seasonal_period=365),
 }
 
 

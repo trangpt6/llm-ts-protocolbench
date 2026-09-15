@@ -603,15 +603,14 @@ def draw_performance_heatmap(metrics: pd.DataFrame, metric: str, output_path: Pa
     pivot = table.pivot(index="dataset", columns="scenario", values=metric)
     pivot = pivot.reindex(index=DATASET_ORDER, columns=SCENARIO_ORDER)
 
-    fig, ax = plt.subplots(figsize=(7.2, 5.4))
+    fig, ax = plt.subplots(figsize=(7.8, 5.8), constrained_layout=True)
     image = ax.imshow(pivot.to_numpy(dtype=float), cmap="viridis_r" if LOWER_IS_BETTER[metric] else "viridis")
-    ax.set_xticks(np.arange(len(pivot.columns)), pivot.columns)
+    ax.set_xticks(np.arange(len(pivot.columns)), pivot.columns, rotation=15, ha="right")
     ax.set_yticks(np.arange(len(pivot.index)), pivot.index)
     ax.set_title(f"Mean {METRIC_LABELS[metric]} by Dataset and Scenario", fontsize=14, weight="bold")
     annotate_heatmap(ax, pivot.to_numpy(dtype=float))
     cbar = fig.colorbar(image, ax=ax, fraction=0.046, pad=0.04)
     cbar.set_label(METRIC_LABELS[metric])
-    fig.tight_layout()
     save_figure(fig, output_path)
 
 
@@ -799,20 +798,27 @@ def draw_part2_vs_part0_delta_heatmap(
     pivot = pivot.loc[sorted(pivot.index)]
     vmax = np.nanmax(np.abs(pivot.to_numpy(dtype=float)))
     vmax = 1 if not np.isfinite(vmax) or vmax == 0 else vmax
+    row_label_width = max((len(str(label)) for label in pivot.index), default=0)
+    figure_width = min(14.5, max(10.5, 4.8 + len(pivot.columns) * 1.35 + row_label_width * 0.09))
+    annotation_fontsize = 7.5 if len(pivot) <= 14 else 6.6
 
-    fig, ax = plt.subplots(figsize=(9.2, max(6, len(pivot) * 0.28)))
+    fig, ax = plt.subplots(
+        figsize=(figure_width, max(6.4, len(pivot) * 0.32)),
+        constrained_layout=True,
+    )
     image = ax.imshow(pivot.to_numpy(dtype=float), cmap="coolwarm", vmin=-vmax, vmax=vmax)
-    ax.set_xticks(np.arange(len(pivot.columns)), pivot.columns)
+    ax.set_xticks(np.arange(len(pivot.columns)), pivot.columns, rotation=18, ha="right")
     ax.set_yticks(np.arange(len(pivot.index)), pivot.index)
     ax.set_title(
         f"Part 2 Minus Part 0 Delta ({METRIC_LABELS[metric]})",
         fontsize=14,
         weight="bold",
     )
-    annotate_heatmap(ax, pivot.to_numpy(dtype=float))
+    ax.tick_params(axis="x", pad=6)
+    ax.tick_params(axis="y", labelsize=10)
+    annotate_heatmap(ax, pivot.to_numpy(dtype=float), fontsize=annotation_fontsize)
     cbar = fig.colorbar(image, ax=ax, fraction=0.046, pad=0.04)
     cbar.set_label(f"Delta {METRIC_LABELS[metric]}")
-    fig.tight_layout()
     save_figure(fig, output_path)
 
 
@@ -898,12 +904,12 @@ def draw_arrow(ax, x1: float, y1: float, x2: float, y2: float) -> None:
     )
 
 
-def annotate_heatmap(ax, values: np.ndarray) -> None:
+def annotate_heatmap(ax, values: np.ndarray, fontsize: float = 7.5) -> None:
     for row in range(values.shape[0]):
         for col in range(values.shape[1]):
             value = values[row, col]
             if np.isfinite(value):
-                ax.text(col, row, f"{value:.2f}", ha="center", va="center", fontsize=7.5, color="white")
+                ax.text(col, row, f"{value:.2f}", ha="center", va="center", fontsize=fontsize, color="white")
 
 
 def get_pyplot():
