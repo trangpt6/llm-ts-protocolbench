@@ -127,6 +127,8 @@ python .\code\part2_3_compute_metrics.py
 
 This script reads the parsed master log, executes Python-script outputs when needed, parses list outputs, computes `mae`, `rmse`, `smape`, `mase`, and `r2`, and adds Diebold-Mariano comparisons for challenger tracks against `Base`.
 
+MASE divides the MAE by the in-sample mean absolute error of the seasonal naive forecast, using the seasonal period of each dataset (`m` in `part2_api/settings.py`), so `mase = 1` corresponds to the seasonal naive benchmark. Script runs that already have an entry in `execution-logs/` are not re-executed; instead the failure reason recorded by the previous run is reproduced, which keeps the failure taxonomy identical across re-runs. Set `RERUN_FAILED_SCRIPTS = True` to force re-execution.
+
 Outputs:
 
 - `results/part2-interactive-llm-forecasting/metrics-part2-interactive-llm-forecasting.csv`
@@ -168,6 +170,53 @@ Outputs:
 - `results/visualizations/pre-results/`
 - `results/visualizations/post-results/`
 
+### 9. Scenario Compliance Analysis
+
+```powershell
+python .\code\part2_7_scenario_compliance.py
+```
+
+Cross-checks the Turn 2 / Turn 3 protocol columns against the per-scenario requirements in `prompts/4scenarios.txt` and reports semantic compliance, implementation compliance, and execution success per scenario.
+
+Outputs (written to `results/part2-interactive-llm-forecasting/analysis/`):
+
+- `scenario_compliance_per_run.csv`
+- `scenario_compliance_summary.csv`
+- `scenario_requirement_level_summary.csv`
+- `scenario_compliance_summary.md`
+- `figure_a_compliance_by_scenario.png`, `figure_b_requirement_accuracy.png`, `figure_c_flow_diagram.png`
+
+Regression test for the compliance rules:
+
+```powershell
+python .\tests\test_scenario_compliance.py
+```
+
+### 10. Generate the Manuscript Figures and Tables
+
+```powershell
+python .\code\part2_7_generate_paper_figures.py --figures fig3
+```
+
+`--figures` accepts one or more ids (`fig1`-`fig7`) and `--tables` one or more table ids; omit both to regenerate everything. Every run also rewrites the CSV tables.
+
+Outputs:
+
+- `results/paper-figures/figures/` (PDF and PNG for each figure)
+- `results/paper-figures/tables/`
+
+This step reads the aggregate rankings in `results/journal-analysis/csv/`, which are the only files kept from the local `results/journal-analysis/` working directory.
+
+Note that both the figure ids and the file names are offset from the numbering used in the manuscript:
+
+| Manuscript | File |
+| --- | --- |
+| Fig. 2 | `fig1_execution_success_rate` |
+| Fig. 6 | `fig2_failure_adjusted` |
+| Fig. 5 | `fig3_branch_vs_base` |
+| Fig. 3 | `fig6_failure_taxonomy` |
+| Fig. 7 | `fig7_difficulty_profiles` |
+
 ## Reproducible Execution Order
 
 ```powershell
@@ -181,4 +230,13 @@ python .\code\part2_4_execution_failure_summary.py
 python .\code\part2_5_summarize_protocol_following.py
 python .\code\part2_5_compare_with_part0.py
 python .\code\part2_6_generate_visuals.py --phase all
+python .\code\part2_7_scenario_compliance.py
+python .\code\part2_7_generate_paper_figures.py
 ```
+
+## Notes
+
+- Do not commit `config/api_keys.json`.
+- `results/` and `logs/` can become large; commit only the artifacts needed for the paper or thesis.
+- `results/journal-analysis/` is kept local except `results/journal-analysis/csv/`, which step 10 reads.
+- LLM-generated forecast scripts may import `statsmodels`, `scikit-learn`, `xgboost`, `lightgbm`, or `torch`, so `requirements.txt` includes dependencies for both the main pipeline and forecast-script execution.

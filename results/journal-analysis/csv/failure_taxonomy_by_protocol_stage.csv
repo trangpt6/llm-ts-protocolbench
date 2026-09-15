@@ -1,0 +1,7 @@
+protocol_stage,failure_rows_with_stage_issue,failed_rows_checked,stage_issue_rate
+turn3_missing_forecast_print,59,385,0.15324675324675324
+turn3_missing_csv_read,37,385,0.09610389610389611
+turn3_parse_failure,24,385,0.06233766233766234
+turn0_format_failure,0,385,0.0
+turn1_format_failure,0,385,0.0
+turn2_format_failure,0,385,0.0
